@@ -181,14 +181,35 @@ class _Absen extends State<Absen> {
       pr.hide();
       final dataResponse = json.decode(response.body);
       message = dataResponse['message'];
-      Toast.show(message, context,
-          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+      _showDialog(context,message);
       getStatusMasuk();
     } else {
       message = string.text.msg_lokasi_tidak_ada;
-      Toast.show(message, context,
-          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+      _showDialog(context,message);
     }
+  }
+
+  void _showDialog(BuildContext context,String str){
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Alert"),
+          content: new Text(str),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Close"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override

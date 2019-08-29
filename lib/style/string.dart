@@ -15,6 +15,7 @@ class text {
   static var lbl_jam_masuk = "Jam Masuk";
   static var lbl_jam_pulang = "Jam Pulang";
   static var lbl_ket = "Ket";
+  static var lbl_all = "Semua";
   static var lbl_mobile = "Mobile";
   static var lbl_fingerprint = "Fingerprint";
   static var lbl_web = "Web";

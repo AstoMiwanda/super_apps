@@ -43,6 +43,7 @@ class _ReportPageState extends State<ReportPage> {
   GlobalKey _containerKey = GlobalKey();
 
   List _keterangan = [
+    string.text.lbl_all,
     string.text.lbl_mobile,
     string.text.lbl_fingerprint,
     string.text.lbl_web,
@@ -740,6 +741,7 @@ class _ReportPageState extends State<ReportPage> {
   var data_absensi;
   makeGetRequest() async {
     pr.show();
+    print(_selectedKeterangan);
     final uri =
         api.Api.report_absen + "$nik/$date1/$date2/${_selectedKeterangan}";
     print(uri);
