@@ -93,7 +93,7 @@ class _Absen extends State<Absen> {
   @override
   void initState() {
     _timeString = _formatDateTime(DateTime.now());
-    Timer.periodic(Duration(minutes: 1), (Timer t) => _getTime());
+    Timer.periodic(Duration(seconds: 1), (Timer t) => _getTime());
     super.initState();
     pr = new ProgressDialog(context, ProgressDialogType.Normal);
     location.onLocationChanged().listen((value) {

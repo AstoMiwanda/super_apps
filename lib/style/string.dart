@@ -55,6 +55,7 @@ class text {
   static var uri_login_header   = "assets/images/login_header.png";
   static var uri_bg_profile   = "assets/images/bg_profile.png";
   static var uri_bg_detail_profile   = "assets/images/bg_detail_profile.png";
+  static var uri_splash_screen   = "https://apps.telkomakses.co.id/portal/img/SUPERHANA_LOGO.png";
 
 //  URI Icon Profile Page
   static var uri_gender   = "assets/icon/profile_page/gender.svg";

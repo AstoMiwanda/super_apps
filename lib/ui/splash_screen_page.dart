@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:super_apps/api/api.dart' as api;
+import 'package:super_apps/style/string.dart' as string;
 import 'package:splashscreen/splashscreen.dart';
 import 'package:super_apps/ui/login_page.dart';
 import 'package:super_apps/ui/tabs/menu.dart';
@@ -31,7 +32,7 @@ Timer _timer;
             fontSize: 20.0
         ),
       ),
-      image: new Image.network('http://'+api.Api.host_i+'/API/V2/img/SUPERHANA_LOGO.png'),
+      image: new Image.network(string.text.uri_splash_screen),
       backgroundColor: Colors.white,
       styleTextUnderTheLoader: new TextStyle(),
       photoSize: 100.0,
