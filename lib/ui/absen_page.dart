@@ -39,6 +39,33 @@ class _Absen extends State<Absen> {
   var data;
   static const platform = const MethodChannel('samples.flutter.io/location');
   bool mocklocation = false;
+  bool mockSettingsON = false;
+
+  Future<void> _getMockLocation() async {
+    bool b;
+    try {
+      final bool result = await platform.invokeMethod('getLocation');
+      b = result;
+    } on PlatformException catch (e) {
+      b = false;
+    }
+
+    mocklocation = b;
+    print(mocklocation);
+  }
+
+  Future<void> _isMockSettingsON() async {
+    bool b;
+    try {
+      final bool result = await platform.invokeMethod('isMockSettingsON');
+      b = result;
+    } on PlatformException catch (e) {
+      b = false;
+    }
+
+    mockSettingsON = b;
+    print(mockSettingsON);
+  }
 
   getNik() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
