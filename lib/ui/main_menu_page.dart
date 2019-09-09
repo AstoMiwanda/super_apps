@@ -170,6 +170,50 @@ class _MainMenuState extends State<MainMenu> {
     );
   }
 
+  void _settingModalBottomSheet(context) {
+    showModalBottomSheet(
+        context: context,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        builder: (BuildContext bc) {
+          return CustomScrollView(
+            primary: false,
+            slivers: <Widget>[
+              SliverPadding(
+                padding: EdgeInsets.fromLTRB(16.0, 32.0, 16.0, 16.0),
+                sliver: SliverGrid(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisSpacing: 16.0,
+                    mainAxisSpacing: 16.0,
+                    crossAxisCount: 2,
+                    childAspectRatio: 3.6,
+                  ),
+                  delegate: SliverChildBuilderDelegate(
+                        (BuildContext context, int index) {
+                      return Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(32.0),
+                          color: Colors.lightBlue,
+                        ),
+                        alignment: Alignment.center,
+                        child: ListTile(
+                            leading: new Icon(Icons.music_note, color: Colors.white,),
+                            title: new Text('Music', style: TextStyle(color: Colors.white),),
+                            onTap: () => {}
+                        ),
+                      );
+                    },
+                    childCount: listMenu == null ? 0 : listMenu.length,
+                  ),
+                ),
+              )
+            ],
+          );
+        }
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     widthDevice = MediaQuery.of(context).size.width;
@@ -277,6 +321,12 @@ class _MainMenuState extends State<MainMenu> {
             ),
           )
         ],
+      ),
+      floatingActionButton: new FloatingActionButton(
+        onPressed: (){
+          _settingModalBottomSheet(context);
+        },
+        child: new Icon(Icons.add, color: Colors.white,),
       ),
     );
   }
