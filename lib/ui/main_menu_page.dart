@@ -17,10 +17,10 @@ String notif = '';
 BuildContext ctx;
 
 class MainMenu extends StatefulWidget {
-  MainMenu({Key key}) : super(key: key);
+  MainMenu({Key key}) : super( key: key );
 
   @override
-  _MainMenuState createState() => _MainMenuState();
+  _MainMenuState createState() => _MainMenuState( );
 }
 
 class _MainMenuState extends State<MainMenu> {
@@ -28,36 +28,38 @@ class _MainMenuState extends State<MainMenu> {
 
   @override
   void initState() {
-    super.initState();
-    getNik();
-
-
+    super.initState( );
+    getNik( );
   }
 
-
-
   getNik() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState((){
-      nik = (prefs.getString('username') ?? '');
-      getDataMenu(context);
-    });
+    SharedPreferences prefs = await SharedPreferences.getInstance( );
+    setState( () {
+      nik = (prefs.getString( 'username' ) ?? '');
+      getDataMenu( context );
+    } );
   }
 
   Future<String> getDataMenu(BuildContext context) async {
     var url_api = api.Api.menu;
-    var response = await http.get(Uri.encodeFull("${url_api}${nik}/${api.Api.versi}"),
-        headers: {"Accept": "application/json"});
-    var data = jsonDecode(response.body);
+    var response = await http.get(
+        Uri.encodeFull( "${url_api}${nik}/${api.Api.versi}" ),
+        headers: {"Accept": "application/json"} );
+    var data = jsonDecode( response.body );
     var data_profile = (data["data"] as List)
-        .map((data) => new dataProfile.fromJson(data))
-        .toList();
-    foreachHasil(data_profile,context);
+        .map( (data) => new dataProfile.fromJson( data ) )
+        .toList( );
+    foreachHasil( data_profile, context );
   }
 
   double widthDevice;
   List<List<String>> listMenu = [
-    ['assets/icon/main_menu_page/human_capital.svg', 'Human Capital', '3', 'unlocked'],
+    [
+      'assets/icon/main_menu_page/human_capital.svg',
+      'Human Capital',
+      '3',
+      'unlocked'
+    ],
     [
       'assets/icon/main_menu_page/document_management_abu.svg',
       'Document Management',
@@ -65,7 +67,12 @@ class _MainMenuState extends State<MainMenu> {
       'locked'
     ],
     ['assets/icon/main_menu_page/project_abu.svg', 'Project', '1', 'locked'],
-    ['assets/icon/main_menu_page/supply_chain_abu.svg', 'Supply Chain', '5', 'locked'],
+    [
+      'assets/icon/main_menu_page/supply_chain_abu.svg',
+      'Supply Chain',
+      '5',
+      'locked'
+    ],
     ['assets/icon/main_menu_page/finance_abu.svg', 'FINANCE', '2', 'locked'],
     ['assets/icon/main_menu_page/oss_abu.svg', 'OSS', '8', 'locked'],
     ['assets/icon/main_menu_page/tools_abu.svg', 'Tools', '10', 'locked'],
@@ -74,36 +81,59 @@ class _MainMenuState extends State<MainMenu> {
   ];
 
   mainMenuHeaderLogo() {
-    return Container(
-      height: 54.0,
-      child: Image.asset(string.text.uri_logo_ta_putih),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Container(
+            height: 54.0,
+            child: Image.asset( string.text.uri_logo_ta_putih ),
+          ),
+          Stack(
+            alignment: Alignment(1,-.4),
+            children: <Widget>[
+              Icon(Icons.notifications_active, color: Colors.white,),
+              Container(
+                height: 8.0,
+                width: 8.0,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.red
+                ),
+              )
+            ],
+          )
+        ],
+      ),
     );
   }
 
   mainMenuHeader() {
     return Container(
-      padding: EdgeInsets.only(top: 36.0, bottom: 16.0),
+      padding: EdgeInsets.only( top: 36.0, bottom: 16.0 ),
       color: theme.Colors.transparent,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[mainMenuHeaderLogo()],
+        children: <Widget>[mainMenuHeaderLogo( )],
       ),
     );
   }
 
   mainMenuItem({String icon, String title, String status, int numApp}) {
     Widget itemSubTitle;
-    Widget lockedApps = Container();
+    Widget lockedApps = Container( );
     Color cardColor, iconColor;
-    if(status == 'locked'){
+    if (status == 'locked') {
       cardColor = Colors.grey[350];
       iconColor = Colors.grey[600];
       lockedApps = Container(
-        padding: EdgeInsets.all(16.0),
-        alignment: Alignment(0,0),
-        child: SvgPicture.asset(string.text.uri_locked_apps,
-            placeholderBuilder: (context) => Icon(Icons.error)),
+        padding: EdgeInsets.all( 16.0 ),
+        alignment: Alignment( 0, 0 ),
+        child: SvgPicture.asset( string.text.uri_locked_apps,
+            placeholderBuilder: (context) => Icon( Icons.error ) ),
       );
     } else {
       cardColor = Colors.white;
@@ -112,76 +142,73 @@ class _MainMenuState extends State<MainMenu> {
 
     if (numApp == 1) {
       itemSubTitle = Container(
-        padding: const EdgeInsets.only(top: 1.5),
-        child: Text(numApp.toString() + ' Application',
+        padding: const EdgeInsets.only( top: 1.5 ),
+        child: Text( numApp.toString( ) + ' Application',
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 10.0, color: Colors.grey[600])),
+            style: TextStyle( fontSize: 10.0, color: Colors.grey[600] ) ),
       );
     } else if (title == 'Video') {
       itemSubTitle = Container(
-        padding: const EdgeInsets.only(top: 1.5),
-        child: Text(numApp.toString() + ' Video',
+        padding: const EdgeInsets.only( top: 1.5 ),
+        child: Text( numApp.toString( ) + ' Video',
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 10.0, color: Colors.grey[600])),
+            style: TextStyle( fontSize: 10.0, color: Colors.grey[600] ) ),
       );
     } else {
       itemSubTitle = Container(
-        padding: const EdgeInsets.only(top: 1.5),
-        child: Text(numApp.toString() + ' Applications',
+        padding: const EdgeInsets.only( top: 1.5 ),
+        child: Text( numApp.toString( ) + ' Applications',
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 10.0, color: Colors.grey[600])),
+            style: TextStyle( fontSize: 10.0, color: Colors.grey[600] ) ),
       );
     }
 
     return Container(
-          decoration: BoxDecoration(
-              color: cardColor,
-              borderRadius: BorderRadius.circular(8.0)
-          ),
-          child: Stack(
-            children: <Widget>[
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    height: 46.0,
-                    child: SvgPicture.asset(icon,
-                        placeholderBuilder: (context) => Icon(Icons.error)),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: Text(
-                      title,
-                      style: TextStyle(
-                        fontSize: 12.0,
-                        fontWeight: FontWeight.w500,
-                        color: iconColor,
-                      ),
+        decoration: BoxDecoration(
+            color: cardColor, borderRadius: BorderRadius.circular( 8.0 ) ),
+        child: Stack(
+          children: <Widget>[
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  height: 46.0,
+                  child: SvgPicture.asset( icon,
+                      placeholderBuilder: (context) => Icon( Icons.error ) ),
+                ),
+                Container(
+                  padding: const EdgeInsets.only( top: 8.0 ),
+                  child: Text(
+                    title,
+                    style: TextStyle(
+                      fontSize: 12.0,
+                      fontWeight: FontWeight.w500,
+                      color: iconColor,
                     ),
                   ),
-                  itemSubTitle,
-                ],
-              ),
-              lockedApps,
-            ],
-          )
-    );
+                ),
+                itemSubTitle,
+              ],
+            ),
+            lockedApps,
+          ],
+        ) );
   }
 
   void _settingModalBottomSheet(context) {
     showModalBottomSheet(
         context: context,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
+          borderRadius: BorderRadius.circular( 10.0 ),
         ),
         builder: (BuildContext bc) {
           return CustomScrollView(
             primary: false,
             slivers: <Widget>[
               SliverPadding(
-                padding: EdgeInsets.fromLTRB(16.0, 32.0, 16.0, 16.0),
+                padding: EdgeInsets.fromLTRB( 16.0, 32.0, 16.0, 16.0 ),
                 sliver: SliverGrid(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisSpacing: 16.0,
@@ -193,15 +220,20 @@ class _MainMenuState extends State<MainMenu> {
                         (BuildContext context, int index) {
                       return Container(
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(32.0),
+                          borderRadius: BorderRadius.circular( 32.0 ),
                           color: Colors.lightBlue,
                         ),
                         alignment: Alignment.center,
                         child: ListTile(
-                            leading: new Icon(Icons.music_note, color: Colors.white,),
-                            title: new Text('Music', style: TextStyle(color: Colors.white),),
-                            onTap: () => {}
-                        ),
+                            leading: new Icon(
+                              Icons.music_note,
+                              color: Colors.white,
+                            ),
+                            title: new Text(
+                              'Music',
+                              style: TextStyle( color: Colors.white ),
+                            ),
+                            onTap: () => {} ),
                       );
                     },
                     childCount: listMenu == null ? 0 : listMenu.length,
@@ -210,19 +242,21 @@ class _MainMenuState extends State<MainMenu> {
               )
             ],
           );
-        }
-    );
+        } );
   }
 
   @override
   Widget build(BuildContext context) {
-    widthDevice = MediaQuery.of(context).size.width;
-     ctx = context;
+    widthDevice = MediaQuery
+        .of( context )
+        .size
+        .width;
+    ctx = context;
 
     Widget mainMenuSlideShow = Container(
       height: widthDevice * .4,
       child: Carousel(
-        images: imgList.map((imgUrl) {
+        images: imgList.map( (imgUrl) {
           return Builder(
             builder: (BuildContext context) {
               return Container(
@@ -236,9 +270,9 @@ class _MainMenuState extends State<MainMenu> {
               );
             },
           );
-        }).toList(),
+        } ).toList( ),
         autoplay: true,
-        autoplayDuration: Duration(seconds: 4),
+        autoplayDuration: Duration( seconds: 4 ),
         dotBgColor: theme.Colors.transparent,
         dotColor: Colors.white,
         dotIncreasedColor: Colors.cyan,
@@ -259,6 +293,171 @@ class _MainMenuState extends State<MainMenu> {
         ],
       ),
     );
+    Widget newsSlideShow = SizedBox(
+      height: widthDevice / 4,
+      width: widthDevice,
+      child: Carousel(
+        boxFit: BoxFit.cover,
+        autoplay: false,
+        animationCurve: Curves.fastOutSlowIn,
+        animationDuration: Duration( milliseconds: 1000 ),
+        dotSize: 6.0,
+        dotIncreasedColor: Color( 0xFFFF335C ),
+        dotBgColor: Colors.transparent,
+        dotPosition: DotPosition.topRight,
+        dotVerticalPadding: 10.0,
+        showIndicator: false,
+        indicatorBgPadding: 7.0,
+        images: [
+          Container(
+            decoration: BoxDecoration(
+                color: Colors.grey[100],
+                borderRadius: BorderRadius.circular( 16.0 ) ),
+            padding: EdgeInsets.symmetric( vertical: 8.0, horizontal: 16.0 ),
+            child: Row(
+              children: <Widget>[
+                Container(
+                    height: widthDevice / 6,
+                    width: widthDevice / 6,
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.black87,
+                        image: DecorationImage(
+                          fit: BoxFit.fill,
+                          image: NetworkImage(
+                              'https://cdn-images-1.medium.com/max/2000/1*wnIEgP1gNMrK5gZU7QS0-A.jpeg' ),
+                        ) ) ),
+                Expanded(
+                  child: Container(
+                    margin: EdgeInsets.only( left: 16.0 ),
+                    child: Text(
+                      'asto azza',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black87,
+                          fontSize: 18 ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+                color: Colors.grey[100],
+                borderRadius: BorderRadius.circular( 16.0 ) ),
+            padding: EdgeInsets.symmetric( vertical: 8.0, horizontal: 16.0 ),
+            child: Row(
+              children: <Widget>[
+                Container(
+                    height: widthDevice / 6,
+                    width: widthDevice / 6,
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.black87,
+                        image: DecorationImage(
+                          fit: BoxFit.fill,
+                          image: NetworkImage(
+                              'https://cdn-images-1.medium.com/max/2000/1*wnIEgP1gNMrK5gZU7QS0-A.jpeg' ),
+                        ) ) ),
+                Expanded(
+                  child: Container(
+                    margin: EdgeInsets.only( left: 16.0 ),
+                    child: Text(
+                      'asto azza',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black87,
+                          fontSize: 18 ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+                color: Colors.grey[100],
+                borderRadius: BorderRadius.circular( 16.0 ) ),
+            padding: EdgeInsets.symmetric( vertical: 8.0, horizontal: 16.0 ),
+            child: Row(
+              children: <Widget>[
+                Container(
+                    height: widthDevice / 6,
+                    width: widthDevice / 6,
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.black87,
+                        image: DecorationImage(
+                          fit: BoxFit.fill,
+                          image: NetworkImage(
+                              'https://cdn-images-1.medium.com/max/2000/1*wnIEgP1gNMrK5gZU7QS0-A.jpeg' ),
+                        ) ) ),
+                Expanded(
+                  child: Container(
+                    margin: EdgeInsets.only( left: 16.0 ),
+                    child: Text(
+                      'asto azza',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black87,
+                          fontSize: 18 ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+
+    double heightContainer = 160.0;
+    Widget postSlideShow = Container(
+      margin: EdgeInsets.symmetric( vertical: 20.0 ),
+      height: 200.0,
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: <Widget>[
+          GestureDetector(
+            onLongPress: () {
+              print( 'asto azza' );
+              print( heightContainer );
+            },
+            onTap: () {
+              print( 'asto tap azza' );
+            },
+            onLongPressUp: () {
+              print( 'press up' );
+            },
+            child: Container(
+              width: heightContainer,
+              color: Colors.red,
+            ),
+          ),
+          Container(
+            width: 160.0,
+            color: Colors.blue,
+          ),
+          Container(
+            width: 160.0,
+            color: Colors.green,
+          ),
+          Container(
+            width: 160.0,
+            color: Colors.yellow,
+          ),
+          Container(
+            width: 160.0,
+            color: Colors.orange,
+          ),
+          Container(
+            width: 160.0,
+            color: Colors.indigo,
+          ),
+        ],
+      ),
+    );
 
     return Scaffold(
       backgroundColor: theme.Colors.backgroundAbsen,
@@ -268,13 +467,13 @@ class _MainMenuState extends State<MainMenu> {
           SliverList(
             delegate: SliverChildListDelegate(
               [
-                mainMenuHeader(),
+                mainMenuHeader( ),
                 imgList.length != 0 ? mainMenuSlideShow : mainMenuBrokenImage
               ],
             ),
           ),
           SliverPadding(
-            padding: EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 16.0),
+            padding: EdgeInsets.fromLTRB( 8.0, 8.0, 8.0, 16.0 ),
             sliver: SliverGrid(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisSpacing: 4.0,
@@ -283,35 +482,34 @@ class _MainMenuState extends State<MainMenu> {
                 childAspectRatio: 1.6,
               ),
               delegate: SliverChildBuilderDelegate(
-                (BuildContext context, int index) {
+                    (BuildContext context, int index) {
                   return Container(
                     alignment: Alignment.center,
                     child: Card(
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0),
+                        borderRadius: BorderRadius.circular( 8.0 ),
                       ),
                       child: InkWell(
-                        splashColor: Colors.blue.withAlpha(30),
+                        splashColor: Colors.blue.withAlpha( 30 ),
                         onTap: () {
                           switch (listMenu[index][1]) {
                             case 'Human Capital':
                               return Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => HumanCapital()),
+                                    builder: (context) => HumanCapital( ) ),
                               );
                               break;
                             default:
-                              return null ;
+                              return null;
                               break;
                           }
                         },
                         child: mainMenuItem(
-                          icon: listMenu[index][0],
-                          title: listMenu[index][1],
-                          numApp: int.parse(listMenu[index][2]),
-                          status: listMenu[index][3]
-                        ),
+                            icon: listMenu[index][0],
+                            title: listMenu[index][1],
+                            numApp: int.parse( listMenu[index][2] ),
+                            status: listMenu[index][3] ),
                       ),
                     ),
                   );
@@ -319,33 +517,47 @@ class _MainMenuState extends State<MainMenu> {
                 childCount: listMenu == null ? 0 : listMenu.length,
               ),
             ),
-          )
+          ),
+          SliverList(
+              delegate: SliverChildListDelegate( [
+                newsSlideShow,
+                SizedBox(
+                  height: 16.0,
+                ),
+                postSlideShow,
+                SizedBox(
+                  height: 16.0,
+                ),
+              ] ) )
         ],
       ),
       floatingActionButton: new FloatingActionButton(
-        onPressed: (){
-          _settingModalBottomSheet(context);
+        onPressed: () {
+          _settingModalBottomSheet( context );
         },
-        child: new Icon(Icons.add, color: Colors.white,),
+        child: new Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
       ),
     );
   }
 
-  void _showDialog(BuildContext context,String str){
+  void _showDialog(BuildContext context, String str) {
     // flutter defined function
     showDialog(
       context: context,
       builder: (BuildContext context) {
         // return object of type Dialog
         return AlertDialog(
-          title: new Text("Alert"),
-          content: new Text(str),
+          title: new Text( "Alert" ),
+          content: new Text( str ),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             new FlatButton(
-              child: new Text("Close"),
+              child: new Text( "Close" ),
               onPressed: () {
-                Navigator.of(context).pop();
+                Navigator.of( context ).pop( );
               },
             ),
           ],
@@ -354,25 +566,24 @@ class _MainMenuState extends State<MainMenu> {
     );
   }
 
-  void foreachHasil(List<dataProfile> data_profile,BuildContext ctx) {
-    int is_notif= 0;
+  void foreachHasil(List<dataProfile> data_profile, BuildContext ctx) {
+    int is_notif = 0;
     int versi = 0;
     for (int ini = 0; ini < data_profile.length; ini++) {
-      setState(() {
+      setState( () {
         notif = data_profile[ini].notif;
         imgList = data_profile[ini].foto;
         is_notif = data_profile[ini].is_notif;
         versi = data_profile[ini].versi;
-        print(imgList);
-      });
+        print( imgList );
+      } );
     }
 
-
-    if(versi > int.parse(api.Api.versi)){
-      _showDialog(ctx,"Perbarui Aplikasi Anda melalui portal / playstore");
+    if (versi > int.parse( api.Api.versi )) {
+      _showDialog( ctx, "Perbarui Aplikasi Anda melalui portal / playstore" );
     }
-    if(is_notif == 1){
-      _showDialog(ctx,notif);
+    if (is_notif == 1) {
+      _showDialog( ctx, notif );
     }
   }
 }
@@ -383,15 +594,14 @@ class dataProfile {
   int is_notif;
   int versi;
 
-
-  dataProfile({this.foto, this.notif,this.is_notif,this.versi});
+  dataProfile({this.foto, this.notif, this.is_notif, this.versi});
 
   factory dataProfile.fromJson(Map<String, dynamic> parsedJson) {
     return dataProfile(
       foto: parsedJson['image_foto'],
       is_notif: parsedJson['is_notif'],
       versi: parsedJson['versi'],
-      notif: parsedJson['notif'].toString(),
+      notif: parsedJson['notif'].toString( ),
     );
   }
 }
