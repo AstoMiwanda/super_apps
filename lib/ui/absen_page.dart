@@ -49,7 +49,7 @@ class _Absen extends State<Absen> {
   }
 
   getImei() async {
-    var imeiId = await ImeiPlugin.getImei;
+    var imeiId = await ImeiPlugin.getImei();
     setState(() {
       imei = imeiId;
     });

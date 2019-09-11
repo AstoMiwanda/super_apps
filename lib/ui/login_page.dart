@@ -186,7 +186,7 @@ class _Login extends State<Login> {
   }
 
   getImei() async {
-    var imeiId = await ImeiPlugin.getImei;
+    var imeiId = await ImeiPlugin.getImei();
     setState(() {
       imei = imeiId;
     });
