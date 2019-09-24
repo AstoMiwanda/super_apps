@@ -9,6 +9,7 @@ import 'package:super_apps/api/api.dart' as api;
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:super_apps/ui/human_capital_page.dart';
+import 'package:super_apps/ui/notification_page.dart';
 import 'package:toast/toast.dart';
 
 String nik = '';
@@ -74,20 +75,52 @@ class _MainMenuState extends State<MainMenu> {
   ];
 
   mainMenuHeaderLogo() {
-    return Container(
-      height: 54.0,
-      child: Image.asset(string.text.uri_logo_ta_putih),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Container(
+          height: 46.0,
+          child: Image.asset(string.text.uri_logo_ta_putih),
+        ),
+        GestureDetector(
+          onTap: () {
+            return Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => NotificationPage()),
+            );
+          },
+          child: Stack(
+            alignment: Alignment(1,-1),
+            children: <Widget>[
+              Icon(Icons.notifications_active, size: 28, color: Colors.white,),
+              Container(
+                width: 16.0,
+                height: 16.0,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.red,
+                ),
+                child: Text("8", style: TextStyle(fontSize: 10.0, color: Colors.white),),
+              )
+            ],
+          ),
+        )
+      ],
     );
   }
 
   mainMenuHeader() {
-    return Container(
-      padding: EdgeInsets.only(top: 36.0, bottom: 16.0),
-      color: theme.Colors.transparent,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[mainMenuHeaderLogo()],
+    return SafeArea(
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 16.0),
+        color: theme.Colors.transparent,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[mainMenuHeaderLogo()],
+        ),
       ),
     );
   }

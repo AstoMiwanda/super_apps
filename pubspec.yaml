@@ -77,6 +77,9 @@ flutter:
 
     #Icon Profile Page
     - assets/icon/profile_page/
+
+    #Icon Notification Page
+    - assets/icon/notification_page/
   # To add assets to your application, add an assets section, like this:
   #
   #
