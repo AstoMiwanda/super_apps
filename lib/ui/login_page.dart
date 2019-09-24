@@ -176,7 +176,7 @@ class _Login extends State<Login> {
   @override
   void initState() {
     super.initState();
-    pr = new ProgressDialog(context,ProgressDialogType.Normal);
+    pr = new ProgressDialog(context,type: ProgressDialogType.Normal);
     Islogin();
     location.onLocationChanged().listen((value) {
       setState(() {
@@ -186,7 +186,7 @@ class _Login extends State<Login> {
   }
 
   getImei() async {
-    var imeiId = await ImeiPlugin.getImei;
+    var imeiId = await ImeiPlugin.getImei();
     setState(() {
       imei = imeiId;
     });
