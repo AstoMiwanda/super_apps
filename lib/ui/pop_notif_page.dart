@@ -10,6 +10,8 @@ class NotificationPagePopUp extends StatefulWidget {
 
 class _NotificationPopUp extends State<NotificationPagePopUp> {
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+  int countRemainderAbsen = 0;
+  int countApprovalCuti = 0;
 
   @override
   initState() {
@@ -63,7 +65,7 @@ class _NotificationPopUp extends State<NotificationPagePopUp> {
     );
   }
 
-  Future onSelectNotification(String payload) async {
+  Future onSelectNotification(String payload, String count) async {
     showDialog(
       context: context,
       builder: (_) {
@@ -73,6 +75,9 @@ class _NotificationPopUp extends State<NotificationPagePopUp> {
         );
       },
     );
+    setState(() {
+      count = 0;
+    });
   }
 
   // If you have skipped step 4 then Method 1 is not for you
@@ -94,28 +99,41 @@ class _NotificationPopUp extends State<NotificationPagePopUp> {
       'How to Show Notification in Flutter',
       platformChannelSpecifics,
       payload: 'Custom_Sound',
+      count: '1',
     );
     print("asto azza");
   }
 // Method 2
   Future _showNotificationWithDefaultSound() async {
+    countRemainderAbsen++;
     var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
         'your channel id', 'your channel name', 'your channel description',
         importance: Importance.Max, priority: Priority.High);
     var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
     var platformChannelSpecifics = new NotificationDetails(
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-    await flutterLocalNotificationsPlugin.show(
-      0,
-      'New Post',
-      'How to Show Notification in Flutter',
-      platformChannelSpecifics,
-      payload: 'Default_Sound',
-    );
+    if (countRemainderAbsen > 0) {
+      await flutterLocalNotificationsPlugin.show(
+        0,
+        'Reamainder Absen',
+        'How to Show Notification in Flutter',
+        platformChannelSpecifics,
+        payload: 'Default_Sound',
+      );
+    } else {
+      await flutterLocalNotificationsPlugin.show(
+        0,
+        'Reamainder Absen',
+        'You have '+countRemainderAbsen.toString()+' remainder absen',
+        platformChannelSpecifics,
+        payload: 'Default_Sound',
+      );
+    }
     print("azza");
   }
 // Method 3
   Future _showNotificationWithoutSound() async {
+    countApprovalCuti++;
     var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
         'your channel id', 'your channel name', 'your channel description',
         playSound: false, importance: Importance.Max, priority: Priority.High);
@@ -123,13 +141,23 @@ class _NotificationPopUp extends State<NotificationPagePopUp> {
     new IOSNotificationDetails(presentSound: false);
     var platformChannelSpecifics = new NotificationDetails(
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-    await flutterLocalNotificationsPlugin.show(
-      1,
-      'New Post',
-      'How to Show Notification in Flutter',
-      platformChannelSpecifics,
-      payload: 'No_Sound',
-    );
+    if (countApprovalCuti > 0) {
+      await flutterLocalNotificationsPlugin.show(
+        1,
+        'Aprroval Cuti',
+        'How to Show Notification in Flutter',
+        platformChannelSpecifics,
+        payload: 'No_Sound',
+      );
+    } else {
+      await flutterLocalNotificationsPlugin.show(
+        1,
+        'Aprroval Cuti',
+        'You have '+countApprovalCuti.toString()+' cuti to approval',
+        platformChannelSpecifics,
+        payload: 'No_Sound',
+      );
+    }
     print("asto");
   }
 
