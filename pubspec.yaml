@@ -44,6 +44,7 @@ dependencies:
   dart_ping: ^1.0.0
   splashscreen: ^1.2.0
   flutter_launcher_icons: ^0.7.2+1
+  flutter_local_notifications:
 
 
 

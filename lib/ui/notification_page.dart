@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:super_apps/ui/tabs/keepalive_widget.dart';
+import 'package:super_apps/ui/pop_notif_page.dart';
 import 'package:super_apps/style/string.dart' as string;
 import 'package:super_apps/style/theme.dart' as theme;
 
@@ -173,11 +174,26 @@ class _NotificationPage extends State<NotificationPage> {
         actions: <Widget>[],
       ),
       body: SafeArea(
-        child: ListView.builder(
-          itemCount: 8,
-          itemBuilder: (context, index) {
-            return listNotification(readNotification: true);
-          }
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              child: ListView.builder(
+                  itemCount: 8,
+                  itemBuilder: (context, index) {
+                    return listNotification(readNotification: true);
+                  }
+              ),
+            ),
+            RaisedButton(
+              onPressed: () {
+                return Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => NotificationPagePopUp()),
+                );
+              },
+            )
+          ],
         ),
       ),
     );
