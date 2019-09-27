@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
@@ -65,19 +66,16 @@ class _NotificationPopUp extends State<NotificationPagePopUp> {
     );
   }
 
-  Future onSelectNotification(String payload, String count) async {
+  Future onSelectNotification(String payload) {
     showDialog(
       context: context,
       builder: (_) {
         return new AlertDialog(
           title: Text("PayLoad"),
-          content: Text("Payload : $payload"),
+          content: Text("$payload"),
         );
       },
     );
-    setState(() {
-      count = 0;
-    });
   }
 
   // If you have skipped step 4 then Method 1 is not for you
@@ -99,7 +97,6 @@ class _NotificationPopUp extends State<NotificationPagePopUp> {
       'How to Show Notification in Flutter',
       platformChannelSpecifics,
       payload: 'Custom_Sound',
-      count: '1',
     );
     print("asto azza");
   }
@@ -112,7 +109,7 @@ class _NotificationPopUp extends State<NotificationPagePopUp> {
     var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
     var platformChannelSpecifics = new NotificationDetails(
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-    if (countRemainderAbsen > 0) {
+    if (countRemainderAbsen <= 1) {
       await flutterLocalNotificationsPlugin.show(
         0,
         'Reamainder Absen',
@@ -141,13 +138,13 @@ class _NotificationPopUp extends State<NotificationPagePopUp> {
     new IOSNotificationDetails(presentSound: false);
     var platformChannelSpecifics = new NotificationDetails(
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-    if (countApprovalCuti > 0) {
+    if (countApprovalCuti <= 1) {
       await flutterLocalNotificationsPlugin.show(
         1,
         'Aprroval Cuti',
         'How to Show Notification in Flutter',
         platformChannelSpecifics,
-        payload: 'No_Sound',
+        payload: 'Notification Approval',
       );
     } else {
       await flutterLocalNotificationsPlugin.show(
@@ -155,10 +152,11 @@ class _NotificationPopUp extends State<NotificationPagePopUp> {
         'Aprroval Cuti',
         'You have '+countApprovalCuti.toString()+' cuti to approval',
         platformChannelSpecifics,
-        payload: 'No_Sound',
+        payload: 'Notification Approval',
       );
     }
     print("asto");
+    print(countApprovalCuti);
   }
 
 }
