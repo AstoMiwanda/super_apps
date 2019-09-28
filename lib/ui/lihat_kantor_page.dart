@@ -42,7 +42,7 @@ class pageLihatKantor extends State<lihat_kantor_page> {
     final MarkerId markerId = MarkerId(id);
 
     final Uint8List markerIcon =
-    await getBytesFromAsset(string.text.uri_ic_lokasi_kantor, 150);
+    await getBytesFromAsset(string.Images.uri_ic_lokasi_kantor, 150);
 
     // creating a new MARKER
     final Marker marker = Marker(
@@ -77,7 +77,7 @@ class pageLihatKantor extends State<lihat_kantor_page> {
     return new Scaffold(
       appBar: AppBar(
         backgroundColor: theme.Colors.backgroundHumanCapital,
-        title: Text(string.text.page_lihat_kantor, style: TextStyle(color: Colors.white)),
+        title: Text(string.Text.page_lihat_kantor, style: TextStyle(color: Colors.white)),
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
@@ -97,7 +97,7 @@ class pageLihatKantor extends State<lihat_kantor_page> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _goToUser,
-        label: Text(string.text.lbl_zoom_in),
+        label: Text(string.Text.lbl_zoom_in),
         icon: Icon(Icons.supervised_user_circle),
       ),
     );
@@ -188,7 +188,7 @@ class pageLihatKantor extends State<lihat_kantor_page> {
         final MarkerId markerId = MarkerId(nik);
 
         final Uint8List markerIcon =
-        await getBytesFromAsset(string.text.uri_ic_naker, 150);
+        await getBytesFromAsset(string.Images.uri_ic_naker, 150);
 
         // creating a new MARKER
         final Marker marker = Marker(

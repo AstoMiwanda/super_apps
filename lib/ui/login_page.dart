@@ -56,7 +56,7 @@ class _Login extends State<Login> {
                     padding: const EdgeInsets.only(top: 30),
                     child: new Image(
                         image:
-                            new AssetImage(string.text.uri_login_header)),
+                            new AssetImage(string.Images.uri_login_header)),
                     alignment: Alignment.center,
                   ),
                   Container(
@@ -66,11 +66,11 @@ class _Login extends State<Login> {
                       children: <Widget>[
                         TextField(
                           decoration: InputDecoration(
-                              hintText: string.text.hint_text,
+                              hintText: string.Text.hint_text,
                               icon: Icon(Icons.account_circle),
                               hintStyle:
                                   TextStyle(color: theme.Colors.colorTextWhite),
-                              labelText: string.text.lbl_username,
+                              labelText: string.Text.lbl_username,
                               fillColor: theme.Colors.colorTextWhite,
                               labelStyle: TextStyle(
                                   color: theme.Colors.colorTextWhite)),
@@ -81,10 +81,10 @@ class _Login extends State<Login> {
                         TextField(
                             decoration: InputDecoration(
                                 icon: Icon(Icons.lock),
-                                hintText: string.text.hint_password,
+                                hintText: string.Text.hint_password,
                                 hintStyle: TextStyle(
                                     color: theme.Colors.colorTextWhite),
-                                labelText: string.text.lbl_password,
+                                labelText: string.Text.lbl_password,
                                 fillColor: theme.Colors.colorTextWhite,
                                 labelStyle: TextStyle(
                                     color: theme.Colors.colorTextWhite)),
@@ -106,7 +106,7 @@ class _Login extends State<Login> {
                           checkInternet(usernameController.text.toString(),
                               passwordController.text.toString());
                         },
-                        child: Text(string.text.lbl_login),
+                        child: Text(string.Text.lbl_login),
                         color: theme.Colors.bacgroundButton,
                         textColor: theme.Colors.colorTextWhite,
                       ),
@@ -176,7 +176,7 @@ class _Login extends State<Login> {
   @override
   void initState() {
     super.initState();
-    pr = new ProgressDialog(context,ProgressDialogType.Normal);
+    pr = new ProgressDialog(context,type: ProgressDialogType.Normal);
     Islogin();
     location.onLocationChanged().listen((value) {
       setState(() {
@@ -186,7 +186,7 @@ class _Login extends State<Login> {
   }
 
   getImei() async {
-    var imeiId = await ImeiPlugin.getImei;
+    var imeiId = await ImeiPlugin.getImei();
     setState(() {
       imei = imeiId;
     });

@@ -43,15 +43,15 @@ class _ReportPageState extends State<ReportPage> {
   GlobalKey _containerKey = GlobalKey();
 
   List _keterangan = [
-    string.text.lbl_mobile,
-    string.text.lbl_fingerprint,
-    string.text.lbl_web,
-    string.text.lbl_izin,
-    string.text.lbl_sppd,
-    string.text.lbl_sakit,
-    string.text.lbl_cuti,
-    string.text.lbl_pengganti_hari_libur,
-    string.text.lbl_penugasan_di_luar
+    string.Text.lbl_mobile,
+    string.Text.lbl_fingerprint,
+    string.Text.lbl_web,
+    string.Text.lbl_izin,
+    string.Text.lbl_sppd,
+    string.Text.lbl_sakit,
+    string.Text.lbl_cuti,
+    string.Text.lbl_pengganti_hari_libur,
+    string.Text.lbl_penugasan_di_luar
   ];
 
   List<DropdownMenuItem<String>> _dropDownMenuItems;
@@ -62,7 +62,7 @@ class _ReportPageState extends State<ReportPage> {
     _dropDownMenuItems = getDropDownMenuItems();
     _selectedKeterangan = _dropDownMenuItems[0].value;
     super.initState();
-    pr = new ProgressDialog(context,ProgressDialogType.Normal);
+    pr = new ProgressDialog(context,type: ProgressDialogType.Normal);
     final DateTime now = DateTime.now();
     final String formattedDateTime = _formatDateTime(now);
     date1 = formattedDateTime;
@@ -81,7 +81,7 @@ class _ReportPageState extends State<ReportPage> {
   }
 
   final text = new Text(
-    string.text.lbl_tulis_disini,
+    string.Text.lbl_tulis_disini,
     style: new TextStyle(fontSize: 50.0),
   );
 
@@ -271,7 +271,7 @@ class _ReportPageState extends State<ReportPage> {
                 children: <Widget>[
                   Container(
                     alignment: Alignment.centerLeft,
-                    child: Text(string.text.lbl_keterangan_absen + " :\n"),
+                    child: Text(string.Text.lbl_keterangan_absen + " :\n"),
                   ),
                   Row(
                     children: <Widget>[
@@ -287,7 +287,7 @@ class _ReportPageState extends State<ReportPage> {
                           ),
                         ),
                       ),
-                      Container(child: Text(" : " + string.text.lbl_mobile)),
+                      Container(child: Text(" : " + string.Text.lbl_mobile)),
                     ],
                   ),
                   Row(
@@ -307,7 +307,7 @@ class _ReportPageState extends State<ReportPage> {
                       ),
                       Container(
                           padding: EdgeInsets.only(top: 5),
-                          child: Text(" : "+string.text.lbl_fingerprint)),
+                          child: Text(" : "+string.Text.lbl_fingerprint)),
                     ],
                   ),
                   Row(
@@ -327,7 +327,7 @@ class _ReportPageState extends State<ReportPage> {
                       ),
                       Container(
                           padding: EdgeInsets.only(top: 5),
-                          child: Text(" : "+string.text.lbl_web)),
+                          child: Text(" : "+string.Text.lbl_web)),
                     ],
                   ),
                   Row(
@@ -347,7 +347,7 @@ class _ReportPageState extends State<ReportPage> {
                       ),
                       Container(
                           padding: EdgeInsets.only(top: 5),
-                          child: Text(" : "+string.text.lbl_sppd)),
+                          child: Text(" : "+string.Text.lbl_sppd)),
                     ],
                   ),
                   Row(
@@ -367,7 +367,7 @@ class _ReportPageState extends State<ReportPage> {
                       ),
                       Container(
                           padding: EdgeInsets.only(top: 5),
-                          child: Text(" : "+string.text.lbl_sakit)),
+                          child: Text(" : "+string.Text.lbl_sakit)),
                     ],
                   ),
                 ],
@@ -400,7 +400,7 @@ class _ReportPageState extends State<ReportPage> {
                       ),
                       Container(
                           padding: EdgeInsets.only(top: 5),
-                          child: Text(" : " + string.text.lbl_cuti)),
+                          child: Text(" : " + string.Text.lbl_cuti)),
                     ],
                   ),
                   Row(
@@ -420,7 +420,7 @@ class _ReportPageState extends State<ReportPage> {
                       ),
                       Container(
                           padding: EdgeInsets.only(top: 5),
-                          child: Text(" : " + string.text.lbl_izin)),
+                          child: Text(" : " + string.Text.lbl_izin)),
                     ],
                   ),
                   Row(
@@ -441,7 +441,7 @@ class _ReportPageState extends State<ReportPage> {
                       Container(
                           padding: EdgeInsets.only(top: 5),
                           child: Text(
-                              " : " + string.text.lbl_pengganti_hari_libur)),
+                              " : " + string.Text.lbl_pengganti_hari_libur)),
                     ],
                   ),
                   Row(
@@ -462,7 +462,7 @@ class _ReportPageState extends State<ReportPage> {
                       Container(
                           padding: EdgeInsets.only(top: 5),
                           child:
-                          Text(" : " + string.text.lbl_penugasan_di_luar)),
+                          Text(" : " + string.Text.lbl_penugasan_di_luar)),
                     ],
                   ),
                 ],
@@ -478,7 +478,7 @@ class _ReportPageState extends State<ReportPage> {
     Scaffold(
       appBar: new AppBar(
         backgroundColor: theme.Colors.backgroundHumanCapital,
-        title: Text(string.text.page_report_absen,
+        title: Text(string.Text.page_report_absen,
           style: TextStyle(
               color: Colors.white
           )),
@@ -494,7 +494,7 @@ class _ReportPageState extends State<ReportPage> {
                   padding: EdgeInsets.only(top: 10, bottom: 15),
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    string.text.lbl_tanggal,
+                    string.Text.lbl_tanggal,
                     style: TextStyle(
                       fontSize: 10,
                       color: Colors.white,
@@ -517,9 +517,9 @@ class _ReportPageState extends State<ReportPage> {
                             var month = (date.month).toString();
                             var year = (date.year).toString();
                             date1 = year +
-                                string.text.lbl_strip +
+                                string.Text.lbl_strip +
                                 month +
-                                string.text.lbl_strip +
+                                string.Text.lbl_strip +
                                 day;
                             setState(() {
                               date1;
@@ -541,7 +541,7 @@ class _ReportPageState extends State<ReportPage> {
                       ),
                     ),
                     Text(
-                      string.text.lbl_strip,
+                      string.Text.lbl_strip,
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 15,
@@ -561,9 +561,9 @@ class _ReportPageState extends State<ReportPage> {
                             var month = (date.month).toString();
                             var year = (date.year).toString();
                             date2 = year +
-                                string.text.lbl_strip +
+                                string.Text.lbl_strip +
                                 month +
-                                string.text.lbl_strip +
+                                string.Text.lbl_strip +
                                 day;
                             setState(() {
                               date2;
@@ -590,7 +590,7 @@ class _ReportPageState extends State<ReportPage> {
                   padding: EdgeInsets.only(top: 10, bottom: 15),
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    string.text.lbl_keterangan,
+                    string.Text.lbl_keterangan,
                     style: TextStyle(
                       color: Colors.white,
                     ),
@@ -622,7 +622,7 @@ class _ReportPageState extends State<ReportPage> {
                     onPressed: () async {
                       makeGetRequest();
                     },
-                    child: Text(string.text.lbl_filter),
+                    child: Text(string.Text.lbl_filter),
                     color: theme.Colors.bacgroundButton,
                     textColor: theme.Colors.colorTextWhite,
                   ),
@@ -651,23 +651,23 @@ class _ReportPageState extends State<ReportPage> {
                             children: <Widget>[
                               Expanded(
                                   child: Container(
-                                      child: new Text(string.text.lbl_nomor,
+                                      child: new Text(string.Text.lbl_nomor,
                                           style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 15)))),
                               Expanded(
-                                  child: new Text(string.text.lbl_tanggal,
+                                  child: new Text(string.Text.lbl_tanggal,
                                       style: TextStyle(
                                           color: Colors.white, fontSize: 15))),
                               Expanded(
-                                  child: new Text(string.text.lbl_jam_masuk,
+                                  child: new Text(string.Text.lbl_jam_masuk,
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           color: Colors.white, fontSize: 15))),
                               Expanded(
                                 child: Container(
                                     padding: EdgeInsets.only(left: 10),
-                                    child: new Text(string.text.lbl_jam_pulang,
+                                    child: new Text(string.Text.lbl_jam_pulang,
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                             color: Colors.white,
@@ -680,7 +680,7 @@ class _ReportPageState extends State<ReportPage> {
                                   child: Container(
                                     key: _containerKey,
                                     padding: EdgeInsets.only(left: 30),
-                                    child: new Text(string.text.lbl_ket,
+                                    child: new Text(string.Text.lbl_ket,
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                             color: Colors.white, fontSize: 15)),
