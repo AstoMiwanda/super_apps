@@ -50,7 +50,7 @@ class Colors {
   /* Color Notification */
   static const Color backgroundRemainderNotification = const Color(0xFFEE6700);
   static const Color backgroundApprovalNotification = const Color(0xFF31ADCE);
-  static const Color backgroundAbsenNotification = const Color(0xFF31ADCE);
+  static const Color backgroundAbsenNotification = const Color(0xFF47CB85);
   static const Color backgroundNotificationUnread = const Color(0x1A0993B8);
 
   static const linearGradient = const LinearGradient(

@@ -1,11 +1,24 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:super_apps/ui/tabs/keepalive_widget.dart';
-import 'package:super_apps/ui/pop_notif_page.dart';
 import 'package:super_apps/style/string.dart' as string;
 import 'package:super_apps/style/theme.dart' as theme;
+
+double widthDevice;
+double heightDevice;
+double heightAppBar;
+int numNotification;
+bool readNotification;
+
+Color bgIcon;
+Color bgNotifStatus;
+Color bgNotifLine;
+
+String typeNotification;
+String iconNotif;
+String titleNotif;
+String descNotif;
+String dateNotif;
+String timeNotif;
 
 class NotificationPage extends StatefulWidget {
   @override
@@ -13,25 +26,7 @@ class NotificationPage extends StatefulWidget {
 }
 
 class _NotificationPage extends State<NotificationPage> {
-  var numNotification = 1;
-  var readNotification;
-  var typeNotification;
-  var iconNotif;
-
-  Color bgIcon;
-  Color bgNotifStatus;
-  Color bgNotifLine;
-  double widthDevice;
-
-  var titleNotif = "Jangan Lupa absen !";
-  var descNotif = "Potong gaji lebih sedih daripada ditinggal gebetan :D";
-  var dateNotif = "16 September 2019";
-  var timeNotif = "10.00";
-
-  listNotification({readNotification}) {
-    readNotification = readNotification;
-    typeNotification = "remainder";
-
+  listNotification({bool readNotification, String typeNotification}) {
     if (readNotification) {
       bgNotifStatus = Colors.white;
       bgNotifLine = theme.Colors.backgroundNotificationUnread;
@@ -50,24 +45,29 @@ class _NotificationPage extends State<NotificationPage> {
     } else if (typeNotification == "absen") {
       iconNotif = string.text.uri_absen_notification;
       bgIcon = theme.Colors.backgroundAbsenNotification;
+    } else {
+      iconNotif = '';
+      bgIcon = Colors.red;
     }
 
     if (numNotification == 0) {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Container(
-            height: 147.0,
-            margin: EdgeInsets.only(bottom: 16.0),
-            child: SvgPicture.asset(string.text.uri_empty_notification,
-                placeholderBuilder: (context) => Icon(Icons.error)),
-          ),
-          Text(
-            string.text.lbl_tidak_ada_notification,
-            style: TextStyle(color: theme.Colors.colorTextGray_60),
-          )
-        ],
+      return Container(
+        height: heightDevice - (heightAppBar + 20.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              height: 147.0,
+              margin: EdgeInsets.only(bottom: 16.0),
+              child: SvgPicture.asset(string.text.uri_empty_notification,
+                  placeholderBuilder: (context) => Icon(Icons.error)),
+            ),
+            Text(
+              string.text.lbl_tidak_ada_notification,
+              style: TextStyle(color: theme.Colors.colorTextGray_60),
+            )
+          ],
+        ),
       );
     } else {
       return Column(
@@ -78,18 +78,15 @@ class _NotificationPage extends State<NotificationPage> {
             child: Row(
               children: <Widget>[
                 Container(
+                  width: 60.0,
+                  height: 60.0,
                   padding: EdgeInsets.all(12.0),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: bgIcon,
                   ),
-                  child: Container(
-                    width: 36.0,
-                    height: 36.0,
-                    child: SvgPicture.asset(
-                        iconNotif,
-                        placeholderBuilder: (context) => Icon(Icons.error)),
-                  ),
+                  child: SvgPicture.asset(iconNotif,
+                      placeholderBuilder: (context) => Icon(Icons.error)),
                 ),
                 Container(
                   margin: EdgeInsets.only(left: 16.0),
@@ -101,7 +98,6 @@ class _NotificationPage extends State<NotificationPage> {
                         margin: EdgeInsets.only(bottom: 14.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Text(
                               titleNotif,
@@ -122,16 +118,9 @@ class _NotificationPage extends State<NotificationPage> {
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Text(
-                            dateNotif,
-                            style: TextStyle(
-                                fontSize: 11.0,
-                                color: theme.Colors.colorTextGray_60),
-                          ),
-                          Text(
-                            timeNotif,
+                            dateNotif+'\n'+timeNotif,
                             style: TextStyle(
                                 fontSize: 11.0,
                                 color: theme.Colors.colorTextGray_60),
@@ -155,46 +144,40 @@ class _NotificationPage extends State<NotificationPage> {
 
   @override
   Widget build(BuildContext context) {
+    AppBar appBar = AppBar(
+      backgroundColor: theme.Colors.backgroundHumanCapital,
+      title: Text(string.text.page_lihat_kantor,
+          style: TextStyle(color: Colors.white)),
+      leading: IconButton(
+        icon: Icon(
+          Icons.arrow_back,
+          color: Colors.white,
+        ),
+        onPressed: () => Navigator.pop(context, false),
+      ),
+    );
+
     setState(() {
       widthDevice = MediaQuery.of(context).size.width;
+      heightDevice = MediaQuery.of(context).size.height;
+      heightAppBar = appBar.preferredSize.height;
+      numNotification = 2;
+      titleNotif = "Jangan Lupa absen !";
+      descNotif = "Potong gaji lebih sedih daripada ditinggal gebetan :D";
+      dateNotif = "16 September 2019";
+      timeNotif = "10.00";
+      readNotification = true;
+      typeNotification = "approval";
     });
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: theme.Colors.backgroundHumanCapital,
-        title: Text(string.text.page_lihat_kantor,
-            style: TextStyle(color: Colors.white)),
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: Colors.white,
-          ),
-          onPressed: () => Navigator.pop(context, false),
-        ),
-        actions: <Widget>[],
-      ),
+      appBar: appBar,
       body: SafeArea(
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              child: ListView.builder(
-                  itemCount: 8,
-                  itemBuilder: (context, index) {
-                    return listNotification(readNotification: true);
-                  }
-              ),
-            ),
-            RaisedButton(
-              onPressed: () {
-                return Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => NotificationPagePopUp()),
-                );
-              },
-            )
-          ],
-        ),
+        child: ListView.builder(
+            itemCount: numNotification == 0 ? 1 : numNotification,
+            itemBuilder: (context, index) {
+              return listNotification(readNotification: readNotification, typeNotification: typeNotification);
+            }),
       ),
     );
   }
