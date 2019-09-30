@@ -5,8 +5,11 @@ class text {
   static var page_main_menu = "Main Menu";
   static var page_report_absen = "Report Absen";
   static var page_beranda = "Beranda";
+  static var page_notification = "Notification";
 
   static var lbl_aplikasi = "Super Apps";
+
+  /* Report Absen */
   static var lbl_strip = "-";
   static var lbl_keterangan = "Keterangan";
   static var lbl_filter = "Filter";
@@ -26,19 +29,30 @@ class text {
   static var lbl_penugasan_di_luar = "Pengganti Hari Libur";
   static var lbl_keterangan_absen = "Keterangan Absen";
   static var lbl_tulis_disini = "Tulis Disini";
+
+  /* Profile */
   static var lbl_jenis_kelamin = "Jenis Kelamin";
   static var lbl_hari_lahir = "Hari Lahir";
   static var lbl_agama = "Agama";
   static var lbl_status_menikah = "Status Menikah";
   static var lbl_kantor = "Kantor";
   static var lbl_email = "Email";
+
+  /* Lihat Kantor */
   static var lbl_zoom_in = "Zoom IN";
+
+  /* Login */
   static var lbl_login = "Login";
   static var lbl_username = "Username";
   static var lbl_password = "Password";
+
+  /* Main Menu */
   static var lbl_human_capital = "Human Capital";
   static var lbl_locked_apps = "aplikasi segera hadir";
   static var lbl_cek_koneksi_internet = "Cek koneksi internet anda!";
+
+  /* Notification */
+  static var lbl_tidak_ada_notification = "Semua notifikasi telah dibaca.";
 
   static var hint_text = "";
   static var hint_password= "";
@@ -71,4 +85,10 @@ class text {
 
   static var uri_ic_lokasi_kantor   = "assets/images/lokasi_kantor.png";
   static var uri_ic_naker   = "assets/images/naker.png";
+
+  /* Uri Icon Notification */
+  static var uri_empty_notification = "assets/icon/notification_page/notification_off.svg";
+  static var uri_remainder_notification = "assets/icon/notification_page/megaphone.svg";
+  static var uri_absen_notification = "assets/icon/notification_page/absenput.svg";
+  static var uri_approval_notification = "assets/icon/notification_page/todolist.svg";
 }
