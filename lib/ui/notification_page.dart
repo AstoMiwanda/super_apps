@@ -24,6 +24,8 @@ String descNotif;
 String dateNotif;
 String timeNotif;
 
+List<dataNotification> list_notification;
+
 class NotificationPage extends StatefulWidget {
   @override
   _NotificationPage createState() => _NotificationPage();
@@ -36,8 +38,8 @@ class _NotificationPage extends State<NotificationPage> {
     getDataNotif();
   }
 
-  listNotification({bool readNotification, String typeNotification}) {
-    if (readNotification) {
+  listNotification({String read, String type, String title, String message}) {
+    if (read == '1') {
       bgNotifStatus = Colors.white;
       bgNotifLine = theme.Colors.backgroundNotificationUnread;
     } else {
@@ -45,14 +47,14 @@ class _NotificationPage extends State<NotificationPage> {
       bgNotifLine = Colors.white;
     }
 
-    print(typeNotification);
-    if (typeNotification == "remainder") {
+    print(read);
+    if (type == "remainder") {
       iconNotif = string.text.uri_remainder_notification;
       bgIcon = theme.Colors.backgroundRemainderNotification;
-    } else if (typeNotification == "approval") {
+    } else if (type == "approval") {
       iconNotif = string.text.uri_approval_notification;
       bgIcon = theme.Colors.backgroundApprovalNotification;
-    } else if (typeNotification == "absen") {
+    } else if (type == "absen") {
       iconNotif = string.text.uri_absen_notification;
       bgIcon = theme.Colors.backgroundAbsenNotification;
     } else {
@@ -110,14 +112,14 @@ class _NotificationPage extends State<NotificationPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              titleNotif,
+                              title,
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: theme.Colors.colorTextGray,
                               ),
                             ),
                             Text(
-                              descNotif,
+                              message,
                               style: TextStyle(
                                   color: theme.Colors.colorTextGray,
                                   fontSize: 12.0,
@@ -171,12 +173,8 @@ class _NotificationPage extends State<NotificationPage> {
       widthDevice = MediaQuery.of(context).size.width;
       heightDevice = MediaQuery.of(context).size.height;
       heightAppBar = appBar.preferredSize.height;
-      numNotification = 2;
-      titleNotif = "Jangan Lupa absen !";
-      descNotif = "Potong gaji lebih sedih daripada ditinggal gebetan :D";
       dateNotif = "16 September 2019";
       timeNotif = "10.00";
-      readNotification = true;
       typeNotification = "approval";
     });
 
@@ -184,34 +182,43 @@ class _NotificationPage extends State<NotificationPage> {
       appBar: appBar,
       body: SafeArea(
         child: ListView.builder(
-            itemCount: numNotification == 0 ? 1 : numNotification,
+            itemCount: list_notification.length == 0 ? 1 : list_notification.length,
             itemBuilder: (context, index) {
-              return listNotification(
-                  readNotification: readNotification,
-                  typeNotification: typeNotification);
+              if (list_notification.length == 0) {
+                return listNotification();
+              } else {
+                return listNotification(
+                    read: list_notification[index].status_opened,
+                    type: typeNotification,
+                    title: list_notification[index].title,
+                    message: list_notification[index].message);
+              }
             }),
       ),
     );
   }
-}
 
-void getDataNotif () async {
-  var nik = "955139";
-  final uri = api.Api.notification + "$nik/1";
-  final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
-  Response response = await get(uri, headers: headers);
-  var data = jsonDecode(response.body);
-  var data_profile = (data["data"] as List)
-      .map((data) => new dataNotification.fromJson(data))
-      .toList();
-  foreachHasil(data_profile);
-}
+  void getDataNotif () async {
+    var nik = "955139";
+    final uri = api.Api.notification + "$nik/1";
+    final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+    Response response = await get(uri, headers: headers);
+    var data = jsonDecode(response.body);
+    var data_profile = (data["data"] as List)
+        .map((data) => new dataNotification.fromJson(data))
+        .toList();
+    foreachHasil(data_profile);
+  }
 
-void foreachHasil(List<dataNotification> data_notification) {
-  print(data_notification.length);
+  void foreachHasil(List<dataNotification> data_notification) {
+    print(data_notification.length);
+    setState(() {
+      list_notification = data_notification;
+    });
 
-  for(int i = 0;i < data_notification.length;i++){
-    print(data_notification[i].title);
+    for(int i = 0;i < data_notification.length;i++){
+      print(data_notification[i].title);
+    }
   }
 }
 

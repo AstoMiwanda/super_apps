@@ -2,7 +2,7 @@
 class Api{
   // host
 
-  static var host_i = "10.204.100.243";
+  static var host_i = "10.204.200.8";
   //static var host_i = "203.130.242.238";
   static var host = "http://${host_i}:";
 
