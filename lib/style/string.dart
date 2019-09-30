@@ -5,6 +5,7 @@ class text {
   static var page_main_menu = "Main Menu";
   static var page_report_absen = "Report Absen";
   static var page_beranda = "Beranda";
+  static var page_input_cuti = "Input Cuti";
 
   static var lbl_aplikasi = "Super Apps";
   static var lbl_strip = "-";
@@ -68,6 +69,9 @@ class text {
 
 //  URI Icon Main Menu Page
   static var uri_locked_apps = "assets/icon/main_menu_page/coming_soon.svg";
+
+//  URI Icon Cuti Page
+  static var icon_profile_cuti = "assets/icon/cuti_page/profile_cuti.svg";
 
   static var uri_ic_lokasi_kantor   = "assets/images/lokasi_kantor.png";
   static var uri_ic_naker   = "assets/images/naker.png";

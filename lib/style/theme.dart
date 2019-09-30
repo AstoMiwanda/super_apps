@@ -34,6 +34,12 @@ class Colors {
   static const Color backgroundLogin = const Color(0xFF089fbd);
   static const Color bacgroundButton = const Color(0xFFf45e46);
   static const Color colorTextWhite = const Color(0xFFffffff);
+
+//  Color Input Cuti Page
+  static const Color colorTextBlackInputCuti = const Color(0xFF3B3B3B);
+  static const Color colorTextGrayInputCuti = const Color(0xFF757575);
+  static const Color borderInputFieldInputCuti = const Color(0xFFC1C1C1);
+
   static const Color backgroundAbsen = const Color(0xFF0993b8);
   static const Color colorOnLocation = const Color(0xFF5dd72e);
   static const Color colorNotOnLocation = const Color(0xFFEF5350);
