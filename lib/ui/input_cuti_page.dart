@@ -5,11 +5,14 @@ import 'package:super_apps/style/string.dart' as string;
 import 'package:super_apps/style/theme.dart' as theme;
 
 double widthDevice;
-List<DropdownMenuItem<String>> _dropDownMenuItems;
+List<DropdownMenuItem<String>> _dropDownKeteranganItems;
+List<DropdownMenuItem<String>> _dropDownPegawaiItems;
 String _selectedKeterangan;
+String _selectedPegawai;
 DateTime _dateStart;
 DateTime _dateEnd;
 bool cutiLibur = false;
+bool cutiHR = true;
 
 class InputCuti extends StatefulWidget {
   @override
@@ -18,6 +21,19 @@ class InputCuti extends StatefulWidget {
 
 class _InputCutiState extends State<InputCuti> {
   List _keterangan = [
+    'keterangan',
+    string.text.lbl_mobile,
+    string.text.lbl_fingerprint,
+    string.text.lbl_web,
+    string.text.lbl_izin,
+    string.text.lbl_sppd,
+    string.text.lbl_sakit,
+    string.text.lbl_cuti,
+    string.text.lbl_pengganti_hari_libur,
+    string.text.lbl_penugasan_di_luar
+  ];
+  List _pegawai = [
+    'pegawai',
     string.text.lbl_mobile,
     string.text.lbl_fingerprint,
     string.text.lbl_web,
@@ -29,30 +45,47 @@ class _InputCutiState extends State<InputCuti> {
     string.text.lbl_penugasan_di_luar
   ];
 
-  List<DropdownMenuItem<String>> getDropDownMenuItems() {
+  List<DropdownMenuItem<String>> getDropDownMenuItems({String item}) {
     List<DropdownMenuItem<String>> items = new List();
-    for (String keterangan in _keterangan) {
-      items.add(
-          new DropdownMenuItem(value: keterangan, child: new Text(keterangan)));
+    if (item == 'pegawai') {
+      for (String pegawai in _pegawai) {
+        items.add(
+            new DropdownMenuItem(value: pegawai, child: new Text(pegawai)));
+      }
+    } else if (item == 'keterangan') {
+      for (String keterangan in _keterangan) {
+        items.add(new DropdownMenuItem(
+            value: keterangan, child: new Text(keterangan)));
+      }
     }
+
     return items;
   }
 
-  Widget _dropDownHint = Text('asto azza');
-  Widget _tglDariHint = Text('asto azza');
+  Widget _dropDownKeteranganHint = Text('asto azza');
+  Widget _dropDownPegawaiHint = Text('miw');
 
-  void changedDropDownItem(String selectedCity) {
+  void changedDropDownKeteranganItem(String value) {
     setState(() {
-      _dropDownHint = null;
-      _selectedKeterangan = selectedCity;
+      _dropDownKeteranganHint = null;
+      _selectedKeterangan = value;
+    });
+  }
+
+  void changedDropDownPegawaiItem(String value) {
+    setState(() {
+      _dropDownPegawaiHint = null;
+      _selectedPegawai = value;
     });
   }
 
   @override
   void initState() {
     // TODO: implement initState
-    _dropDownMenuItems = getDropDownMenuItems();
+    _dropDownKeteranganItems = getDropDownMenuItems(item: 'keterangan');
     _selectedKeterangan = null;
+    _dropDownPegawaiItems = getDropDownMenuItems(item: 'pegawai');
+    _selectedPegawai = null;
     super.initState();
   }
 
@@ -148,6 +181,49 @@ class _InputCutiState extends State<InputCuti> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
+                  if (cutiHR)
+                    Column(
+                      children: <Widget>[
+                        Container(
+                            margin: EdgeInsets.only(bottom: 8.0),
+                            alignment: Alignment(-1, 0),
+                            child: Text(
+                              'Pegawai',
+                              style: TextStyle(
+                                color: theme.Colors.colorTextBlackInputCuti,
+                                fontSize: 15.0,
+                              ),
+                            )),
+                        Container(
+                            height: 30.0,
+                            width: widthDevice,
+                            padding: EdgeInsets.symmetric(horizontal: 8.0),
+                            margin: EdgeInsets.only(bottom: 16.0),
+                            decoration: ShapeDecoration(
+                              shape: RoundedRectangleBorder(
+                                  side: BorderSide(
+                                      width: 0,
+                                      style: BorderStyle.solid,
+                                      color: theme
+                                          .Colors.borderInputFieldInputCuti),
+                                  borderRadius: BorderRadius.circular(4.0)),
+                              color: Colors.white,
+                            ),
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButton(
+                                style: new TextStyle(
+                                  color: theme.Colors.colorTextBlackInputCuti,
+                                  fontSize: 15.0,
+                                ),
+                                hint: _dropDownPegawaiHint,
+                                value: _selectedPegawai,
+                                items: _dropDownPegawaiItems,
+                                isExpanded: true,
+                                onChanged: changedDropDownPegawaiItem,
+                              ),
+                            )),
+                      ],
+                    ),
                   Container(
                       margin: EdgeInsets.only(bottom: 8.0),
                       child: Text(
@@ -177,11 +253,11 @@ class _InputCutiState extends State<InputCuti> {
                             color: theme.Colors.colorTextBlackInputCuti,
                             fontSize: 15.0,
                           ),
-                          hint: _dropDownHint,
+                          hint: _dropDownKeteranganHint,
                           value: _selectedKeterangan,
-                          items: _dropDownMenuItems,
+                          items: _dropDownKeteranganItems,
                           isExpanded: true,
-                          onChanged: changedDropDownItem,
+                          onChanged: changedDropDownKeteranganItem,
                         ),
                       )),
                   Container(
