@@ -62,11 +62,11 @@ class _Menu extends State<Menu>{
   authLocation() {
     if (currentLocation == null) {
       setState(() {
-        icon_nav_bottom = theme.Colors.colorNotOnLocation;
+        icon_nav_bottom = Colors.red;
       });
     } else {
       setState(() {
-        icon_nav_bottom = theme.Colors.colorOnLocation;
+        icon_nav_bottom = Colors.green;
       });
     }
   }

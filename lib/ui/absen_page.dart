@@ -146,6 +146,7 @@ class _Absen extends State<Absen> {
                   margin: EdgeInsets.only(bottom: 32.0),
                   child: SvgPicture.asset(icon,
                       placeholderBuilder: (context) => Icon(Icons.error),fit: BoxFit.fitHeight,),
+//                child: Image.network('https://thumbs.gfycat.com/DistortedElaborateFairybluebird-size_restricted.gif'),
                 ),
                 Text('${msg}', style: TextStyle(color: theme.Colors.backgroundHumanCapital, fontSize: 16.0, height: 1.5), textAlign: TextAlign.center,)
               ],
@@ -227,7 +228,7 @@ class _Absen extends State<Absen> {
   _postAbsen() async {
     onLocation = authLocation();
     print(onLocation);
-    if (onLocation == 'asto azza') {
+    if (onLocation == 'OK') {
       pr.show();
       final uri = api.Api.absen;
       final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
@@ -271,6 +272,7 @@ class _Absen extends State<Absen> {
     getImei();
     double widthDevice = MediaQuery.of(context).size.width;
     double heightDevice = MediaQuery.of(context).size.height;
+    double statusBarHeight = MediaQuery.of(context).padding.top;
 
     return Scaffold(
       body: CustomScrollView(
@@ -284,14 +286,14 @@ class _Absen extends State<Absen> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
                     ConstrainedBox(
-                      constraints: BoxConstraints(minHeight: heightDevice),
+                      constraints: BoxConstraints(minHeight: heightDevice - (statusBarHeight + heightDevice * 0.06)),
                       child: Container(
                         padding: EdgeInsets.only(
-                            top: heightDevice * .1, bottom: heightDevice * .1),
+                            top: heightDevice * 0.06),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+//                          mainAxisSize: MainAxisSize.max,
+//                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: <Widget>[
                             Container(
                               child: Column(
@@ -420,7 +422,7 @@ class _Absen extends State<Absen> {
                               ),
                             ),
                             Container(
-                              padding:  EdgeInsets.only(top: 60),
+//                              padding:  EdgeInsets.only(top: 60),
                               //height: 20.0,
                               child: Row(
                                 children: <Widget>[
