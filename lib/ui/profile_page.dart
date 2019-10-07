@@ -92,7 +92,7 @@ class _Profile extends State<Profile> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(string.text.uri_bg_profile),
+            image: AssetImage(string.Images.uri_bg_profile),
             fit: BoxFit.fill,
           ),
         ),
@@ -127,7 +127,7 @@ class _Profile extends State<Profile> {
                                   );
                                 },
                                 child: SvgPicture.asset(
-                                  string.text.uri_logout,
+                                  string.Icons.icon_logout,
                                   placeholderBuilder: (context) =>
                                       Icon(Icons.error),
                                   width: 32.0,
@@ -186,7 +186,7 @@ class _Profile extends State<Profile> {
                     margin: EdgeInsets.only(top: 8.0, right: 16.0),
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage(string.text.uri_bg_detail_profile),
+                        image: AssetImage(string.Images.uri_bg_detail_profile),
                         fit: BoxFit.fill,
                       ),
                     ),
@@ -200,8 +200,8 @@ class _Profile extends State<Profile> {
                             children: <Widget>[
                               Container(
                                 child: SvgPicture.asset(
-                                  string.text.uri_gender,
-                                  semanticsLabel: string.text.lbl_jenis_kelamin,
+                                  string.Icons.icon_gender,
+                                  semanticsLabel: string.Text.lbl_jenis_kelamin,
                                   placeholderBuilder: (context) =>
                                       Icon(Icons.error),
                                   width: widthIcon,
@@ -229,8 +229,8 @@ class _Profile extends State<Profile> {
                             children: <Widget>[
                               Container(
                                 child: SvgPicture.asset(
-                                  string.text.uri_brithday,
-                                  semanticsLabel: string.text.lbl_hari_lahir,
+                                  string.Icons.icon_brithday,
+                                  semanticsLabel: string.Text.lbl_hari_lahir,
                                   placeholderBuilder: (context) =>
                                       Icon(Icons.error),
                                   width: widthIcon,
@@ -258,8 +258,8 @@ class _Profile extends State<Profile> {
                             children: <Widget>[
                               Container(
                                 child: SvgPicture.asset(
-                                  string.text.uri_religion,
-                                  semanticsLabel: string.text.lbl_agama,
+                                  string.Icons.icon_religion,
+                                  semanticsLabel: string.Text.lbl_agama,
                                   placeholderBuilder: (context) =>
                                       Icon(Icons.error),
                                   width: widthIcon,
@@ -287,9 +287,9 @@ class _Profile extends State<Profile> {
                             children: <Widget>[
                               Container(
                                 child: SvgPicture.asset(
-                                  string.text.uri_status_merried,
+                                  string.Icons.icon_status_merried,
                                   semanticsLabel:
-                                      string.text.lbl_status_menikah,
+                                      string.Text.lbl_status_menikah,
                                   placeholderBuilder: (context) =>
                                       Icon(Icons.error),
                                   width: widthIcon,
@@ -317,8 +317,8 @@ class _Profile extends State<Profile> {
                             children: <Widget>[
                               Container(
                                 child: SvgPicture.asset(
-                                  string.text.uri_office,
-                                  semanticsLabel: string.text.lbl_kantor,
+                                  string.Icons.icon_office,
+                                  semanticsLabel: string.Text.lbl_kantor,
                                   placeholderBuilder: (context) =>
                                       Icon(Icons.error),
                                   width: widthIcon,
@@ -346,8 +346,8 @@ class _Profile extends State<Profile> {
                             children: <Widget>[
                               Container(
                                 child: SvgPicture.asset(
-                                  string.text.uri_email,
-                                  semanticsLabel: string.text.lbl_email,
+                                  string.Icons.icon_email,
+                                  semanticsLabel: string.Text.lbl_email,
                                   placeholderBuilder: (context) =>
                                       Icon(Icons.error),
                                   width: widthIcon,
@@ -375,7 +375,7 @@ class _Profile extends State<Profile> {
                             children: <Widget>[
                               Container(
                                 child: SvgPicture.asset(
-                                  string.text.uri_team,
+                                  string.Icons.icon_team,
                                   placeholderBuilder: (context) =>
                                       Icon(Icons.error),
                                   width: widthIcon,

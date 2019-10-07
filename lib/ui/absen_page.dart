@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:super_apps/style//theme.dart' as theme;
@@ -16,6 +18,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 
 DateTime now = DateTime.now();
+Timer _timer;
+int _start = 10;
 String formattedDate = DateFormat('kk:mm').format(now);
 String imei;
 String jenisAbsen = '';
@@ -90,6 +94,67 @@ class _Absen extends State<Absen> {
     }
   }
 
+  void startTimer() {
+    const oneSec = const Duration(seconds: 1);
+    _timer = new Timer.periodic(
+      oneSec,
+      (Timer timer) => setState(
+        () {
+          if (_start < 1) {
+            timer.cancel();
+          } else {
+            _start = _start - 1;
+          }
+        },
+      ),
+    );
+  }
+
+  void _showDialog({String type}) {
+//    type = 'complete';
+    String icon;
+    String msg;
+    if (type == 'masuk') {
+      icon = string.Icons.icon_absen_masuk;
+      msg = string.Message.msg_absen_masuk;
+    } else if (type == 'pulang') {
+      icon = string.Icons.icon_absen_pulang;
+      msg = string.Message.msg_absen_pulang;
+    } else if(type == 'complete') {
+      icon = string.Icons.icon_absen_complete;
+      msg = string.Message.msg_absen_complete;
+    } else {
+      icon = string.Icons.icon_locked_apps;
+      msg = string.Message.msg_lokasi_tidak_ada;
+    }
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        Future.delayed(Duration(seconds: 5), () {
+          Navigator.of(context).pop(true);
+        });
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(4.0))),
+          contentPadding: EdgeInsets.symmetric(vertical: 46.0, horizontal: 16.0),
+          content: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  height: 120.0,
+                  margin: EdgeInsets.only(bottom: 32.0),
+                  child: SvgPicture.asset(icon,
+                      placeholderBuilder: (context) => Icon(Icons.error),fit: BoxFit.fitHeight,),
+                ),
+                Text('${msg}', style: TextStyle(color: theme.Colors.backgroundHumanCapital, fontSize: 16.0, height: 1.5), textAlign: TextAlign.center,)
+              ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   void initState() {
     _timeString = _formatDateTime(DateTime.now());
@@ -103,6 +168,12 @@ class _Absen extends State<Absen> {
     });
     getNik();
     getImei();
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
   }
 
   authLocation() {
@@ -156,7 +227,7 @@ class _Absen extends State<Absen> {
   _postAbsen() async {
     onLocation = authLocation();
     print(onLocation);
-    if (onLocation == 'OK') {
+    if (onLocation == 'asto azza') {
       pr.show();
       final uri = api.Api.absen;
       final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
@@ -181,13 +252,17 @@ class _Absen extends State<Absen> {
       pr.hide();
       final dataResponse = json.decode(response.body);
       message = dataResponse['message'];
-      Toast.show(message, context,
-          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+//      Toast.show(message, context,
+//          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+      _showDialog(type: _jenisAbsen());
+      startTimer();
       getStatusMasuk();
     } else {
-      message = string.text.msg_lokasi_tidak_ada;
-      Toast.show(message, context,
-          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+      message = string.Message.msg_lokasi_tidak_ada;
+//      Toast.show(message, context,
+//          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+      _showDialog(type: 'error');
+      startTimer();
     }
   }
 
@@ -357,7 +432,7 @@ class _Absen extends State<Absen> {
                                       child: Container(
                                         width: widthDevice,
                                         child: Image.asset(
-                                            string.text.uri_absen_masuk),
+                                            string.Images.uri_absen_masuk),
                                       ),
                                     ),
                                   ),

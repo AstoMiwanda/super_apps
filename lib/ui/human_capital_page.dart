@@ -13,14 +13,14 @@ class HumanCapital extends StatefulWidget {
 class _HumanCapital extends State<HumanCapital> {
   double widthDevice;
   List<List<String>> listMenu = [
-    [string.text.page_absensi, string.text.uri_human_capital_absen],
+    [string.Text.page_absensi, string.Images.uri_human_capital_absen],
     [
-      string.text.page_report_absen,
-      string.text.uri_human_capital_report_absen
+      string.Text.page_report_absen,
+      string.Images.uri_human_capital_report_absen
     ],
     [
-      string.text.page_lihat_kantor,
-      string.text.uri_human_capital_lokasi_kantor
+      string.Text.page_lihat_kantor,
+      string.Images.uri_human_capital_lokasi_kantor
     ],
   ];
 
@@ -63,7 +63,7 @@ class _HumanCapital extends State<HumanCapital> {
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
-        title: Text(string.text.lbl_human_capital,
+        title: Text(string.Text.lbl_human_capital,
           style: TextStyle(
               color: Colors.white, fontWeight: FontWeight.w500),
         ),

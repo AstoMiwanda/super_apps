@@ -76,7 +76,7 @@ class _MainMenuState extends State<MainMenu> {
   mainMenuHeaderLogo() {
     return Container(
       height: 54.0,
-      child: Image.asset(string.text.uri_logo_ta_putih),
+      child: Image.asset(string.Images.uri_logo_ta_putih),
     );
   }
 
@@ -102,7 +102,7 @@ class _MainMenuState extends State<MainMenu> {
       lockedApps = Container(
         padding: EdgeInsets.all(16.0),
         alignment: Alignment(0,0),
-        child: SvgPicture.asset(string.text.uri_locked_apps,
+        child: SvgPicture.asset(string.Icons.icon_locked_apps,
             placeholderBuilder: (context) => Icon(Icons.error)),
       );
     } else {
