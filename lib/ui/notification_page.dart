@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
@@ -226,19 +227,28 @@ class dataNotification {
   String nik;
   String title;
   String message;
+  String date_created;
+  String date;
+  String time;
   String status_opened;
 
   dataNotification(
       {this.nik,
         this.title,
         this.message,
+        this.date_created,
+        this.date,
+        this.time,
         this.status_opened});
 
   factory dataNotification.fromJson(Map<String, dynamic> parsedJson) {
+    print(DateTime.parse(parsedJson['date_created'].toString()));
     return dataNotification(
         nik: parsedJson['nik'].toString(),
         title: parsedJson['title'].toString(),
         message: parsedJson['message'].toString(),
+        date_created: parsedJson['date_created'].toString(),
+        time: parsedJson['date_created'].toString(),
         status_opened: parsedJson['status_opened'].toString()
     );
   }
