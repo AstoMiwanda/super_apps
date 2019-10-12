@@ -49,7 +49,7 @@ class _Absen extends State<Absen> {
   }
 
   getImei() async {
-    var imeiId = await ImeiPlugin.getImei;
+    var imeiId = await ImeiPlugin.getImei();
     setState(() {
       imei = imeiId;
     });
@@ -95,7 +95,7 @@ class _Absen extends State<Absen> {
     _timeString = _formatDateTime(DateTime.now());
     Timer.periodic(Duration(minutes: 1), (Timer t) => _getTime());
     super.initState();
-    pr = new ProgressDialog(context, ProgressDialogType.Normal);
+    pr = new ProgressDialog(context,type: ProgressDialogType.Normal);
     location.onLocationChanged().listen((value) {
       setState(() {
         currentLocation = value;

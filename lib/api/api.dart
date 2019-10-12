@@ -2,8 +2,8 @@
 class Api{
   // host
 
-  //static var host_i = "10.204.200.8";
-  static var host_i = "203.130.242.238";
+  static var host_i = "10.204.200.8";
+  //static var host_i = "203.130.242.238";
   static var host = "http://${host_i}:";
 
   // port
@@ -26,6 +26,8 @@ class Api{
 
   // super apps
   static var menu =  host+p_super_apps+"/settings_super_apps/";
+  static var notification =  host+p_super_apps+"/count_notification/";
+
 
   // versi aplikasi
   static var versi = "1";

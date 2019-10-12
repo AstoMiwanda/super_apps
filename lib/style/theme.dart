@@ -34,6 +34,8 @@ class Colors {
   static const Color backgroundLogin = const Color(0xFF089fbd);
   static const Color bacgroundButton = const Color(0xFFf45e46);
   static const Color colorTextWhite = const Color(0xFFffffff);
+  static const Color colorTextGray = const Color(0xFF363636);
+  static const Color colorTextGray_60 = const Color(0x99363636);
   static const Color backgroundAbsen = const Color(0xFF0993b8);
   static const Color colorOnLocation = const Color(0xFF5dd72e);
   static const Color colorNotOnLocation = const Color(0xFFEF5350);
@@ -44,6 +46,12 @@ class Colors {
 
   static const opactiColor = const Colors(
   );
+
+  /* Color Notification */
+  static const Color backgroundRemainderNotification = const Color(0xFFEE6700);
+  static const Color backgroundApprovalNotification = const Color(0xFF31ADCE);
+  static const Color backgroundAbsenNotification = const Color(0xFF47CB85);
+  static const Color backgroundNotificationUnread = const Color(0x1A0993B8);
 
   static const linearGradient = const LinearGradient(
       colors: const [gradientAwal, gradientAkhir],
