@@ -15,8 +15,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.cyan,
       ),
-      //home: SplashScreenPage(),
-      home: NotificationPage(),
+      home: SplashScreenPage(),
+//      home: NotificationPage(),
     );
   }
 }

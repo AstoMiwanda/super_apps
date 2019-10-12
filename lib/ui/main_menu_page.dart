@@ -17,6 +17,8 @@ List imgList = [];
 String notif = '';
 BuildContext ctx;
 
+int countNotif = 0;
+
 class MainMenu extends StatefulWidget {
   MainMenu({Key key}) : super(key: key);
 
@@ -31,8 +33,6 @@ class _MainMenuState extends State<MainMenu> {
   void initState() {
     super.initState();
     getNik();
-
-
   }
 
 
@@ -42,18 +42,8 @@ class _MainMenuState extends State<MainMenu> {
     setState((){
       nik = (prefs.getString('username') ?? '');
       getDataMenu(context);
+      getCountNotif(context);
     });
-  }
-
-  Future<String> getDataMenu(BuildContext context) async {
-    var url_api = api.Api.menu;
-    var response = await http.get(Uri.encodeFull("${url_api}${nik}/${api.Api.versi}"),
-        headers: {"Accept": "application/json"});
-    var data = jsonDecode(response.body);
-    var data_profile = (data["data"] as List)
-        .map((data) => new dataProfile.fromJson(data))
-        .toList();
-    foreachHasil(data_profile,context);
   }
 
   double widthDevice;
@@ -94,6 +84,7 @@ class _MainMenuState extends State<MainMenu> {
             alignment: Alignment(1,-1),
             children: <Widget>[
               Icon(Icons.notifications_active, size: 28, color: Colors.white,),
+              countNotif != 0 ?
               Container(
                 width: 16.0,
                 height: 16.0,
@@ -102,8 +93,8 @@ class _MainMenuState extends State<MainMenu> {
                   shape: BoxShape.circle,
                   color: Colors.red,
                 ),
-                child: Text("8", style: TextStyle(fontSize: 10.0, color: Colors.white),),
-              )
+                child: Text(countNotif.toString(), style: TextStyle(fontSize: 10.0, color: Colors.white),),
+              ) : Container(),
             ],
           ),
         )
@@ -337,6 +328,27 @@ class _MainMenuState extends State<MainMenu> {
     );
   }
 
+  Future<String> getDataMenu(BuildContext context) async {
+    var url_api = api.Api.menu;
+    var response = await http.get(Uri.encodeFull("${url_api}${nik}/${api.Api.versi}"),
+        headers: {"Accept": "application/json"});
+    var data = jsonDecode(response.body);
+    var data_profile = (data["data"] as List)
+        .map((data) => new dataProfile.fromJson(data))
+        .toList();
+    foreachHasil(data_profile,context);
+  }
+
+  Future<String> getCountNotif(BuildContext context) async {
+    final uri = api.Api.notification + "$nik/0";
+    final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+    var response = await http.get(Uri.encodeFull("$uri"), headers: headers);
+    var data = jsonDecode(response.body);
+    setState(() {
+    countNotif = data["data"];
+    });
+  }
+
   void foreachHasil(List<dataProfile> data_profile,BuildContext ctx) {
     int is_notif= 0;
     int versi = 0;
@@ -346,7 +358,6 @@ class _MainMenuState extends State<MainMenu> {
         imgList = data_profile[ini].foto;
         is_notif = data_profile[ini].is_notif;
         versi = data_profile[ini].versi;
-        print(imgList);
       });
     }
 
