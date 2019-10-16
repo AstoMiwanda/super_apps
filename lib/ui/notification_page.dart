@@ -180,7 +180,7 @@ class _NotificationPage extends State<NotificationPage> {
       return nothingListNotification();
     } else {
       return dataListNotification(
-          title: title, message: message, date: date, time: time, index: index);
+          id: id, title: title, message: message, date: date, time: time, index: index);
     }
   }
 
