@@ -18,13 +18,15 @@ import 'package:toast/toast.dart';
 DateTime now = DateTime.now();
 String formattedDate = DateFormat('kk:mm').format(now);
 String imei;
-String jenisAbsen = '';
-String absenTitle = 'Absen Masuk';
-String message = '';
-String nik = '';
-String onLocation = 'NOK';
-bool showToast = false;
-Location location = Location();
+String jenisAbsen   = 'masuk';
+String absenTitle   = 'Belum Absen';
+String jam_masuk    = '-';
+String jam_pulang   = '-';
+String message      = '';
+String nik          = '';
+String onLocation   = 'NOK';
+bool showToast      = false;
+Location location   = Location();
 Map<String, double> currentLocation;
 ProgressDialog pr;
 
@@ -44,7 +46,7 @@ class _Absen extends State<Absen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       nik = (prefs.getString('username') ?? '');
-      getStatusMasuk();
+      getStatusAbsen();
     });
   }
 
@@ -111,6 +113,7 @@ class _Absen extends State<Absen> {
     return loc;
   }
 
+  /*
   Future<String> getStatusMasuk() async {
     var url_api = api.Api.status_absen;
     var response = await http.get(Uri.encodeFull(url_api + nik),
@@ -153,6 +156,8 @@ class _Absen extends State<Absen> {
     return jenisAbsen;
   }
 
+   */
+
   _postAbsen() async {
     onLocation = authLocation();
     print(onLocation);
@@ -174,7 +179,7 @@ class _Absen extends State<Absen> {
             "&longitude=" +
             currentLocation["longitude"].toString() +
             "&jenis_absen=" +
-            _jenisAbsen(),
+            jenisAbsen,
         encoding: encoding,
       );
 
@@ -183,7 +188,7 @@ class _Absen extends State<Absen> {
       message = dataResponse['message'];
       Toast.show(message, context,
           duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
-      getStatusMasuk();
+      getStatusAbsen();
     } else {
       message = string.text.msg_lokasi_tidak_ada;
       Toast.show(message, context,
@@ -283,5 +288,56 @@ class _Absen extends State<Absen> {
         ],
       ),
     );
+  }
+
+  void getStatusAbsen() async {
+    final uri = api.Api.notification + "$nik/1";
+    final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+    Response response = await get(uri, headers: headers);
+    var data = jsonDecode(response.body);
+    var data_profile = (data["data"] as List)
+        .map((data) => new dataStatusAbsen.fromJson(data))
+        .toList();
+    foreachStatusAbsen(data_profile);
+  }
+
+  void foreachStatusAbsen(List<dataStatusAbsen> data_notification) {
+    for (var ini = 0; ini < data_notification.length; ini++) {
+      //TODO setstate
+      setState(() {
+        // provide data astro
+        absenTitle = data_notification[ini].status_absen;
+        jam_masuk = data_notification[ini].jam_masuk;
+        jam_pulang = data_notification[ini].jam_pulang;
+
+        if (absenTitle == 'belum masuk') {
+            jenisAbsen = 'masuk';
+        } else if (absenTitle == 'sudah masuk') {
+            jenisAbsen = 'pulang';
+        } else if (absenTitle == 'sudah pulang') {
+            jenisAbsen = 'complete';
+        } else {
+            jenisAbsen = 'null';
+        }
+      });
+    }
+  }
+}
+
+class dataStatusAbsen {
+  String status_absen;
+  String jam_masuk;
+  String jam_pulang;
+
+  dataStatusAbsen(
+      {this.status_absen,
+        this.jam_masuk,
+        this.jam_pulang});
+
+  factory dataStatusAbsen.fromJson(Map<String, dynamic> parsedJson) {
+    return dataStatusAbsen(
+        status_absen: parsedJson['status_absen'].toString(),
+        jam_masuk: parsedJson['jam_masuk'].toString(),
+        jam_pulang: parsedJson['jam_pulang'].toString());
   }
 }

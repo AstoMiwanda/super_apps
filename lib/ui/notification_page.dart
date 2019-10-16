@@ -58,85 +58,100 @@ class _NotificationPage extends State<NotificationPage> {
   }
 
   dataListNotification(
-      {String title, String message, String date, String time}) {
-    return Column(
-      children: <Widget>[
-        Container(
-          padding: EdgeInsets.all(16.0),
-          color: bgNotifStatus,
-          child: Row(
-            children: <Widget>[
-              Container(
-                width: 60.0,
-                height: 60.0,
-                padding: EdgeInsets.all(12.0),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: bgIcon,
+      {String id,
+      String title,
+      String message,
+      String date,
+      String time,
+      int index}) {
+    return GestureDetector(
+      onTap: () {
+        readDataNotif(id);
+        setState(() {
+          list_notification[index].status_opened = '1';
+        });
+      },
+      child: Column(
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.all(16.0),
+            color: bgNotifStatus,
+            child: Row(
+              children: <Widget>[
+                Container(
+                  width: 60.0,
+                  height: 60.0,
+                  padding: EdgeInsets.all(12.0),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: bgIcon,
+                  ),
+                  child: SvgPicture.asset(iconNotif,
+                      placeholderBuilder: (context) => Icon(Icons.error)),
                 ),
-                child: SvgPicture.asset(iconNotif,
-                    placeholderBuilder: (context) => Icon(Icons.error)),
-              ),
-              Container(
-                margin: EdgeInsets.only(left: 16.0),
-                width: widthDevice - (108.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.only(bottom: 14.0),
-                      child: Column(
+                Container(
+                  margin: EdgeInsets.only(left: 16.0),
+                  width: widthDevice - (108.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        margin: EdgeInsets.only(bottom: 14.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              title,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: theme.Colors.colorTextGray,
+                              ),
+                            ),
+                            Text(
+                              message,
+                              style: TextStyle(
+                                  color: theme.Colors.colorTextGray,
+                                  fontSize: 12.0,
+                                  height: 1.4),
+                            )
+                          ],
+                        ),
+                      ),
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            title,
+                            date + '\n' + time,
                             style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: theme.Colors.colorTextGray,
-                            ),
+                                fontSize: 11.0,
+                                color: theme.Colors.colorTextGray_60),
                           ),
-                          Text(
-                            message,
-                            style: TextStyle(
-                                color: theme.Colors.colorTextGray,
-                                fontSize: 12.0,
-                                height: 1.4),
-                          )
                         ],
-                      ),
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          date + '\n' + time,
-                          style: TextStyle(
-                              fontSize: 11.0,
-                              color: theme.Colors.colorTextGray_60),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              )
-            ],
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
-        ),
-        Container(
-          height: 2.0,
-          color: bgNotifLine,
-        )
-      ],
+          Container(
+            height: 2.0,
+            color: bgNotifLine,
+          )
+        ],
+      ),
     );
   }
 
   listNotification(
-      {String read,
-      String type,
+      {String id,
       String title,
       String message,
+      String type,
       String date,
-      String time}) {
+      String time,
+      String read,
+      int index}) {
     if (read == '1') {
       bgNotifStatus = Colors.white;
       bgNotifLine = theme.Colors.backgroundNotificationUnread;
@@ -165,7 +180,7 @@ class _NotificationPage extends State<NotificationPage> {
       return nothingListNotification();
     } else {
       return dataListNotification(
-          title: title, message: message, date: date, time: time);
+          title: title, message: message, date: date, time: time, index: index);
     }
   }
 
@@ -204,12 +219,14 @@ class _NotificationPage extends State<NotificationPage> {
                 return listNotification();
               } else {
                 return listNotification(
-                    read: list_notification[index].status_opened,
-                    type: list_notification[index].type,
+                    id: list_notification[index].id,
                     title: list_notification[index].title,
                     message: list_notification[index].message,
+                    type: list_notification[index].type,
                     date: list_notification[index].date,
-                    time: list_notification[index].time);
+                    time: list_notification[index].time,
+                    read: list_notification[index].status_opened,
+                    index: index);
               }
             }),
       ),
@@ -235,6 +252,21 @@ class _NotificationPage extends State<NotificationPage> {
     foreachHasil(data_profile);
   }
 
+  void readDataNotif(id) async {
+    final uri = api.Api.read_notification;
+    final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+    final encoding = Encoding.getByName('utf-8');
+    Response response = await post(
+      uri,
+      headers: headers,
+      body: "id=" + id,
+      encoding: encoding,
+    );
+    var data = jsonDecode(response.body);
+    var data_notif = data["data"];
+    print(data_notif);
+  }
+
   void foreachHasil(List<dataNotification> data_notification) {
     setState(() {
       list_notification = data_notification;
@@ -243,6 +275,7 @@ class _NotificationPage extends State<NotificationPage> {
 }
 
 class dataNotification {
+  String id;
   String nik;
   String title;
   String message;
@@ -252,7 +285,8 @@ class dataNotification {
   String status_opened;
 
   dataNotification(
-      {this.nik,
+      {this.id,
+      this.nik,
       this.title,
       this.message,
       this.type,
@@ -262,6 +296,7 @@ class dataNotification {
 
   factory dataNotification.fromJson(Map<String, dynamic> parsedJson) {
     return dataNotification(
+        id: parsedJson['no'].toString(),
         nik: parsedJson['nik'].toString(),
         title: parsedJson['title'].toString(),
         message: parsedJson['message'].toString(),
