@@ -72,7 +72,7 @@ class _Profile extends State<Profile> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    pr = new ProgressDialog(context,ProgressDialogType.Normal);
+    pr = new ProgressDialog(context,type: ProgressDialogType.Normal);
     getNik();
   }
 
