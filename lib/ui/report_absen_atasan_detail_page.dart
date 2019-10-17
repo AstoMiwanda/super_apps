@@ -11,17 +11,18 @@ import 'package:super_apps/style/string.dart' as string;
 import 'package:super_tooltip/super_tooltip.dart';
 import 'package:toast/toast.dart';
 
-int lengthReportAbsen = 0;
-List<String> tanggalAbsen = [];
-List<String> jamMasukAbsen = [];
-List<String> jamPulangAbsen = [];
-List<String> ketAbsen = [];
+int lengthReportAbsen     = 0;
+List<String> tgl_masuk    = [];
+List<String> jam_masuk    = [];
+List<String> jam_pulang   = [];
+List<String> ket          = [];
+String nik                = '-';
+String name               = '-';
+String masuk              = '-';
+bool tooltips             = false;
 
 ProgressDialog pr;
-
-String nik = '';
 SuperTooltip tooltip;
-bool tooltips = false;
 BuildContext ctx;
 
 class ReportAbsenAtasanDetail extends StatefulWidget {
@@ -45,7 +46,7 @@ class _ReportAbsenAtasanDetailState extends State<ReportAbsenAtasanDetail> {
     setState(() {
       nik = (prefs.getString('username') ?? '');
     });
-    makeGetRequest();
+    reportAbsen();
   }
 
   @override
@@ -464,7 +465,7 @@ class _ReportAbsenAtasanDetailState extends State<ReportAbsenAtasanDetail> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          '21190042',
+                          nik,
                           style: TextStyle(
                               color: theme
                                   .Colors.colorTextBlackReportAbsenAtasan,
@@ -472,7 +473,7 @@ class _ReportAbsenAtasanDetailState extends State<ReportAbsenAtasanDetail> {
                               fontSize: 12.4),
                         ),
                         Text(
-                          'ASTO ARIANTO MIWANDA',
+                          name,
                           style: TextStyle(
                               color: theme
                                   .Colors.colorTextBlackReportAbsenAtasan,
@@ -491,12 +492,12 @@ class _ReportAbsenAtasanDetailState extends State<ReportAbsenAtasanDetail> {
                         Container(
                           margin: EdgeInsets.only(left: 16.0),
                           padding: EdgeInsets.symmetric(
-                              vertical: 5.0, horizontal: 15.0),
+                              vertical: 5.0, horizontal: 10.0),
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
-                              color: Colors.blue,
+                              color: masuk == 'Hadir' ? Colors.blue : Colors.yellow[600],
                               borderRadius: BorderRadius.circular(26.0)),
-                          child: Text('Hadir', style: TextStyle(color: Colors.white, fontSize: 13.0),),
+                          child: Text(masuk, style: TextStyle(color: Colors.white, fontSize: 13.0),),
                         ),
                       ],
                     ),
@@ -573,16 +574,16 @@ class _ReportAbsenAtasanDetailState extends State<ReportAbsenAtasanDetail> {
                                       child: Text((item + 1).toString()),
                                     ),
                                     Text(
-                                      tanggalAbsen[item],
+                                      tgl_masuk[item],
                                       style: TextStyle(fontSize: 12.0),
                                     ),
                                     Container(
                                       padding: EdgeInsets.only(left: 10),
-                                      child: Text(jamMasukAbsen[item]),
+                                      child: Text(jam_masuk[item]),
                                     ),
                                     Container(
                                       padding: EdgeInsets.only(left: 18),
-                                      child: Text(jamPulangAbsen[item]),
+                                      child: Text(jam_pulang[item]),
                                     ),
                                     Center(
                                       child: Container(
@@ -590,7 +591,7 @@ class _ReportAbsenAtasanDetailState extends State<ReportAbsenAtasanDetail> {
                                           child: GestureDetector(
                                             child: ClipOval(
                                               child: ketWidgetAbsen(
-                                                  ketAbsen[item]),
+                                                  ket[item]),
                                             ),
                                           )),
                                     )
@@ -608,63 +609,90 @@ class _ReportAbsenAtasanDetailState extends State<ReportAbsenAtasanDetail> {
     //);
   }
 
-  makeGetRequest() async {
-    var data_absensi;
+  reportAbsen() async {
+    var data_report_absen;
+    var data_absensi_bawahan;
     pr.show();
-    final uri = api.Api.report_absen + "$nik/";
-    print(uri);
-    final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
-    Response response = await get(uri, headers: headers);
-
-    var data = jsonDecode(response.body);
-    data_absensi = (data["data"] as List)
+    final uri           = api.Api.report_absen_bawahan + "$nik";
+    final headers       = {'Content-Type': 'application/x-www-form-urlencoded'};
+    Response response   = await get(uri, headers: headers);
+    var data            = jsonDecode(response.body);
+    data_report_absen   = (data["data"] as List)
         .map((data) => new dataReport.fromJson(data))
         .toList();
 
-    foreachHasil(data_absensi);
+
+    final uri_absensi           = api.Api.list_absen_bawahan + "$nik/0";
+    final headers_absensi       = {'Content-Type': 'application/x-www-form-urlencoded'};
+    Response response_absensi   = await get(uri_absensi, headers: headers_absensi);
+    var data_absensi            = jsonDecode(response_absensi.body);
+    data_absensi_bawahan   = (data_absensi["data"] as List)
+        .map((data) => new dataReport.fromJson(data))
+        .toList();
+
+    foreachHasil(data_absensi_bawahan, 'data_absensi');
+    foreachHasil(data_report_absen, 'data_report');
+    pr.hide();
   }
 
-  void foreachHasil(List<dataReport> data_absensi) {
+  void foreachHasil(List<dataReport> data_report_absen, String dataHasil) {
     pr.hide();
-    setState(() {
-      lengthReportAbsen = data_absensi.length;
-    });
-
-    if (data_absensi.length < 1) {
-      Toast.show("Data anda Kosong", ctx,
-          duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
-    } else {
-      tanggalAbsen.clear();
-      jamMasukAbsen.clear();
-      jamPulangAbsen.clear();
-      ketAbsen.clear();
-    }
-
-    for (var ini = 0; ini < data_absensi.length; ini++) {
-      //TODO setstate
+    if (dataHasil == 'data_report') {
       setState(() {
-        tanggalAbsen.add(data_absensi[ini].tanggal);
-        jamMasukAbsen.add(data_absensi[ini].jam_masuk);
-        jamPulangAbsen.add(data_absensi[ini].jam_pulang);
-        ketAbsen.add(data_absensi[ini].keterangan);
+        lengthReportAbsen = data_report_absen.length;
       });
+
+      if (data_report_absen.length < 1) {
+        Toast.show("Data anda Kosong", ctx,
+            duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+      } else {
+        tgl_masuk.clear();
+        jam_masuk.clear();
+        jam_pulang.clear();
+        ket.clear();
+      }
+
+      for (var ini = 0; ini < data_report_absen.length; ini++) {
+        //TODO setstate
+        setState(() {
+          tgl_masuk.add(data_report_absen[ini].tgl_masuk);
+          jam_masuk.add(data_report_absen[ini].jam_masuk);
+          jam_pulang.add(data_report_absen[ini].jam_pulang);
+          ket.add(data_report_absen[ini].ket);
+        });
+      }
+    } else if (dataHasil == 'data_absensi') {
+      for (var ini = 0; ini < data_report_absen.length; ini++) {
+        //TODO setstate
+        setState(() {
+          nik   = data_report_absen[ini].nik;
+          name  = data_report_absen[ini].name;
+          data_report_absen[ini].masuk == 'true' ? masuk = 'Hadir' : masuk = 'Belum Hadir';
+        });
+      }
     }
   }
 }
 
 class dataReport {
-  String tanggal;
+  String nik;
+  String name;
+  String tgl_masuk;
   String jam_masuk;
   String jam_pulang;
-  String keterangan;
+  String ket;
+  String masuk;
 
-  dataReport({this.tanggal, this.jam_masuk, this.jam_pulang, this.keterangan});
+  dataReport({this.nik, this.name, this.tgl_masuk, this.jam_masuk, this.jam_pulang, this.ket, this.masuk});
 
   factory dataReport.fromJson(Map<String, dynamic> parsedJson) {
     return dataReport(
-        tanggal: parsedJson['present_date'].toString(),
-        jam_masuk: parsedJson['in_dtm'].toString(),
-        jam_pulang: parsedJson['out_dtm'].toString(),
-        keterangan: parsedJson['keterangan'].toString());
+        nik: parsedJson['nik'].toString(),
+        name: parsedJson['name'].toString(),
+        tgl_masuk: parsedJson['tgl_masuk'].toString(),
+        jam_masuk: parsedJson['jam_masuk'].toString(),
+        jam_pulang: parsedJson['jam_pulang'].toString(),
+        ket: parsedJson['ket'].toString(),
+        masuk: parsedJson['masuk'].toString());
   }
 }
