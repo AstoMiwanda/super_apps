@@ -23,6 +23,7 @@ class Api{
   static var absen =  host+p_absen+"/absensi/";
   static var lihat_kantor = host+p_absen+"/lokasi_kantor/";
   static var report_absen = host+p_absen+"/report_absen/";
+  static var report_absen_bawahan = host+p_absen+"/report_absen_bawahan/";
   static var list_absen_bawahan = host+p_absen+"/list_absen_bawahan/";
 
   // super apps
