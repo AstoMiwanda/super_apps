@@ -62,7 +62,7 @@ class _ReportPageState extends State<ReportPage> {
     _dropDownMenuItems = getDropDownMenuItems();
     _selectedKeterangan = _dropDownMenuItems[0].value;
     super.initState();
-    pr = new ProgressDialog(context,ProgressDialogType.Normal);
+    pr = new ProgressDialog(context,type: ProgressDialogType.Normal);
     final DateTime now = DateTime.now();
     final String formattedDateTime = _formatDateTime(now);
     date1 = formattedDateTime;
