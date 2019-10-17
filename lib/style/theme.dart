@@ -50,4 +50,6 @@ class Colors {
       begin: Alignment.topCenter,
       stops: const [0.0, 0.1],
       end: Alignment.bottomCenter);
+
+  static const colorTextBlackReportAbsenAtasan = const Color(0xFF514F4F);
 }
