@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:super_apps/ui/report_absen_atasan_detail_page.dart';
 import 'package:super_apps/style/theme.dart' as theme;
 import 'package:super_apps/style/string.dart' as string;
 import 'package:super_apps/api/api.dart' as api;
@@ -32,7 +33,13 @@ class _ReportAbsenAtasanState extends State<ReportAbsenAtasan> {
       return Container();
     } else {
       return GestureDetector(
-        onTap: () {},
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ReportAbsenAtasanDetail(nik_bawahan: nik,),
+              ));
+        },
         child: Card(
           margin: EdgeInsets.fromLTRB(4.0, 8.0, 4.0, 0.0),
           child: Container(
@@ -162,6 +169,7 @@ class _ReportAbsenAtasanState extends State<ReportAbsenAtasan> {
     pr.show();
     var nik = '810108';
     final uri = api.Api.list_absen_bawahan + "$nik/1";
+    print(uri);
     final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
     Response response = await get(uri, headers: headers);
     var data = jsonDecode(response.body);

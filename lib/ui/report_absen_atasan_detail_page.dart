@@ -8,31 +8,40 @@ import 'package:sticky_headers/sticky_headers/widget.dart';
 import 'package:super_apps/api/api.dart' as api;
 import 'package:super_apps/style//theme.dart' as theme;
 import 'package:super_apps/style/string.dart' as string;
+import 'package:super_apps/ui/absen_page.dart';
 import 'package:super_tooltip/super_tooltip.dart';
 import 'package:toast/toast.dart';
 
-int lengthReportAbsen     = 0;
-List<String> tgl_masuk    = [];
-List<String> jam_masuk    = [];
-List<String> jam_pulang   = [];
-List<String> ket          = [];
-String nik                = '-';
-String name               = '-';
-String masuk              = '-';
-bool tooltips             = false;
+int lengthReportAbsen = 0;
+List<String> tgl_masuk = [];
+List<String> jam_masuk = [];
+List<String> jam_pulang = [];
+List<String> ket = [];
+String nik = '-';
+String name = '-';
+String masuk = '-';
+bool tooltips = false;
 
 ProgressDialog pr;
 SuperTooltip tooltip;
 BuildContext ctx;
 
 class ReportAbsenAtasanDetail extends StatefulWidget {
+  final String nik_bawahan;
+
+  ReportAbsenAtasanDetail({Key key, @required this.nik_bawahan})
+      : super(key: key);
+
   @override
   _ReportAbsenAtasanDetailState createState() =>
-      _ReportAbsenAtasanDetailState();
+      _ReportAbsenAtasanDetailState(nik_bawahan: nik_bawahan);
 }
 
 class _ReportAbsenAtasanDetailState extends State<ReportAbsenAtasanDetail> {
   GlobalKey _containerKey = GlobalKey();
+  final String nik_bawahan;
+
+  _ReportAbsenAtasanDetailState({Key key, @required this.nik_bawahan});
 
   @override
   void initState() {
@@ -425,187 +434,197 @@ class _ReportAbsenAtasanDetailState extends State<ReportAbsenAtasanDetail> {
         ));
 
     return new WillPopScope(
-        child: Scaffold(
-      appBar: AppBar(
-        backgroundColor: theme.Colors.backgroundHumanCapital,
-        title: Text(string.text.page_lihat_kantor,
-            style: TextStyle(color: Colors.white)),
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: Colors.white,
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: theme.Colors.backgroundHumanCapital,
+          title: Text(string.text.page_lihat_kantor,
+              style: TextStyle(color: Colors.white)),
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+            ),
+            onPressed: () => Navigator.pop(context, false),
           ),
-          onPressed: () => Navigator.pop(context, false),
+          actions: <Widget>[],
         ),
-        actions: <Widget>[],
-      ),
-      body: new SafeArea(
-        child: new Column(children: [
-          Card(
-            margin: EdgeInsets.fromLTRB(4.0, 8.0, 4.0, 0.0),
-            child: Container(
-              padding:
-              EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-              child: Row(
-                children: <Widget>[
-                  Container(
-                    height: 46.0,
-                    width: 46.0,
-                    margin: EdgeInsets.only(right: 16.0),
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.blue,
-                        image: new DecorationImage(
-                            fit: BoxFit.cover,
-                            image: new NetworkImage(
-                                "https://images.unsplash.com/photo-1456327102063-fb5054efe647?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"))),
-                  ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          nik,
-                          style: TextStyle(
-                              color: theme
-                                  .Colors.colorTextBlackReportAbsenAtasan,
-                              fontWeight: FontWeight.normal,
-                              fontSize: 12.4),
-                        ),
-                        Text(
-                          name,
-                          style: TextStyle(
-                              color: theme
-                                  .Colors.colorTextBlackReportAbsenAtasan,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 13.8),
-                        )
-                      ],
+        body: new SafeArea(
+          child: new Column(children: [
+            Card(
+              margin: EdgeInsets.fromLTRB(4.0, 8.0, 4.0, 0.0),
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                      height: 46.0,
+                      width: 46.0,
+                      margin: EdgeInsets.only(right: 16.0),
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.blue,
+                          image: new DecorationImage(
+                              fit: BoxFit.cover,
+                              image: new NetworkImage(
+                                  "https://images.unsplash.com/photo-1456327102063-fb5054efe647?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"))),
                     ),
-                  ),
-                  Container(
-                    height: 56.0,
-                    width: 110.0,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.only(left: 16.0),
-                          padding: EdgeInsets.symmetric(
-                              vertical: 5.0, horizontal: 10.0),
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                              color: masuk == 'Hadir' ? Colors.blue : Colors.yellow[600],
-                              borderRadius: BorderRadius.circular(26.0)),
-                          child: Text(masuk, style: TextStyle(color: Colors.white, fontSize: 13.0),),
-                        ),
-                      ],
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            nik,
+                            style: TextStyle(
+                                color: theme
+                                    .Colors.colorTextBlackReportAbsenAtasan,
+                                fontWeight: FontWeight.normal,
+                                fontSize: 12.4),
+                          ),
+                          Text(
+                            name,
+                            style: TextStyle(
+                                color: theme
+                                    .Colors.colorTextBlackReportAbsenAtasan,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 13.8),
+                          )
+                        ],
+                      ),
                     ),
-                  )
-                ],
+                    Container(
+                      height: 56.0,
+                      width: 110.0,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          Container(
+                            margin: EdgeInsets.only(left: 16.0),
+                            padding: EdgeInsets.symmetric(
+                                vertical: 5.0, horizontal: 10.0),
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                color: masuk == 'Hadir'
+                                    ? Colors.blue
+                                    : Colors.yellow[600],
+                                borderRadius: BorderRadius.circular(26.0)),
+                            child: Text(
+                              masuk,
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 13.0),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
-          ),
-          Expanded(
-            child: Container(
-              width: width,
-              margin: EdgeInsets.only(top: 8.0),
-              color: Colors.white,
-              child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: Container(
-                  child: StickyHeader(
-                      header: new Container(
-                        height: 50.0,
-                        padding: EdgeInsets.symmetric(horizontal: 16.0),
-                        margin: EdgeInsets.only(bottom: 16.0),
-                        color: Colors.lightBlueAccent,
-                        alignment: Alignment.centerLeft,
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Expanded(
-                                  child: Container(
-                                      child: new Text(string.text.lbl_nomor,
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 15)))),
-                              Expanded(
-                                  child: new Text(string.text.lbl_tanggal,
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 15))),
-                              Expanded(
-                                  child: new Text(string.text.lbl_jam_masuk,
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 15))),
-                              Expanded(
-                                child: Container(
-                                    padding: EdgeInsets.only(left: 10),
-                                    child: new Text(string.text.lbl_jam_pulang,
+            Expanded(
+              child: Container(
+                width: width,
+                margin: EdgeInsets.only(top: 8.0),
+                color: Colors.white,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: Container(
+                    child: StickyHeader(
+                        header: new Container(
+                          height: 50.0,
+                          padding: EdgeInsets.symmetric(horizontal: 16.0),
+                          margin: EdgeInsets.only(bottom: 16.0),
+                          color: Colors.lightBlueAccent,
+                          alignment: Alignment.centerLeft,
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Expanded(
+                                    child: Container(
+                                        child: new Text(string.text.lbl_nomor,
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 15)))),
+                                Expanded(
+                                    child: new Text(string.text.lbl_tanggal,
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 15))),
+                                Expanded(
+                                    child: new Text(string.text.lbl_jam_masuk,
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 15))),
-                              ),
-                              Expanded(
-                                child: Container(
-                                    child: GestureDetector(
-                                  onTap: onTap,
+                                Expanded(
                                   child: Container(
-                                    key: _containerKey,
-                                    padding: EdgeInsets.only(left: 30),
-                                    child: new Text(string.text.lbl_ket,
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 15)),
-                                  ),
-                                )),
-                              ),
-                            ]),
-                      ),
-                      content: Table(
-                        children: List<int>.generate(
-                                lengthReportAbsen, (index) => index)
-                            .map((item) => TableRow(
-                                  children: [
-                                    Container(
-                                      padding: EdgeInsets.only(left: 16),
-                                      child: Text((item + 1).toString()),
-                                    ),
-                                    Text(
-                                      tgl_masuk[item],
-                                      style: TextStyle(fontSize: 12.0),
-                                    ),
-                                    Container(
                                       padding: EdgeInsets.only(left: 10),
-                                      child: Text(jam_masuk[item]),
+                                      child: new Text(
+                                          string.text.lbl_jam_pulang,
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 15))),
+                                ),
+                                Expanded(
+                                  child: Container(
+                                      child: GestureDetector(
+                                    onTap: onTap,
+                                    child: Container(
+                                      key: _containerKey,
+                                      padding: EdgeInsets.only(left: 30),
+                                      child: new Text(string.text.lbl_ket,
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 15)),
                                     ),
-                                    Container(
-                                      padding: EdgeInsets.only(left: 18),
-                                      child: Text(jam_pulang[item]),
-                                    ),
-                                    Center(
-                                      child: Container(
-                                          padding: EdgeInsets.only(bottom: 5),
-                                          child: GestureDetector(
-                                            child: ClipOval(
-                                              child: ketWidgetAbsen(
-                                                  ket[item]),
-                                            ),
-                                          )),
-                                    )
-                                  ],
-                                ))
-                            .toList(),
-                      )),
+                                  )),
+                                ),
+                              ]),
+                        ),
+                        content: Table(
+                          children: List<int>.generate(
+                                  lengthReportAbsen, (index) => index)
+                              .map((item) => TableRow(
+                                    children: [
+                                      Container(
+                                        padding: EdgeInsets.only(left: 16),
+                                        child: Text((item + 1).toString()),
+                                      ),
+                                      Text(
+                                        tgl_masuk[item],
+                                        style: TextStyle(fontSize: 12.0),
+                                      ),
+                                      Container(
+                                        padding: EdgeInsets.only(left: 10),
+                                        child: Text(jam_masuk[item]),
+                                      ),
+                                      Container(
+                                        padding: EdgeInsets.only(left: 18),
+                                        child: Text(jam_pulang[item]),
+                                      ),
+                                      Center(
+                                        child: Container(
+                                            padding: EdgeInsets.only(bottom: 5),
+                                            child: GestureDetector(
+                                              child: ClipOval(
+                                                child:
+                                                    ketWidgetAbsen(ket[item]),
+                                              ),
+                                            )),
+                                      )
+                                    ],
+                                  ))
+                              .toList(),
+                        )),
+                  ),
                 ),
               ),
             ),
-          ),
-        ]),
+          ]),
+        ),
       ),
-    ));
+    );
     //);
   }
 
@@ -613,20 +632,27 @@ class _ReportAbsenAtasanDetailState extends State<ReportAbsenAtasanDetail> {
     var data_report_absen;
     var data_absensi_bawahan;
     pr.show();
-    final uri           = api.Api.report_absen_bawahan + "$nik";
-    final headers       = {'Content-Type': 'application/x-www-form-urlencoded'};
-    Response response   = await get(uri, headers: headers);
-    var data            = jsonDecode(response.body);
-    data_report_absen   = (data["data"] as List)
-        .map((data) => new dataReport.fromJson(data))
-        .toList();
+    final uri = api.Api.report_absen_bawahan + "$nik_bawahan";
+    final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+    Response response = await get(uri, headers: headers);
+    var data = jsonDecode(response.body);
+    if (data["data"] != null) {
+      data_report_absen = (data["data"] as List)
+          .map((data) => new dataReport.fromJson(data))
+          .toList();
+    } else {
+      Toast.show("Data anda Kosong", ctx,
+          duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+    }
 
-
-    final uri_absensi           = api.Api.list_absen_bawahan + "$nik/0";
-    final headers_absensi       = {'Content-Type': 'application/x-www-form-urlencoded'};
-    Response response_absensi   = await get(uri_absensi, headers: headers_absensi);
-    var data_absensi            = jsonDecode(response_absensi.body);
-    data_absensi_bawahan   = (data_absensi["data"] as List)
+    final uri_absensi = api.Api.list_absen_bawahan + "$nik_bawahan/0";
+    final headers_absensi = {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    };
+    Response response_absensi =
+        await get(uri_absensi, headers: headers_absensi);
+    var data_absensi = jsonDecode(response_absensi.body);
+    data_absensi_bawahan = (data_absensi["data"] as List)
         .map((data) => new dataReport.fromJson(data))
         .toList();
 
@@ -665,9 +691,11 @@ class _ReportAbsenAtasanDetailState extends State<ReportAbsenAtasanDetail> {
       for (var ini = 0; ini < data_report_absen.length; ini++) {
         //TODO setstate
         setState(() {
-          nik   = data_report_absen[ini].nik;
-          name  = data_report_absen[ini].name;
-          data_report_absen[ini].masuk == 'true' ? masuk = 'Hadir' : masuk = 'Belum Hadir';
+          nik = data_report_absen[ini].nik;
+          name = data_report_absen[ini].name;
+          data_report_absen[ini].masuk == 'true'
+              ? masuk = 'Hadir'
+              : masuk = 'Belum Hadir';
         });
       }
     }
@@ -683,7 +711,14 @@ class dataReport {
   String ket;
   String masuk;
 
-  dataReport({this.nik, this.name, this.tgl_masuk, this.jam_masuk, this.jam_pulang, this.ket, this.masuk});
+  dataReport(
+      {this.nik,
+      this.name,
+      this.tgl_masuk,
+      this.jam_masuk,
+      this.jam_pulang,
+      this.ket,
+      this.masuk});
 
   factory dataReport.fromJson(Map<String, dynamic> parsedJson) {
     return dataReport(
