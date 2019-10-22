@@ -69,6 +69,7 @@ class text {
 //  URI Icon Main Menu Page
   static var uri_locked_apps = "assets/icon/main_menu_page/coming_soon.svg";
   static var uri_more_apps = "assets/icon/main_menu_page/more.svg";
+  static var uri_hide_modalBottom = "assets/icon/main_menu_page/hide.svg";
 
   static var uri_ic_lokasi_kantor   = "assets/images/lokasi_kantor.png";
   static var uri_ic_naker   = "assets/images/naker.png";

@@ -8,7 +8,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:super_apps/api/api.dart' as api;
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:super_apps/ui/human_capital_page.dart';
+//import 'package:super_apps/ui/human_capital_page.dart';
+import 'package:super_apps/ui/report_absen_page.dart';
+import 'package:super_apps/ui/lihat_kantor_page.dart';
 import 'package:toast/toast.dart';
 
 String nik = '';
@@ -78,6 +80,21 @@ class _MainMenuState extends State<MainMenu> {
     ['assets/icon/main_menu_page/tools_abu.svg', 'Tools', '10', 'locked'],
     ['assets/icon/main_menu_page/video_abu.svg', 'Video', '10', 'locked'],
     ['assets/icon/main_menu_page/LINK_abu.svg', 'Link', '6', 'locked'],
+  ];
+
+  List<List<String>> listMenuHumanCapital = [
+    [
+      'assets/icon/main_menu_page/human_capital.svg',
+      'Report Absen',
+      '3',
+      'unlocked'
+    ],
+    [
+      'assets/icon/main_menu_page/human_capital.svg',
+      'Lokasi Kantor',
+      '2',
+      'unlocked'
+    ]
   ];
 
   mainMenuHeaderLogo() {
@@ -227,6 +244,151 @@ class _MainMenuState extends State<MainMenu> {
     );
   }
 
+  _moreMainMenuItem(context) {
+    showModalBottomSheet(
+        context: context,
+        shape: RoundedRectangleBorder(
+          borderRadius: new BorderRadius.only(
+              topLeft: const Radius.circular(10.0),
+              topRight: const Radius.circular(10.0))
+        ),
+        builder: (BuildContext bc) {
+          return CustomScrollView(
+            primary: false,
+            slivers: <Widget>[
+              SliverList(
+                delegate: SliverChildListDelegate(
+                  [
+                    SizedBox(
+                      height: 32.0,
+                    )
+                  ],
+                ),
+              ),
+              SliverPadding(
+                padding: EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 16.0),
+                sliver: SliverGrid(
+                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                    crossAxisSpacing: 16.0,
+                    mainAxisSpacing: 8.0,
+                    maxCrossAxisExtent: 90.0,
+                    childAspectRatio: .7,
+                  ),
+                  delegate: SliverChildBuilderDelegate(
+                        (BuildContext context, int index) {
+                      return Container(
+                        alignment: Alignment.center,
+                        color: theme.Colors.transparent,
+                        child: InkWell(
+                          splashColor: Colors.blue.withAlpha(30),
+                          onTap: () {
+                            Navigator.pop(context);
+                            switch (listMenu[index][1]) {
+                              case 'Human Capital':
+                                return _subMainMenuItem(context);
+                                break;
+                              default:
+                                return null;
+                                break;
+                            }
+                          },
+                          child: mainMenuItem(
+                              icon: listMenu[index][0],
+                              title: listMenu[index][1],
+                              numApp: int.parse(listMenu[index][2]),
+                              status: listMenu[index][3]),
+                        ),
+                      );
+                    },
+                    childCount: listMenu == null ? 0 : listMenu.length,
+                  ),
+                ),
+              )
+            ],
+          );
+        } );
+  }
+
+  _subMainMenuItem(context) {
+    showModalBottomSheet(
+        context: context,
+        shape: RoundedRectangleBorder(
+            borderRadius: new BorderRadius.only(
+                topLeft: const Radius.circular(10.0),
+                topRight: const Radius.circular(10.0))
+        ),
+        builder: (BuildContext bc) {
+          return CustomScrollView(
+            primary: false,
+            slivers: <Widget>[
+              SliverList(
+                delegate: SliverChildListDelegate(
+                  [
+                    SizedBox(
+                      height: 16.0,
+                    ),
+                    Container(margin: EdgeInsets.all(16.0),
+                      child: Text(
+                        'Absen',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          color: theme.Colors.colorTextBlackMainMenu,
+                          fontSize: 16.0
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              SliverPadding(
+                padding: EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 16.0),
+                sliver: SliverGrid(
+                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                    crossAxisSpacing: 16.0,
+                    mainAxisSpacing: 8.0,
+                    maxCrossAxisExtent: 90.0,
+                    childAspectRatio: .7,
+                  ),
+                  delegate: SliverChildBuilderDelegate(
+                        (BuildContext context, int index) {
+                      return Container(
+                        alignment: Alignment.center,
+                        color: theme.Colors.transparent,
+                        child: InkWell(
+                          splashColor: Colors.blue.withAlpha(30),
+                          onTap: () {
+                            Navigator.pop(context);
+                            if (listMenuHumanCapital[index][1] == 'Report Absen') {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ReportPage()),
+                              );
+                            } else {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => lihat_kantor_page()),
+                              );
+                            }
+                          },
+                          child: mainMenuItem(
+                              icon: listMenuHumanCapital[index][0],
+                              title: listMenuHumanCapital[index][1],
+                              numApp: int.parse(listMenuHumanCapital[index][2]),
+                              status: listMenuHumanCapital[index][3]),
+                        ),
+                      );
+                    },
+                    childCount: listMenuHumanCapital == null ? 0 : listMenuHumanCapital.length,
+                  ),
+                ),
+              )
+            ],
+          );
+        } );
+  }
+
   @override
   Widget build(BuildContext context) {
     widthDevice = MediaQuery.of(context).size.width;
@@ -301,18 +463,17 @@ class _MainMenuState extends State<MainMenu> {
                     alignment: Alignment.center,
                     color: theme.Colors.transparent,
                     child: InkWell(
-                      splashColor: Colors.blue.withAlpha(30),
+                      splashColor: theme.Colors.transparent,
+                      highlightColor: theme.Colors.transparent,
                       onTap: () {
                         switch (listMenu[index][1]) {
                           case 'Human Capital':
-                            return Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => HumanCapital()),
-                            );
+                            return _subMainMenuItem(context);
                             break;
                           default:
-                            return null;
+                            if (index == 7) {
+                               return _moreMainMenuItem( context );
+                            }
                             break;
                         }
                       },

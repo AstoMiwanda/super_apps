@@ -43,6 +43,8 @@ class Colors {
   static const Color iconMainMenu = const Color(0xFF0894b5);
   static const Color colorCircle = const Color(0x805dd72e);
 
+  static const Color colorTextBlackMainMenu = const Color(0xFF363636);
+
   static const opactiColor = const Colors(
   );
 
