@@ -91,7 +91,7 @@ packages:
       name: flushbar
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.9.0"
+    version: "1.9.1"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -103,7 +103,7 @@ packages:
       name: flutter_datetime_picker
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.6"
+    version: "1.2.8"
   flutter_launcher_icons:
     dependency: "direct main"
     description:
@@ -131,7 +131,7 @@ packages:
       name: flutter_svg
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.14.2"
+    version: "0.14.3"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -143,7 +143,7 @@ packages:
       name: google_maps_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.21+7"
+    version: "0.5.21+8"
   http:
     dependency: "direct main"
     description:
@@ -164,7 +164,7 @@ packages:
       name: image
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.4"
+    version: "2.1.5"
   imei_plugin:
     dependency: "direct main"
     description:
@@ -262,7 +262,7 @@ packages:
       name: shared_preferences
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.3+4"
+    version: "0.5.4"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -375,4 +375,4 @@ packages:
     version: "2.2.0"
 sdks:
   dart: ">=2.4.0 <3.0.0"
-  flutter: ">=1.6.0 <2.0.0"
+  flutter: ">=1.6.7 <2.0.0"
