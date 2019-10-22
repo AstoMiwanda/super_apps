@@ -47,6 +47,7 @@ dependencies:
   steps: ^0.0.1
   timeline_list: ^0.0.3
   timeline: ^0.0.1
+  flutter_local_notifications: ^0.8.4
 
 
 dev_dependencies:
@@ -82,6 +83,9 @@ flutter:
 
     #Icon Absen Page
     - assets/icon/absen_page/
+
+    #Icon Notification Page
+    - assets/icon/notification_page/
   # To add assets to your application, add an assets section, like this:
   #
   #

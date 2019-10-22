@@ -9,12 +9,15 @@ import 'package:super_apps/api/api.dart' as api;
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:super_apps/ui/human_capital_page.dart';
+import 'package:super_apps/ui/notification_page.dart';
 import 'package:toast/toast.dart';
 
 String nik = '';
 List imgList = [];
 String notif = '';
 BuildContext ctx;
+
+int countNotif = 0;
 
 class MainMenu extends StatefulWidget {
   MainMenu({Key key}) : super(key: key);
@@ -30,8 +33,6 @@ class _MainMenuState extends State<MainMenu> {
   void initState() {
     super.initState();
     getNik();
-
-
   }
 
 
@@ -41,18 +42,8 @@ class _MainMenuState extends State<MainMenu> {
     setState((){
       nik = (prefs.getString('username') ?? '');
       getDataMenu(context);
+      getCountNotif(context);
     });
-  }
-
-  Future<String> getDataMenu(BuildContext context) async {
-    var url_api = api.Api.menu;
-    var response = await http.get(Uri.encodeFull("${url_api}${nik}/${api.Api.versi}"),
-        headers: {"Accept": "application/json"});
-    var data = jsonDecode(response.body);
-    var data_profile = (data["data"] as List)
-        .map((data) => new dataProfile.fromJson(data))
-        .toList();
-    foreachHasil(data_profile,context);
   }
 
   double widthDevice;
@@ -74,20 +65,53 @@ class _MainMenuState extends State<MainMenu> {
   ];
 
   mainMenuHeaderLogo() {
-    return Container(
-      height: 54.0,
-      child: Image.asset(string.Images.uri_logo_ta_putih),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Container(
+          height: 46.0,
+          child: Image.asset(string.Icons.uri_logo_ta_putih),
+        ),
+        GestureDetector(
+          onTap: () {
+            return Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => NotificationPage()),
+            );
+          },
+          child: Stack(
+            alignment: Alignment(1,-1),
+            children: <Widget>[
+              Icon(Icons.notifications_active, size: 28, color: Colors.white,),
+              countNotif != 0 ?
+              Container(
+                width: 16.0,
+                height: 16.0,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.red,
+                ),
+                child: Text(countNotif.toString(), style: TextStyle(fontSize: 10.0, color: Colors.white),),
+              ) : Container(),
+            ],
+          ),
+        )
+      ],
     );
   }
 
   mainMenuHeader() {
-    return Container(
-      padding: EdgeInsets.only(top: 36.0, bottom: 16.0),
-      color: theme.Colors.transparent,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[mainMenuHeaderLogo()],
+    return SafeArea(
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 16.0),
+        color: theme.Colors.transparent,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[mainMenuHeaderLogo()],
+        ),
       ),
     );
   }
@@ -304,6 +328,27 @@ class _MainMenuState extends State<MainMenu> {
     );
   }
 
+  Future<String> getDataMenu(BuildContext context) async {
+    var url_api = api.Api.menu;
+    var response = await http.get(Uri.encodeFull("${url_api}${nik}/${api.Api.versi}"),
+        headers: {"Accept": "application/json"});
+    var data = jsonDecode(response.body);
+    var data_profile = (data["data"] as List)
+        .map((data) => new dataProfile.fromJson(data))
+        .toList();
+    foreachHasil(data_profile,context);
+  }
+
+  Future<String> getCountNotif(BuildContext context) async {
+    final uri = api.Api.notification + "$nik/0";
+    final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+    var response = await http.get(Uri.encodeFull("$uri"), headers: headers);
+    var data = jsonDecode(response.body);
+    setState(() {
+    countNotif = data["data"];
+    });
+  }
+
   void foreachHasil(List<dataProfile> data_profile,BuildContext ctx) {
     int is_notif= 0;
     int versi = 0;
@@ -313,7 +358,6 @@ class _MainMenuState extends State<MainMenu> {
         imgList = data_profile[ini].foto;
         is_notif = data_profile[ini].is_notif;
         versi = data_profile[ini].versi;
-        print(imgList);
       });
     }
 

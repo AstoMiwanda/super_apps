@@ -9,6 +9,9 @@ class Text {
   static var lbl_aplikasi = "Super Apps";
 
 // TODO: Label Absen Page
+  static var page_notification = "Notification";
+
+  /* Report Absen */
   static var lbl_strip = "-";
   static var lbl_keterangan = "Keterangan";
   static var lbl_filter = "Filter";
@@ -30,6 +33,7 @@ class Text {
   static var lbl_tulis_disini = "Tulis Disini";
 
 // TODO: Label Profile Page
+  /* Profile */
   static var lbl_jenis_kelamin = "Jenis Kelamin";
   static var lbl_hari_lahir = "Hari Lahir";
   static var lbl_agama = "Agama";
@@ -41,12 +45,17 @@ class Text {
   static var lbl_zoom_in = "Zoom IN";
 
 // TODO: Label Login Page
+  /* Login */
   static var lbl_login = "Login";
   static var lbl_username = "Username";
   static var lbl_password = "Password";
 
 // TODO: Label Main Menu Page
+  /* Main Menu */
   static var lbl_human_capital = "Human Capital";
+
+  /* Notification */
+  static var lbl_tidak_ada_notification = "Semua notifikasi telah dibaca.";
 
   static var hint_text = "";
   static var hint_password = "";
@@ -108,4 +117,35 @@ class Icons {
   static var icon_absen_masuk = "assets/icon/absen_page/absen_masuk.svg";
   static var icon_absen_pulang = "assets/icon/absen_page/absen_pulang.svg";
   static var icon_absen_complete = "assets/icon/absen_page/absen_complete.svg";
+//  URI Images
+  static var uri_logo_ta_putih         = "assets/images/logo_ta_putih_nobwh.png";
+  static var uri_absen_masuk           = "assets/images/absen_masuk_fingerprint.gif";
+  static var uri_human_capital_absen   = "assets/images/human_capital_absen.png";
+  static var uri_human_capital_report_absen   = "assets/images/human_capital_report_absen.gif";
+  static var uri_human_capital_lokasi_kantor   = "assets/images/human_capital_lokasi_kantor.gif";
+  static var uri_login_header   = "assets/images/login_header.png";
+  static var uri_bg_profile   = "assets/images/bg_profile.png";
+  static var uri_bg_detail_profile   = "assets/images/bg_detail_profile.png";
+
+//  URI Icon Profile Page
+  static var uri_gender   = "assets/icon/profile_page/gender.svg";
+  static var uri_brithday   = "assets/icon/profile_page/birthday.svg";
+  static var uri_religion   = "assets/icon/profile_page/religion.svg";
+  static var uri_status_merried   = "assets/icon/profile_page/profile.svg";
+  static var uri_office   = "assets/icon/profile_page/office.svg";
+  static var uri_email   = "assets/icon/profile_page/email.svg";
+  static var uri_team   = "assets/icon/profile_page/team.svg";
+  static var uri_logout   = "assets/icon/profile_page/logout.svg";
+
+//  URI Icon Main Menu Page
+  static var uri_locked_apps = "assets/icon/main_menu_page/coming_soon.svg";
+
+  static var uri_ic_lokasi_kantor   = "assets/images/lokasi_kantor.png";
+  static var uri_ic_naker   = "assets/images/naker.png";
+
+  /* Uri Icon Notification */
+  static var uri_empty_notification = "assets/icon/notification_page/notification_off.svg";
+  static var uri_remainder_notification = "assets/icon/notification_page/megaphone.svg";
+  static var uri_absen_notification = "assets/icon/notification_page/absenput.svg";
+  static var uri_approval_notification = "assets/icon/notification_page/todolist.svg";
 }
