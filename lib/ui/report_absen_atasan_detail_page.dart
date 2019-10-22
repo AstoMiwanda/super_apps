@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -437,7 +438,7 @@ class _ReportAbsenAtasanDetailState extends State<ReportAbsenAtasanDetail> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: theme.Colors.backgroundHumanCapital,
-          title: Text(string.Text.page_lihat_kantor,
+          title: Text(string.Text.page_report_absen_atasan_detail,
               style: TextStyle(color: Colors.white)),
           leading: IconButton(
             icon: Icon(
@@ -463,10 +464,12 @@ class _ReportAbsenAtasanDetailState extends State<ReportAbsenAtasanDetail> {
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: Colors.blue,
-                          image: new DecorationImage(
-                              fit: BoxFit.cover,
-                              image: new NetworkImage(
-                                  "https://images.unsplash.com/photo-1456327102063-fb5054efe647?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"))),
+                      ),
+                      child: SvgPicture.asset(
+                        string.Icons.icon_profile,
+                        placeholderBuilder: (context) => Icon(Icons.error),
+                        fit: BoxFit.fitHeight,
+                      ),
                     ),
                     Expanded(
                       child: Column(

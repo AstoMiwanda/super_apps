@@ -40,9 +40,12 @@ class Colors {
   static const Color colorOnLocation = const Color(0xFF5dd72e);
   static const Color colorNotOnLocation = const Color(0xFFEF5350);
   static const Color backgroundHumanCapital = const Color(0xFF0993b8);
+  static const Color backgroundIconMainMenu = const Color(0x1A27A3C5);
 
   static const Color iconMainMenu = const Color(0xFF0894b5);
   static const Color colorCircle = const Color(0x805dd72e);
+
+  static const Color colorTextBlackMainMenu = const Color(0xFF363636);
 
   static const opactiColor = const Colors(
   );

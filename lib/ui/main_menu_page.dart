@@ -8,8 +8,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:super_apps/api/api.dart' as api;
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:super_apps/ui/human_capital_page.dart';
+import 'package:super_apps/ui/report_absen_atasan_page.dart';
 import 'package:super_apps/ui/notification_page.dart';
+import 'package:super_apps/ui/report_absen_page.dart';
+import 'package:super_apps/ui/lihat_kantor_page.dart';
 import 'package:toast/toast.dart';
 
 String nik = '';
@@ -35,11 +37,9 @@ class _MainMenuState extends State<MainMenu> {
     getNik();
   }
 
-
-
   getNik() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState((){
+    setState(() {
       nik = (prefs.getString('username') ?? '');
       getDataMenu(context);
       getCountNotif(context);
@@ -48,7 +48,12 @@ class _MainMenuState extends State<MainMenu> {
 
   double widthDevice;
   List<List<String>> listMenu = [
-    ['assets/icon/main_menu_page/human_capital.svg', 'Human Capital', '3', 'unlocked'],
+    [
+      'assets/icon/main_menu_page/human_capital.svg',
+      'Human Capital',
+      '3',
+      'unlocked'
+    ],
     [
       'assets/icon/main_menu_page/document_management_abu.svg',
       'Document Management',
@@ -56,7 +61,12 @@ class _MainMenuState extends State<MainMenu> {
       'locked'
     ],
     ['assets/icon/main_menu_page/project_abu.svg', 'Project', '1', 'locked'],
-    ['assets/icon/main_menu_page/supply_chain_abu.svg', 'Supply Chain', '5', 'locked'],
+    [
+      'assets/icon/main_menu_page/supply_chain_abu.svg',
+      'Supply Chain',
+      '5',
+      'locked'
+    ],
     ['assets/icon/main_menu_page/finance_abu.svg', 'FINANCE', '2', 'locked'],
     ['assets/icon/main_menu_page/oss_abu.svg', 'OSS', '8', 'locked'],
     ['assets/icon/main_menu_page/tools_abu.svg', 'Tools', '10', 'locked'],
@@ -64,49 +74,72 @@ class _MainMenuState extends State<MainMenu> {
     ['assets/icon/main_menu_page/LINK_abu.svg', 'Link', '6', 'locked'],
   ];
 
+  List<List<String>> listMenuHumanCapital = [
+    [
+      'assets/icon/main_menu_page/human_capital.svg',
+      'Report Absen',
+      '3',
+      'unlocked'
+    ],
+    [
+      'assets/icon/main_menu_page/human_capital.svg',
+      'Report Absen Atasan',
+      '3',
+      'unlocked'
+    ],
+    [
+      'assets/icon/main_menu_page/human_capital.svg',
+      'Lokasi Kantor',
+      '2',
+      'unlocked'
+    ]
+  ];
+
   mainMenuHeaderLogo() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        Container(
-          height: 46.0,
-          child: Image.asset(string.Icons.uri_logo_ta_putih),
-        ),
-        GestureDetector(
-          onTap: () {
-            return Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => NotificationPage()),
-            );
-          },
-          child: Stack(
-            alignment: Alignment(1,-1),
-            children: <Widget>[
-              Icon(Icons.notifications_active, size: 28, color: Colors.white,),
-              countNotif != 0 ?
-              Container(
-                width: 16.0,
-                height: 16.0,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.red,
-                ),
-                child: Text(countNotif.toString(), style: TextStyle(fontSize: 10.0, color: Colors.white),),
-              ) : Container(),
-            ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Container(
+            height: 46.0,
+            child: Image.asset(string.Icons.uri_logo_ta_putih),
           ),
-        )
-      ],
+          GestureDetector(
+            onTap: () {
+              return Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => NotificationPage()),
+              );
+            },
+            child: Stack(
+              alignment: Alignment(1,-1),
+              children: <Widget>[
+                Icon(Icons.notifications_active, size: 28, color: Colors.white,),
+                countNotif != 0 ?
+                Container(
+                  width: 16.0,
+                  height: 16.0,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.red,
+                  ),
+                  child: Text(countNotif.toString(), style: TextStyle(fontSize: 10.0, color: Colors.white),),
+                ) : Container(),
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 
   mainMenuHeader() {
-    return SafeArea(
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16.0),
-        color: theme.Colors.transparent,
+    return Container(
+      color: theme.Colors.backgroundAbsen,
+      child: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -117,21 +150,27 @@ class _MainMenuState extends State<MainMenu> {
   }
 
   mainMenuItem({String icon, String title, String status, int numApp}) {
+    Widget itemTitle;
     Widget itemSubTitle;
     Widget lockedApps = Container();
     Color cardColor, iconColor;
-    if(status == 'locked'){
-      cardColor = Colors.grey[350];
-      iconColor = Colors.grey[600];
-      lockedApps = Container(
-        padding: EdgeInsets.all(16.0),
-        alignment: Alignment(0,0),
-        child: SvgPicture.asset(string.Icons.icon_locked_apps,
-            placeholderBuilder: (context) => Icon(Icons.error)),
+    cardColor = theme.Colors.backgroundIconMainMenu;
+    iconColor = theme.Colors.iconMainMenu;
+
+    if (status == 'locked') {
+      lockedApps = Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Container(
+            height: 64.0,
+            padding: EdgeInsets.all(12.0),
+            child: SvgPicture.asset(string.Icons.uri_locked_apps,
+                placeholderBuilder: (context) => Icon(Icons.error)),
+          ),
+        ],
       );
-    } else {
-      cardColor = Colors.white;
-      iconColor = theme.Colors.iconMainMenu;
     }
 
     if (numApp == 1) {
@@ -157,50 +196,243 @@ class _MainMenuState extends State<MainMenu> {
       );
     }
 
-    return Container(
-          decoration: BoxDecoration(
-              color: cardColor,
-              borderRadius: BorderRadius.circular(8.0)
-          ),
-          child: Stack(
-            children: <Widget>[
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    height: 46.0,
-                    child: SvgPicture.asset(icon,
-                        placeholderBuilder: (context) => Icon(Icons.error)),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: Text(
-                      title,
-                      style: TextStyle(
-                        fontSize: 12.0,
-                        fontWeight: FontWeight.w500,
-                        color: iconColor,
-                      ),
-                    ),
-                  ),
-                  itemSubTitle,
-                ],
-              ),
-              lockedApps,
-            ],
-          )
+    itemTitle = Container(
+      padding: const EdgeInsets.only(top: 8.0),
+      child: Text(
+        title,
+        style: TextStyle(
+          fontSize: 12.0,
+          fontWeight: FontWeight.w400,
+          color: iconColor,
+        ),
+        textAlign: TextAlign.center,
+      ),
     );
+
+    return Column(
+      children: <Widget>[
+        Container(
+            decoration: BoxDecoration(color: cardColor, shape: BoxShape.circle),
+            child: Stack(
+              children: <Widget>[
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      height: 64.0,
+                      padding: EdgeInsets.all(16.0),
+                      child: SvgPicture.asset(icon,
+                          placeholderBuilder: (context) => Icon(Icons.error)),
+                    ),
+                  ],
+                ),
+                lockedApps,
+              ],
+            )),
+        itemTitle
+      ],
+    );
+  }
+
+  mainMenuMore() {
+    return Column(
+      children: <Widget>[
+        Container(
+            decoration: BoxDecoration(color: theme.Colors.backgroundIconMainMenu, shape: BoxShape.circle),
+            child: Stack(
+              children: <Widget>[
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      height: 64.0,
+                      padding: EdgeInsets.all(16.0),
+                      child: SvgPicture.asset(string.Icons.uri_more_apps,
+                          placeholderBuilder: (context) => Icon(Icons.error)),
+                    ),
+                  ],
+                ),
+              ],
+            )),
+        Container(
+          padding: const EdgeInsets.only(top: 8.0),
+          child: Text(
+            'More',
+            style: TextStyle(
+              fontSize: 12.0,
+              fontWeight: FontWeight.w400,
+              color: theme.Colors.iconMainMenu,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        )
+      ],
+    );
+  }
+
+  _moreMainMenuItem(context) {
+    showModalBottomSheet(
+        context: context,
+        shape: RoundedRectangleBorder(
+          borderRadius: new BorderRadius.only(
+              topLeft: const Radius.circular(10.0),
+              topRight: const Radius.circular(10.0))
+        ),
+        builder: (BuildContext bc) {
+          return CustomScrollView(
+            primary: false,
+            slivers: <Widget>[
+              SliverList(
+                delegate: SliverChildListDelegate(
+                  [
+                    SizedBox(
+                      height: 32.0,
+                    )
+                  ],
+                ),
+              ),
+              SliverPadding(
+                padding: EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 16.0),
+                sliver: SliverGrid(
+                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                    crossAxisSpacing: 16.0,
+                    mainAxisSpacing: 8.0,
+                    maxCrossAxisExtent: 90.0,
+                    childAspectRatio: .7,
+                  ),
+                  delegate: SliverChildBuilderDelegate(
+                        (BuildContext context, int index) {
+                      return Container(
+                        alignment: Alignment.center,
+                        color: theme.Colors.transparent,
+                        child: InkWell(
+                          splashColor: Colors.blue.withAlpha(30),
+                          onTap: () {
+                            Navigator.pop(context);
+                            switch (listMenu[index][1]) {
+                              case 'Human Capital':
+                                return _subMainMenuItem(context);
+                                break;
+                              default:
+                                return null;
+                                break;
+                            }
+                          },
+                          child: mainMenuItem(
+                              icon: listMenu[index][0],
+                              title: listMenu[index][1],
+                              numApp: int.parse(listMenu[index][2]),
+                              status: listMenu[index][3]),
+                        ),
+                      );
+                    },
+                    childCount: listMenu == null ? 0 : listMenu.length,
+                  ),
+                ),
+              )
+            ],
+          );
+        } );
+  }
+
+  _subMainMenuItem(context) {
+    showModalBottomSheet(
+        context: context,
+        shape: RoundedRectangleBorder(
+            borderRadius: new BorderRadius.only(
+                topLeft: const Radius.circular(10.0),
+                topRight: const Radius.circular(10.0))
+        ),
+        builder: (BuildContext bc) {
+          return CustomScrollView(
+            primary: false,
+            slivers: <Widget>[
+              SliverList(
+                delegate: SliverChildListDelegate(
+                  [
+                    SizedBox(
+                      height: 16.0,
+                    ),
+                    Container(margin: EdgeInsets.all(16.0),
+                      child: Text(
+                        'Absen',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          color: theme.Colors.colorTextBlackMainMenu,
+                          fontSize: 16.0
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              SliverPadding(
+                padding: EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 16.0),
+                sliver: SliverGrid(
+                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                    crossAxisSpacing: 16.0,
+                    mainAxisSpacing: 8.0,
+                    maxCrossAxisExtent: 90.0,
+                    childAspectRatio: .7,
+                  ),
+                  delegate: SliverChildBuilderDelegate(
+                        (BuildContext context, int index) {
+                      return Container(
+                        alignment: Alignment.center,
+                        color: theme.Colors.transparent,
+                        child: InkWell(
+                          splashColor: Colors.blue.withAlpha(30),
+                          onTap: () {
+                            Navigator.pop(context);
+                            if (listMenuHumanCapital[index][1] == 'Report Absen') {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ReportPage()),
+                              );
+                            } else if (listMenuHumanCapital[index][1] == 'Report Absen Atasan') {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ReportAbsenAtasan()),
+                              );
+                            } else {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => lihat_kantor_page()),
+                              );
+                            }
+                          },
+                          child: mainMenuItem(
+                              icon: listMenuHumanCapital[index][0],
+                              title: listMenuHumanCapital[index][1],
+                              numApp: int.parse(listMenuHumanCapital[index][2]),
+                              status: listMenuHumanCapital[index][3]),
+                        ),
+                      );
+                    },
+                    childCount: listMenuHumanCapital == null ? 0 : listMenuHumanCapital.length,
+                  ),
+                ),
+              )
+            ],
+          );
+        } );
   }
 
   @override
   Widget build(BuildContext context) {
     widthDevice = MediaQuery.of(context).size.width;
-     ctx = context;
+    ctx = context;
 
     Widget mainMenuSlideShow = Container(
-      height: widthDevice * .4,
+      width: widthDevice,
+      height: widthDevice * .5,
       child: Carousel(
         images: imgList.map((imgUrl) {
           return Builder(
@@ -241,7 +473,6 @@ class _MainMenuState extends State<MainMenu> {
     );
 
     return Scaffold(
-      backgroundColor: theme.Colors.backgroundAbsen,
       body: CustomScrollView(
         primary: false,
         slivers: <Widget>[
@@ -256,47 +487,41 @@ class _MainMenuState extends State<MainMenu> {
           SliverPadding(
             padding: EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 16.0),
             sliver: SliverGrid(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisSpacing: 4.0,
-                mainAxisSpacing: 4.0,
-                crossAxisCount: 2,
-                childAspectRatio: 1.6,
+              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                crossAxisSpacing: 16.0,
+                mainAxisSpacing: 8.0,
+                maxCrossAxisExtent: 90.0,
+                childAspectRatio: .7,
               ),
               delegate: SliverChildBuilderDelegate(
                 (BuildContext context, int index) {
                   return Container(
                     alignment: Alignment.center,
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      child: InkWell(
-                        splashColor: Colors.blue.withAlpha(30),
-                        onTap: () {
-                          switch (listMenu[index][1]) {
-                            case 'Human Capital':
-                              return Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => HumanCapital()),
-                              );
-                              break;
-                            default:
-                              return null ;
-                              break;
-                          }
-                        },
-                        child: mainMenuItem(
+                    color: theme.Colors.transparent,
+                    child: InkWell(
+                      splashColor: theme.Colors.transparent,
+                      highlightColor: theme.Colors.transparent,
+                      onTap: () {
+                        switch (listMenu[index][1]) {
+                          case 'Human Capital':
+                            return _subMainMenuItem(context);
+                            break;
+                          default:
+                            if (index == 7) {
+                               return _moreMainMenuItem( context );
+                            }
+                            break;
+                        }
+                      },
+                      child: index < 7 ? mainMenuItem(
                           icon: listMenu[index][0],
                           title: listMenu[index][1],
                           numApp: int.parse(listMenu[index][2]),
-                          status: listMenu[index][3]
-                        ),
-                      ),
+                          status: listMenu[index][3]) : mainMenuMore(),
                     ),
                   );
                 },
-                childCount: listMenu == null ? 0 : listMenu.length,
+                childCount: listMenu == null ? 0 : listMenu.length > 7 ? 8 : listMenu.length,
               ),
             ),
           )
@@ -305,7 +530,7 @@ class _MainMenuState extends State<MainMenu> {
     );
   }
 
-  void _showDialog(BuildContext context,String str){
+  void _showDialog(BuildContext context, String str) {
     // flutter defined function
     showDialog(
       context: context,
@@ -361,12 +586,11 @@ class _MainMenuState extends State<MainMenu> {
       });
     }
 
-
-    if(versi > int.parse(api.Api.versi)){
-      _showDialog(ctx,"Perbarui Aplikasi Anda melalui portal / playstore");
+    if (versi > int.parse(api.Api.versi)) {
+      _showDialog(ctx, "Perbarui Aplikasi Anda melalui portal / playstore");
     }
-    if(is_notif == 1){
-      _showDialog(ctx,notif);
+    if (is_notif == 1) {
+      _showDialog(ctx, notif);
     }
   }
 }
@@ -377,8 +601,7 @@ class dataProfile {
   int is_notif;
   int versi;
 
-
-  dataProfile({this.foto, this.notif,this.is_notif,this.versi});
+  dataProfile({this.foto, this.notif, this.is_notif, this.versi});
 
   factory dataProfile.fromJson(Map<String, dynamic> parsedJson) {
     return dataProfile(

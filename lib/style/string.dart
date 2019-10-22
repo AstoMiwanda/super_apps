@@ -1,4 +1,6 @@
 class Text {
+  static var lbl_aplikasi = "Super Apps";
+
 // TODO: Page Title
   static var page_absensi = "Absen";
   static var page_lihat_kantor = "Lihat Kantor";
@@ -6,11 +8,11 @@ class Text {
   static var page_main_menu = "Main Menu";
   static var page_report_absen = "Report Absen";
   static var page_beranda = "Beranda";
-  static var lbl_aplikasi = "Super Apps";
+  static var page_notification = "Notifiaction";
+  static var page_report_absen_atasan_detail = "Report Absen Atasan Detail";
+  static var page_report_absen_atasan = "Report Absen Atasan";
 
 // TODO: Label Absen Page
-  static var page_notification = "Notification";
-
   /* Report Absen */
   static var lbl_strip = "-";
   static var lbl_keterangan = "Keterangan";
@@ -117,6 +119,7 @@ class Icons {
   static var icon_absen_masuk = "assets/icon/absen_page/absen_masuk.svg";
   static var icon_absen_pulang = "assets/icon/absen_page/absen_pulang.svg";
   static var icon_absen_complete = "assets/icon/absen_page/absen_complete.svg";
+  static var icon_profile = "assets/icon/absen_page/profile_cuti.svg";
 //  URI Images
   static var uri_logo_ta_putih         = "assets/images/logo_ta_putih_nobwh.png";
   static var uri_absen_masuk           = "assets/images/absen_masuk_fingerprint.gif";
@@ -139,6 +142,8 @@ class Icons {
 
 //  URI Icon Main Menu Page
   static var uri_locked_apps = "assets/icon/main_menu_page/coming_soon.svg";
+  static var uri_more_apps = "assets/icon/main_menu_page/more.svg";
+  static var uri_hide_modalBottom = "assets/icon/main_menu_page/hide.svg";
 
   static var uri_ic_lokasi_kantor   = "assets/images/lokasi_kantor.png";
   static var uri_ic_naker   = "assets/images/naker.png";
