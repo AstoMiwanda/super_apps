@@ -31,6 +31,7 @@ class Api{
   static var menu               = host+p_super_apps+"/settings_super_apps/";
   static var notification       = host+p_super_apps+"/count_notification/";
   static var read_notification  = host+p_super_apps+"/read_notification/";
+  static var level_user         = host+p_super_apps+"/get_level/";
 
 
   // versi aplikasi

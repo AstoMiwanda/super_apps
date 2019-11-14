@@ -49,8 +49,8 @@ class _Absen extends State<Absen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       nik = (prefs.getString('username') ?? '');
-      getStatusMasuk();
     });
+    getStatusMasuk();
   }
 
   getImei() async {
@@ -111,7 +111,7 @@ class _Absen extends State<Absen> {
     );
   }
 
-  void _showDialog({String type}) {
+  void _showDialog({String type, String message = ''}) {
 //    type = 'complete';
     String icon;
     String msg;
@@ -126,7 +126,7 @@ class _Absen extends State<Absen> {
       msg = string.Message.msg_absen_complete;
     } else {
       icon = string.Icons.icon_locked_apps;
-      msg = string.Message.msg_lokasi_tidak_ada;
+      msg = message;
     }
     showDialog(
       context: context,
@@ -179,6 +179,8 @@ class _Absen extends State<Absen> {
         currentLocation = value;
       });
     });
+    if (nik != '')
+      getStatusMasuk();
     getNik();
     getImei();
   }
@@ -201,6 +203,12 @@ class _Absen extends State<Absen> {
     if (onLocation == 'OK') {
       pr.show();
       final uri = api.Api.absen;
+      print(uri);
+      print("nik: "+nik);
+      print("imei: "+imei);
+      print("latitude: "+currentLocation["latitude"].toString());
+      print("longitude: "+currentLocation["longitude"].toString());
+      print("jenis_absen: "+jenisAbsen);
       final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
       final encoding = Encoding.getByName('utf-8');
 
@@ -219,20 +227,25 @@ class _Absen extends State<Absen> {
             jenisAbsen,
         encoding: encoding,
       );
-
+      print(json.decode(response.body));
       pr.hide();
       final dataResponse = json.decode(response.body);
       message = dataResponse['message'];
 //      Toast.show(message, context,
 //          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
-      _showDialog(type: jenisAbsen);
+      if (dataResponse['status']) {
+        _showDialog(type: jenisAbsen);
+        getStatusMasuk();
+      } else {
+        _showDialog(type: 'error', message: message);
+        startTimer();
+      }
       startTimer();
-      getStatusMasuk();
     } else {
       message = string.Message.msg_lokasi_tidak_ada;
 //      Toast.show(message, context,
 //          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
-      _showDialog(type: 'error');
+      _showDialog(type: 'error', message: message);
       startTimer();
     }
   }
@@ -458,6 +471,7 @@ class _Absen extends State<Absen> {
 
   getStatusMasuk() async {
     final uri = api.Api.status_absen + "$nik";
+    print(uri);
     final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
     Response response = await get(uri, headers: headers);
     var data = jsonDecode(response.body);
@@ -471,6 +485,7 @@ class _Absen extends State<Absen> {
     for (var ini = 0; ini < data_profile.length; ini++) {
       //TODO setstate
 
+      print("status absen: "+data_profile[ini].status_absen);
       var status;
       setState(() {
         // provide data astro

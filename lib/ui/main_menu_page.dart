@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:super_apps/style/theme.dart' as theme;
 import 'package:super_apps/style/string.dart' as string;
@@ -20,6 +21,7 @@ String notif = '';
 BuildContext ctx;
 
 int countNotif = 0;
+int levelUser = 0;
 
 class MainMenu extends StatefulWidget {
   MainMenu({Key key}) : super(key: key);
@@ -43,6 +45,7 @@ class _MainMenuState extends State<MainMenu> {
       nik = (prefs.getString('username') ?? '');
       getDataMenu(context);
       getCountNotif(context);
+      getLevel(context);
     });
   }
 
@@ -83,14 +86,14 @@ class _MainMenuState extends State<MainMenu> {
     ],
     [
       'assets/icon/main_menu_page/human_capital.svg',
-      'Report Absen Atasan',
-      '3',
+      'Lokasi Kantor',
+      '2',
       'unlocked'
     ],
     [
       'assets/icon/main_menu_page/human_capital.svg',
-      'Lokasi Kantor',
-      '2',
+      'Report Absen Atasan',
+      '3',
       'unlocked'
     ]
   ];
@@ -109,25 +112,32 @@ class _MainMenuState extends State<MainMenu> {
             onTap: () {
               return Navigator.push(
                 context,
-                MaterialPageRoute(
-                    builder: (context) => NotificationPage()),
+                MaterialPageRoute(builder: (context) => NotificationPage()),
               );
             },
             child: Stack(
-              alignment: Alignment(1,-1),
+              alignment: Alignment(1, -1),
               children: <Widget>[
-                Icon(Icons.notifications_active, size: 28, color: Colors.white,),
-                countNotif != 0 ?
-                Container(
-                  width: 16.0,
-                  height: 16.0,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.red,
-                  ),
-                  child: Text(countNotif.toString(), style: TextStyle(fontSize: 10.0, color: Colors.white),),
-                ) : Container(),
+                Icon(
+                  Icons.notifications_active,
+                  size: 28,
+                  color: Colors.white,
+                ),
+                countNotif != 0
+                    ? Container(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 1.5, horizontal: 3.0),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                          color: Colors.red,
+                        ),
+                        child: Text(
+                          (countNotif <= 999) ? countNotif.toString() : '999+',
+                          style: TextStyle(fontSize: 10.0, color: Colors.white),
+                        ),
+                      )
+                    : Container(),
               ],
             ),
           )
@@ -240,7 +250,9 @@ class _MainMenuState extends State<MainMenu> {
     return Column(
       children: <Widget>[
         Container(
-            decoration: BoxDecoration(color: theme.Colors.backgroundIconMainMenu, shape: BoxShape.circle),
+            decoration: BoxDecoration(
+                color: theme.Colors.backgroundIconMainMenu,
+                shape: BoxShape.circle),
             child: Stack(
               children: <Widget>[
                 Column(
@@ -278,10 +290,9 @@ class _MainMenuState extends State<MainMenu> {
     showModalBottomSheet(
         context: context,
         shape: RoundedRectangleBorder(
-          borderRadius: new BorderRadius.only(
-              topLeft: const Radius.circular(10.0),
-              topRight: const Radius.circular(10.0))
-        ),
+            borderRadius: new BorderRadius.only(
+                topLeft: const Radius.circular(10.0),
+                topRight: const Radius.circular(10.0))),
         builder: (BuildContext bc) {
           return CustomScrollView(
             primary: false,
@@ -305,7 +316,7 @@ class _MainMenuState extends State<MainMenu> {
                     childAspectRatio: .7,
                   ),
                   delegate: SliverChildBuilderDelegate(
-                        (BuildContext context, int index) {
+                    (BuildContext context, int index) {
                       return Container(
                         alignment: Alignment.center,
                         color: theme.Colors.transparent,
@@ -336,7 +347,7 @@ class _MainMenuState extends State<MainMenu> {
               )
             ],
           );
-        } );
+        });
   }
 
   _subMainMenuItem(context) {
@@ -345,8 +356,7 @@ class _MainMenuState extends State<MainMenu> {
         shape: RoundedRectangleBorder(
             borderRadius: new BorderRadius.only(
                 topLeft: const Radius.circular(10.0),
-                topRight: const Radius.circular(10.0))
-        ),
+                topRight: const Radius.circular(10.0))),
         builder: (BuildContext bc) {
           return CustomScrollView(
             primary: false,
@@ -357,14 +367,14 @@ class _MainMenuState extends State<MainMenu> {
                     SizedBox(
                       height: 16.0,
                     ),
-                    Container(margin: EdgeInsets.all(16.0),
+                    Container(
+                      margin: EdgeInsets.all(16.0),
                       child: Text(
                         'Absen',
                         style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          color: theme.Colors.colorTextBlackMainMenu,
-                          fontSize: 16.0
-                        ),
+                            fontWeight: FontWeight.w700,
+                            color: theme.Colors.colorTextBlackMainMenu,
+                            fontSize: 16.0),
                       ),
                     )
                   ],
@@ -380,7 +390,7 @@ class _MainMenuState extends State<MainMenu> {
                     childAspectRatio: .7,
                   ),
                   delegate: SliverChildBuilderDelegate(
-                        (BuildContext context, int index) {
+                    (BuildContext context, int index) {
                       return Container(
                         alignment: Alignment.center,
                         color: theme.Colors.transparent,
@@ -388,13 +398,15 @@ class _MainMenuState extends State<MainMenu> {
                           splashColor: Colors.blue.withAlpha(30),
                           onTap: () {
                             Navigator.pop(context);
-                            if (listMenuHumanCapital[index][1] == 'Report Absen') {
+                            if (listMenuHumanCapital[index][1] ==
+                                'Report Absen') {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => ReportPage()),
                               );
-                            } else if (listMenuHumanCapital[index][1] == 'Report Absen Atasan') {
+                            } else if (listMenuHumanCapital[index][1] ==
+                                'Report Absen Atasan') {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -408,21 +420,26 @@ class _MainMenuState extends State<MainMenu> {
                               );
                             }
                           },
-                          child: mainMenuItem(
-                              icon: listMenuHumanCapital[index][0],
-                              title: listMenuHumanCapital[index][1],
-                              numApp: int.parse(listMenuHumanCapital[index][2]),
-                              status: listMenuHumanCapital[index][3]),
+                          child: ((levelUser >= 5) && (index == 2))
+                              ? Container()
+                              : mainMenuItem(
+                                  icon: listMenuHumanCapital[index][0],
+                                  title: listMenuHumanCapital[index][1],
+                                  numApp:
+                                      int.parse(listMenuHumanCapital[index][2]),
+                                  status: listMenuHumanCapital[index][3]),
                         ),
                       );
                     },
-                    childCount: listMenuHumanCapital == null ? 0 : listMenuHumanCapital.length,
+                    childCount: listMenuHumanCapital == null
+                        ? 0
+                        : listMenuHumanCapital.length,
                   ),
                 ),
               )
             ],
           );
-        } );
+        });
   }
 
   @override
@@ -508,20 +525,24 @@ class _MainMenuState extends State<MainMenu> {
                             break;
                           default:
                             if (index == 7) {
-                               return _moreMainMenuItem( context );
+                              return _moreMainMenuItem(context);
                             }
                             break;
                         }
                       },
-                      child: index < 7 ? mainMenuItem(
-                          icon: listMenu[index][0],
-                          title: listMenu[index][1],
-                          numApp: int.parse(listMenu[index][2]),
-                          status: listMenu[index][3]) : mainMenuMore(),
+                      child: index < 7
+                          ? mainMenuItem(
+                              icon: listMenu[index][0],
+                              title: listMenu[index][1],
+                              numApp: int.parse(listMenu[index][2]),
+                              status: listMenu[index][3])
+                          : mainMenuMore(),
                     ),
                   );
                 },
-                childCount: listMenu == null ? 0 : listMenu.length > 7 ? 8 : listMenu.length,
+                childCount: listMenu == null
+                    ? 0
+                    : listMenu.length > 7 ? 8 : listMenu.length,
               ),
             ),
           )
@@ -555,13 +576,14 @@ class _MainMenuState extends State<MainMenu> {
 
   Future<String> getDataMenu(BuildContext context) async {
     var url_api = api.Api.menu;
-    var response = await http.get(Uri.encodeFull("${url_api}${nik}/${api.Api.versi}"),
+    var response = await http.get(
+        Uri.encodeFull("${url_api}${nik}/${api.Api.versi}"),
         headers: {"Accept": "application/json"});
     var data = jsonDecode(response.body);
     var data_profile = (data["data"] as List)
         .map((data) => new dataProfile.fromJson(data))
         .toList();
-    foreachHasil(data_profile,context);
+    foreachHasil(data_profile, context);
   }
 
   Future<String> getCountNotif(BuildContext context) async {
@@ -570,12 +592,22 @@ class _MainMenuState extends State<MainMenu> {
     var response = await http.get(Uri.encodeFull("$uri"), headers: headers);
     var data = jsonDecode(response.body);
     setState(() {
-    countNotif = data["data"];
+      countNotif = data["data"];
     });
   }
 
-  void foreachHasil(List<dataProfile> data_profile,BuildContext ctx) {
-    int is_notif= 0;
+  Future<String> getLevel(BuildContext context) async {
+    final uri = api.Api.level_user + "$nik";
+    final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+    var response = await http.get(Uri.encodeFull("$uri"), headers: headers);
+    var data = jsonDecode(response.body);
+    setState(() {
+      levelUser = data['data'];
+    });
+  }
+
+  void foreachHasil(List<dataProfile> data_profile, BuildContext ctx) {
+    int is_notif = 0;
     int versi = 0;
     for (int ini = 0; ini < data_profile.length; ini++) {
       setState(() {

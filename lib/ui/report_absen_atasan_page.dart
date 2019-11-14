@@ -12,7 +12,8 @@ import 'package:super_apps/api/api.dart' as api;
 import 'package:toast/toast.dart';
 
 int lengthListAbsen = 0;
-String username     = '';
+String username = '';
+String today = '';
 List<dataAbsensi> list_absensi;
 BuildContext ctx;
 ProgressDialog pr;
@@ -23,7 +24,6 @@ class ReportAbsenAtasan extends StatefulWidget {
 }
 
 class _ReportAbsenAtasanState extends State<ReportAbsenAtasan> {
-
   widgetListAbsensi({String nik, String name, String masuk}) {
     var ket;
     masuk == 'true' ? ket = 'Hadir' : ket = 'Belum Hadir';
@@ -38,7 +38,9 @@ class _ReportAbsenAtasanState extends State<ReportAbsenAtasan> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => ReportAbsenAtasanDetail(nik_bawahan: nik,),
+                builder: (context) => ReportAbsenAtasanDetail(
+                  nik_bawahan: nik,
+                ),
               ));
         },
         child: Card(
@@ -47,6 +49,7 @@ class _ReportAbsenAtasanState extends State<ReportAbsenAtasan> {
             padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
             child: Row(
               children: <Widget>[
+                /*
                 Container(
                   height: 46.0,
                   width: 46.0,
@@ -61,6 +64,8 @@ class _ReportAbsenAtasanState extends State<ReportAbsenAtasan> {
                     fit: BoxFit.fitHeight,
                   ),
                 ),
+
+                 */
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,8 +95,8 @@ class _ReportAbsenAtasanState extends State<ReportAbsenAtasan> {
                     children: <Widget>[
                       Container(
                         margin: EdgeInsets.only(left: 16.0),
-                        padding:
-                        EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+                        padding: EdgeInsets.symmetric(
+                            vertical: 5.0, horizontal: 10.0),
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
                             color: masuk == 'true'
@@ -118,7 +123,7 @@ class _ReportAbsenAtasanState extends State<ReportAbsenAtasan> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    pr = new ProgressDialog(context,type: ProgressDialogType.Normal);
+    pr = new ProgressDialog(context, type: ProgressDialogType.Normal);
     getNik();
   }
 
@@ -140,22 +145,49 @@ class _ReportAbsenAtasanState extends State<ReportAbsenAtasan> {
         actions: <Widget>[],
       ),
       body: SafeArea(
-        child: ListView.builder(
-            itemCount: list_absensi == null
-                ? 1
-                : list_absensi.length == 0 ? 1 : list_absensi.length,
-            itemBuilder: (context, index) {
-              if (list_absensi == null) {
-                return widgetListAbsensi();
-              } else if (list_absensi.length == 0) {
-                return widgetListAbsensi();
-              } else {
-                return widgetListAbsensi(
-                    nik: list_absensi[index].nik,
-                    name: list_absensi[index].name,
-                    masuk: list_absensi[index].masuk);
-              }
-            }),
+        child: CustomScrollView(
+          slivers: <Widget>[
+            SliverList(
+              delegate: SliverChildListDelegate([
+                Card(
+                  margin: EdgeInsets.fromLTRB(4.0, 8.0, 4.0, 0.0),
+                  child: Container(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                    child: Row(
+                      children: <Widget>[
+                        Text(
+                          today,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w700, fontSize: 18.0),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ]),
+            ),
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  if (list_absensi == null) {
+                    return widgetListAbsensi();
+                  } else if (list_absensi.length == 0) {
+                    return widgetListAbsensi();
+                  } else {
+                    return widgetListAbsensi(
+                        nik: list_absensi[index].nik,
+                        name: list_absensi[index].name,
+                        masuk: list_absensi[index].masuk);
+                  }
+                },
+                childCount: list_absensi == null
+                    ? 1
+                    : list_absensi.length == 0 ? 1 : list_absensi.length,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -170,7 +202,7 @@ class _ReportAbsenAtasanState extends State<ReportAbsenAtasan> {
 
   listAbsenBawahan() async {
     pr.show();
-    final uri = api.Api.list_absen_bawahan + "$nik/1";
+    final uri = api.Api.list_absen_bawahan + "$username/1";
     print(uri);
     final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
     Response response = await get(uri, headers: headers);
@@ -179,6 +211,9 @@ class _ReportAbsenAtasanState extends State<ReportAbsenAtasan> {
         .map((data) => new dataAbsensi.fromJson(data))
         .toList();
     foreachHasil(data_absen);
+    setState(() {
+      today = data['today'];
+    });
     pr.hide();
   }
 

@@ -18,6 +18,7 @@ List<String> tgl_masuk = [];
 List<String> jam_masuk = [];
 List<String> jam_pulang = [];
 List<String> ket = [];
+String username;
 String nik = '-';
 String name = '-';
 String masuk = '-';
@@ -48,13 +49,21 @@ class _ReportAbsenAtasanDetailState extends State<ReportAbsenAtasanDetail> {
   void initState() {
     super.initState();
     pr = new ProgressDialog(context, type: ProgressDialogType.Normal);
+    lengthReportAbsen = 0;
+    tgl_masuk = [];
+    jam_masuk = [];
+    jam_pulang = [];
+    ket = [];
+    nik = '-';
+    name = '-';
+    masuk = '-';
     getNik();
   }
 
   getNik() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      nik = (prefs.getString('username') ?? '');
+      username = (prefs.getString('username') ?? '');
     });
     reportAbsen();
   }
@@ -457,20 +466,6 @@ class _ReportAbsenAtasanDetailState extends State<ReportAbsenAtasanDetail> {
                 padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
                 child: Row(
                   children: <Widget>[
-                    Container(
-                      height: 46.0,
-                      width: 46.0,
-                      margin: EdgeInsets.only(right: 16.0),
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.blue,
-                      ),
-                      child: SvgPicture.asset(
-                        string.Icons.icon_profile,
-                        placeholderBuilder: (context) => Icon(Icons.error),
-                        fit: BoxFit.fitHeight,
-                      ),
-                    ),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -636,6 +631,7 @@ class _ReportAbsenAtasanDetailState extends State<ReportAbsenAtasanDetail> {
     var data_absensi_bawahan;
     pr.show();
     final uri = api.Api.report_absen_bawahan + "$nik_bawahan";
+    print(uri);
     final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
     Response response = await get(uri, headers: headers);
     var data = jsonDecode(response.body);

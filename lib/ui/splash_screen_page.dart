@@ -69,6 +69,8 @@ class _SplashScreenPage extends State<SplashScreenPage> {
 
   getStatusAbsen(username) async {
     final uri           = api.Api.auth_user_active;
+    print(uri);
+    print(username);
     final headers       = {'Content-Type': 'application/x-www-form-urlencoded'};
     final encoding      = Encoding.getByName('utf-8');
     Response response   = await post(
