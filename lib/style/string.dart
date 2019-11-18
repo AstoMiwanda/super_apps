@@ -71,6 +71,7 @@ class text {
 
   //  URI Icon Cuti Page
   static var icon_profile_cuti = "assets/icon/cuti_page/foto_profile.svg";
+  static var icon_tiket_cuti = "assets/icon/cuti_page/tiket.png";
 
   static var uri_ic_lokasi_kantor   = "assets/images/lokasi_kantor.png";
   static var uri_ic_naker   = "assets/images/naker.png";
