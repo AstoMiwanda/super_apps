@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "263509817590",
+    "firebase_url": "https://super-apps-notification.firebaseio.com",
+    "project_id": "super-apps-notification",
+    "storage_bucket": "super-apps-notification.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:263509817590:android:a402a44391dcbaddbf54d7",
+        "android_client_info": {
+          "package_name": "com.example.super_apps"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "263509817590-92r9vesu28hvvj9cp6i27lcnu67is3sq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCP7CBkIzydeyhltbREqvRgtHsHRsWHpLk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "263509817590-92r9vesu28hvvj9cp6i27lcnu67is3sq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

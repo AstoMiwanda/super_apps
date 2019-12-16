@@ -2,26 +2,26 @@ class Text {
   static var lbl_aplikasi = "Super Apps";
 
 // TODO: Page Title
-  static var page_absensi = "Absen";
-  static var page_lihat_kantor = "Lihat Kantor";
+  static var page_absensi = "Absent";
+  static var page_lihat_kantor = "Office Location";
   static var page_profile = "Profile";
-  static var page_main_menu = "Main Menu";
-  static var page_report_absen = "Report Absen";
-  static var page_beranda = "Beranda";
-  static var page_notification = "Notifiaction";
-  static var page_report_absen_atasan_detail = "Report Absen Atasan Detail";
-  static var page_report_absen_atasan = "Report Absen Atasan";
+  static var page_main_menu = "Home";
+  static var page_report_absen = "Report Absent";
+  static var page_beranda = "Home";
+  static var page_notification = "Notification";
+  static var page_report_absen_atasan_detail = "Report Absent Supervisor Detail";
+  static var page_report_absen_atasan = "Report Absent Supervisor";
 
 // TODO: Label Absen Page
   /* Report Absen */
   static var lbl_strip = "-";
-  static var lbl_keterangan = "Keterangan";
+  static var lbl_keterangan = "Description";
   static var lbl_filter = "Filter";
   static var lbl_nomor = "No.";
-  static var lbl_tanggal = "Tanggal";
-  static var lbl_jam_masuk = "Jam Masuk";
-  static var lbl_jam_pulang = "Jam Pulang";
-  static var lbl_ket = "Ket";
+  static var lbl_tanggal = "Date";
+  static var lbl_jam_masuk = "In";
+  static var lbl_jam_pulang = "Out";
+  static var lbl_ket = "Desc";
   static var lbl_mobile = "Mobile";
   static var lbl_fingerprint = "Fingerprint";
   static var lbl_web = "Web";
@@ -31,7 +31,7 @@ class Text {
   static var lbl_cuti = "Cuti";
   static var lbl_pengganti_hari_libur = "Penugasan Di luar";
   static var lbl_penugasan_di_luar = "Pengganti Hari Libur";
-  static var lbl_keterangan_absen = "Keterangan Absen";
+  static var lbl_keterangan_absen = "Description Absent";
   static var lbl_tulis_disini = "Tulis Disini";
 
 // TODO: Label Profile Page
@@ -44,7 +44,7 @@ class Text {
   static var lbl_email = "Email";
 
 // TODO: Label Lihat Kantor Page
-  static var lbl_zoom_in = "Zoom IN";
+  static var lbl_zoom_in = "Zoom In";
 
 // TODO: Label Login Page
   /* Login */
@@ -66,8 +66,8 @@ class Text {
 class Message {
   static var msg_lokasi_tidak_ada =
       "${Text.lbl_aplikasi} tidak dapat mendapatkan lokasi anda!!";
-  static var msg_tap_again_to_exit = "Tap back again to leave";
-  static var msg_locked_apps = "aplikasi segera hadir";
+  static var msg_tap_again_to_exit = "Tekan kembali untuk keluar";
+  static var msg_locked_apps = "Aplikasi segera hadir";
   static var msg_cek_koneksi_internet = "Cek koneksi internet anda!";
 
 //  Message Absen Page

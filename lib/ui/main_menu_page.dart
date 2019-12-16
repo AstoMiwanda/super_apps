@@ -80,19 +80,19 @@ class _MainMenuState extends State<MainMenu> {
   List<List<String>> listMenuHumanCapital = [
     [
       'assets/icon/main_menu_page/human_capital.svg',
-      'Report Absen',
+      string.Text.page_report_absen,
       '3',
       'unlocked'
     ],
     [
       'assets/icon/main_menu_page/human_capital.svg',
-      'Lokasi Kantor',
+      string.Text.page_lihat_kantor,
       '2',
       'unlocked'
     ],
     [
       'assets/icon/main_menu_page/human_capital.svg',
-      'Report Absen Atasan',
+      string.Text.page_report_absen_atasan,
       '3',
       'unlocked'
     ]

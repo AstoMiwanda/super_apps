@@ -11,7 +11,7 @@ import 'package:toast/toast.dart';
 import '../absen_page.dart';
 import '../main_menu_page.dart';
 import '../profile_page.dart';
-import 'package:super_apps/style/string.dart' as String;
+import 'package:super_apps/style/string.dart' as string;
 
 class Menu extends StatefulWidget{
   @override
@@ -98,7 +98,7 @@ class _Menu extends State<Menu>{
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.fingerprint),
-            title: Text('Absen'),
+            title: Text('Absent'),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
@@ -117,7 +117,7 @@ class _Menu extends State<Menu>{
     if (currentBackPressTime == null ||
         now.difference(currentBackPressTime) > Duration(seconds: 2)) {
       currentBackPressTime = now;
-      Toast.show(String.Message.msg_tap_again_to_exit, context,
+      Toast.show(string.Message.msg_tap_again_to_exit, context,
           duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
       return Future.value(false);
     }

@@ -130,7 +130,7 @@ class _Login extends State<Login> {
   Future makePostRequest(username, password) async {
     pr.show();
     final uri = api.Api.login;
-    print("url ::" + uri + "/" + username);
+    print("url ::" + uri);
     final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
     final encoding = Encoding.getByName('utf-8');
 

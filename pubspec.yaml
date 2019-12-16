@@ -48,6 +48,7 @@ dependencies:
   timeline_list: ^0.0.3
   timeline: ^0.0.1
   flutter_local_notifications: ^0.8.4
+  firebase_messaging: ^5.1.8
 
 
 dev_dependencies:

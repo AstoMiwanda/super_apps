@@ -35,6 +35,6 @@ class Api{
 
 
   // versi aplikasi
-  static var versi = "1";
+  static var versi = "2";
 
 }

@@ -259,6 +259,7 @@ class _Absen extends State<Absen> {
 
     return Scaffold(
       body: CustomScrollView(
+        physics: const NeverScrollableScrollPhysics( ),
         slivers: <Widget>[
           SliverList(
             delegate: SliverChildListDelegate([
@@ -270,159 +271,19 @@ class _Absen extends State<Absen> {
                   children: <Widget>[
                     ConstrainedBox(
                       constraints: BoxConstraints(
-                          minHeight: heightDevice -
-                              (statusBarHeight + heightDevice * 0.06)),
-                      child: Container(
-                        padding: EdgeInsets.only(top: heightDevice * 0.06),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                          minHeight: heightDevice),
+                      child: SafeArea(
+//                        alignment: Alignment.center,
+                        child: Stack(
+//                          crossAxisAlignment: CrossAxisAlignment.center,
 //                          mainAxisSize: MainAxisSize.max,
 //                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: <Widget>[
                             Container(
-                              child: Column(
-                                children: <Widget>[
-                                  Row(
-                                    children: <Widget>[
-                                      Expanded(
-                                          flex: 3, // 20%
-                                          child: Center(
-                                              child: Text("Belum Absen",
-                                                  style: TextStyle(
-                                                      color: Colors.white)))
-                                          //Text("Belum Absen", style: TextStyle(color: Colors.white))
-                                          ),
-                                      Expanded(
-                                        flex: 4,
-                                        child: Text(" "),
-                                      ),
-                                      Expanded(
-                                        flex: 3, // 20%
-                                        child: Column(
-                                          children: <Widget>[
-                                            Row(
-                                              children: <Widget>[
-                                                Container(
-                                                  child: Center(
-                                                    child: Text("Absen Pulang",
-                                                        style: TextStyle(
-                                                            color:
-                                                                Colors.white)),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              children: <Widget>[
-                                                Container(
-                                                    margin: EdgeInsets.only(
-                                                        left: 33.0),
-                                                    child: Text(jam_pulang,
-                                                        style: TextStyle(
-                                                            color:
-                                                                Colors.white))),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  Row(children: <Widget>[
-                                    Container(
-                                      margin: const EdgeInsets.only(
-                                        left: 50.0,
-                                      ),
-                                      width: 20.0,
-                                      height: 20.0,
-                                      decoration: new BoxDecoration(
-                                        color: (jenisAbsen == 'masuk' ||
-                                                jenisAbsen == 'pulang' ||
-                                                jenisAbsen == 'complete')
-                                            ? Color(0xFFC1E4ED)
-                                            : Colors.white38,
-                                        shape: BoxShape.circle,
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: new Container(
-                                          child: Divider(
-                                        thickness: 4,
-                                        color: (jenisAbsen == 'pulang' ||
-                                                jenisAbsen == 'complete')
-                                            ? Color(0xFFC1E4ED)
-                                            : Color(0xFF31A5C4),
-                                        height: 36,
-                                      )),
-                                    ),
-                                    Container(
-                                      width: 20.0,
-                                      height: 20.0,
-                                      decoration: new BoxDecoration(
-                                        color: (jenisAbsen == 'pulang' ||
-                                                jenisAbsen == 'complete')
-                                            ? Color(0xFFC1E4ED)
-                                            : Colors.white38,
-                                        shape: BoxShape.circle,
-                                      ),
-                                    ),
-                                    //Text("OR", style: TextStyle(color: Colors.white)),
-                                    Expanded(
-                                      child: new Container(
-                                          child: Divider(
-                                        thickness: 3,
-                                        color: jenisAbsen == 'complete'
-                                            ? Color(0xFFC1E4ED)
-                                            : Color(0xFF31A5C4),
-                                        height: 36,
-                                      )),
-                                    ),
-                                    Container(
-                                      margin:
-                                          const EdgeInsets.only(right: 50.0),
-                                      width: 20.0,
-                                      height: 20.0,
-                                      decoration: new BoxDecoration(
-                                        color: jenisAbsen == 'complete'
-                                            ? Color(0xFFC1E4ED)
-                                            : Colors.white38,
-                                        shape: BoxShape.circle,
-                                      ),
-                                    ),
-                                  ]),
-                                  Row(
-                                    children: <Widget>[
-                                      Container(
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          child: Center(
-                                            child: Text("Absen Masuk",
-                                                textAlign: TextAlign.right,
-                                                style: TextStyle(
-                                                    color: Colors.white)),
-                                          )),
-                                      //Text("Belum Absen", style: TextStyle(color: Colors.white))
-                                    ],
-                                  ),
-                                  Row(
-                                    children: <Widget>[
-                                      Container(
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          child: Center(
-                                            child: Text(jam_masuk,
-                                                textAlign: TextAlign.right,
-                                                style: TextStyle(
-                                                    color: Colors.white)),
-                                          )),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Container(
 //                              padding:  EdgeInsets.only(top: 60),
                               //height: 20.0,
+                              height: heightDevice,
+                              alignment: Alignment.center,
                               child: Row(
                                 children: <Widget>[
                                   Builder(
@@ -440,21 +301,139 @@ class _Absen extends State<Absen> {
                                 ],
                               ),
                             ),
-//                            Container(
-//                              child: Row(
-//                                mainAxisAlignment: MainAxisAlignment.center,
-//                                children: <Widget>[
-//                                  Container(
-//                                    margin: EdgeInsets.only(top: 32),
-//                                    child: Text(absenTitle,
-//                                        style: TextStyle(
-//                                            fontSize: 24,
-//                                            color: Colors.white,
-//                                            fontWeight: FontWeight.bold)),
-//                                  )
-//                                ],
-//                              ),
-//                            ),
+                            Container(
+                              height: heightDevice,
+                              alignment: Alignment.topCenter,
+                              margin: EdgeInsets.only(top: 32.0),
+                              child: Column(
+                                children: <Widget>[
+                                  Row(
+                                    children: <Widget>[
+                                      Expanded(
+                                          flex: 3, // 20%
+                                          child: Center(
+                                              child: Text("Absent",
+                                                  style: TextStyle(
+                                                      color: Colors.white)))
+                                        //Text("Belum Absen", style: TextStyle(color: Colors.white))
+                                      ),
+                                      Expanded(
+                                        flex: 4,
+                                        child: Text(" "),
+                                      ),
+                                      Expanded(
+                                        flex: 3, // 20%
+                                        child: Column(
+                                          children: <Widget>[
+                                            Center(
+                                              child: Text("Complete",
+                                                  style: TextStyle(
+                                                      color:
+                                                      Colors.white), textAlign: TextAlign.center),
+                                            ),
+                                            Center(
+                                              child: Text(jam_pulang,
+                                                  style: TextStyle(
+                                                      color:
+                                                      Colors.white), textAlign: TextAlign.center),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  Row(children: <Widget>[
+                                    Container(
+                                      margin: const EdgeInsets.only(
+                                        left: 50.0,
+                                      ),
+                                      width: 20.0,
+                                      height: 20.0,
+                                      decoration: new BoxDecoration(
+                                        color: (jenisAbsen == 'masuk' ||
+                                            jenisAbsen == 'pulang' ||
+                                            jenisAbsen == 'complete')
+                                            ? Color(0xFFC1E4ED)
+                                            : Colors.white38,
+                                        shape: BoxShape.circle,
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: new Container(
+                                          child: Divider(
+                                            thickness: 4,
+                                            color: (jenisAbsen == 'pulang' ||
+                                                jenisAbsen == 'complete')
+                                                ? Color(0xFFC1E4ED)
+                                                : Color(0xFF31A5C4),
+                                            height: 36,
+                                          )),
+                                    ),
+                                    Container(
+                                      width: 20.0,
+                                      height: 20.0,
+                                      decoration: new BoxDecoration(
+                                        color: (jenisAbsen == 'pulang' ||
+                                            jenisAbsen == 'complete')
+                                            ? Color(0xFFC1E4ED)
+                                            : Colors.white38,
+                                        shape: BoxShape.circle,
+                                      ),
+                                    ),
+                                    //Text("OR", style: TextStyle(color: Colors.white)),
+                                    Expanded(
+                                      child: new Container(
+                                          child: Divider(
+                                            thickness: 3,
+                                            color: jenisAbsen == 'complete'
+                                                ? Color(0xFFC1E4ED)
+                                                : Color(0xFF31A5C4),
+                                            height: 36,
+                                          )),
+                                    ),
+                                    Container(
+                                      margin:
+                                      const EdgeInsets.only(right: 50.0),
+                                      width: 20.0,
+                                      height: 20.0,
+                                      decoration: new BoxDecoration(
+                                        color: jenisAbsen == 'complete'
+                                            ? Color(0xFFC1E4ED)
+                                            : Colors.white38,
+                                        shape: BoxShape.circle,
+                                      ),
+                                    ),
+                                  ]),
+                                  Row(
+                                    children: <Widget>[
+                                      Container(
+                                          width:
+                                          MediaQuery.of(context).size.width,
+                                          child: Center(
+                                            child: Text("Present",
+                                                textAlign: TextAlign.right,
+                                                style: TextStyle(
+                                                    color: Colors.white)),
+                                          )),
+                                      //Text("Belum Absen", style: TextStyle(color: Colors.white))
+                                    ],
+                                  ),
+                                  Row(
+                                    children: <Widget>[
+                                      Container(
+                                          width:
+                                          MediaQuery.of(context).size.width,
+                                          child: Center(
+                                            child: Text(jam_masuk,
+                                                textAlign: TextAlign.right,
+                                                style: TextStyle(
+                                                    color: Colors.white)),
+                                          )),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
                           ],
                         ),
                       ),
