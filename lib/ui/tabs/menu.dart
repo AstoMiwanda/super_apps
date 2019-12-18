@@ -1,10 +1,17 @@
+import 'dart:async';
+import 'dart:core' as hack;
+import 'dart:core';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:progress_dialog/progress_dialog.dart';
+import 'package:super_apps/style//theme.dart' as theme;
+import 'package:intl/intl.dart';
+import 'package:location/location.dart';
 import 'package:toast/toast.dart';
 import '../absen_page.dart';
 import '../main_menu_page.dart';
 import '../profile_page.dart';
-import 'package:super_apps/style/string.dart' as String;
+import 'package:super_apps/style/string.dart' as string;
 
 class Menu extends StatefulWidget{
   @override
@@ -18,8 +25,13 @@ class Menu extends StatefulWidget{
 class _Menu extends State<Menu>{
   int _selectedIndex = 0;
   DateTime currentBackPressTime;
+  DateTime now = DateTime.now();
+  Location location = Location();
+  Map<hack.String, double> currentLocation;
+  Color icon_nav_bottom = Colors.cyan;
 
   Widget callPage(int selectedIndex) {
+    selectedIndex == 1 ? authLocation() : disposeAuthLocation();
     switch (selectedIndex) {
       case 0:
         return MainMenu();
@@ -41,6 +53,34 @@ class _Menu extends State<Menu>{
     });
   }
 
+  disposeAuthLocation() {
+    setState(() {
+      icon_nav_bottom = Colors.cyan;
+    });
+  }
+
+  authLocation() {
+    if (currentLocation == null) {
+      setState(() {
+        icon_nav_bottom = Colors.red;
+      });
+    } else {
+      setState(() {
+        icon_nav_bottom = Colors.green;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    location.onLocationChanged().listen((value) {
+      setState(() {
+        currentLocation = value;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     DateTime currentBackPressTime;
@@ -58,7 +98,7 @@ class _Menu extends State<Menu>{
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.fingerprint),
-            title: Text('Absen'),
+            title: Text('Absent'),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
@@ -66,7 +106,7 @@ class _Menu extends State<Menu>{
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.cyan,
+        selectedItemColor: icon_nav_bottom,
         onTap: _onItemTapped,
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
@@ -77,7 +117,7 @@ class _Menu extends State<Menu>{
     if (currentBackPressTime == null ||
         now.difference(currentBackPressTime) > Duration(seconds: 2)) {
       currentBackPressTime = now;
-      Toast.show(String.text.msg_tap_again_to_exit, context,
+      Toast.show(string.Message.msg_tap_again_to_exit, context,
           duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
       return Future.value(false);
     }

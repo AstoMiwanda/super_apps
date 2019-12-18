@@ -44,7 +44,11 @@ dependencies:
   dart_ping: ^1.0.0
   splashscreen: ^1.2.0
   flutter_launcher_icons: ^0.7.2+1
-
+  steps: ^0.0.1
+  timeline_list: ^0.0.3
+  timeline: ^0.0.1
+  flutter_local_notifications: ^0.8.4
+  firebase_messaging: ^5.1.8
 
 
 dev_dependencies:
@@ -77,6 +81,12 @@ flutter:
 
     #Icon Profile Page
     - assets/icon/profile_page/
+
+    #Icon Absen Page
+    - assets/icon/absen_page/
+
+    #Icon Notification Page
+    - assets/icon/notification_page/
   # To add assets to your application, add an assets section, like this:
   #
   #
