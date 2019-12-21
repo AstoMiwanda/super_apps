@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.super_apps">
+    package="com.super_apps">
 
     <!-- io.flutter.app.FlutterApplication is an android.app.Application that
          calls FlutterMain.startInitialization(this); in its onCreate method.
@@ -15,7 +15,7 @@
         android:icon="@mipmap/ic_launcher">
 
         <meta-data android:name="com.google.android.geo.API_KEY"
-                   android:value="AIzaSyCKK3luEYhGNxZ3WK32SCqiGlXvDNJKM1M"/>
+                   android:value="AIzaSyA219vCx1vUoAWeq8jlOtbX_zn4NPEH56k"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

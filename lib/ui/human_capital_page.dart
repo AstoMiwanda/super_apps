@@ -63,7 +63,7 @@ class _HumanCapital extends State<HumanCapital> {
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
-        title: Text(string.Text.lbl_human_capital,
+        title: Text(string.Text.menu_human_capital,
           style: TextStyle(
               color: Colors.white, fontWeight: FontWeight.w500),
         ),
