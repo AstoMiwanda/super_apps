@@ -126,9 +126,9 @@ class Icons {
   static var icon_link = "assets/icon/main_menu_page/LINK_abu.svg";
 
 // TODO: URI Icon Submenu Human Capital
-  static var icon_report_absent = "assets/icon/main_menu_page/report_absen.svg";
+  static var icon_report_absent = "assets/icon/main_menu_page/report_absent.svg";
   static var icon_office_location = "assets/icon/main_menu_page/human_capital.svg";
-  static var icon_report_absent_supervisor = "assets/icon/main_menu_page/report_absen_bawahan.svg";
+  static var icon_report_absent_supervisor = "assets/icon/main_menu_page/report_absent_supervisor.svg";
 
 // TODO: URI Icon Profile Page
   static var icon_gender = "assets/icon/profile_page/gender.svg";
@@ -148,7 +148,7 @@ class Icons {
   static var icon_absen_pulang = "assets/icon/absen_page/absen_pulang.svg";
   static var icon_absen_complete = "assets/icon/absen_page/absen_complete.svg";
   static var icon_profile = "assets/icon/absen_page/profile_cuti.svg";
-  static var icon_absent_failed = "assets/icon/absen_page/gagal_absen.svg";
+  static var icon_absent_failed = "assets/icon/absen_page/absent_failed.svg";
 
 // TODO: URI Images
   static var uri_logo_ta_putih         = "assets/images/logo_ta_putih_nobwh.png";

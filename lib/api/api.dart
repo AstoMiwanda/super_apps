@@ -2,7 +2,7 @@
 class Api{
   // host
 
-  static var host_i     = "10.204.200.8";
+   static var host_i     = "10.204.200.8";
 //  static var host_i   = "203.130.242.238";
   static var host       = "http://${host_i}:";
 
@@ -33,8 +33,11 @@ class Api{
   static var read_notification  = host+p_super_apps+"/read_notification/";
   static var level_user         = host+p_super_apps+"/get_level/";
 
+//  Splash Screen
+  static var logo_apps         = "https://api.telkomakses.co.id/API/SUPERHANA_LOGO.png";
+
 
   // versi aplikasi
-  static var versi = "2";
+  static var versi = "3";
 
 }

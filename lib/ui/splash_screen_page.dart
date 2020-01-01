@@ -3,12 +3,15 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:super_apps/api/api.dart' as api;
 import 'package:splashscreen/splashscreen.dart';
 import 'package:super_apps/ui/login_page.dart';
 import 'package:super_apps/ui/tabs/menu.dart';
+import 'package:super_apps/style/theme.dart' as theme;
+import 'package:super_apps/style/string.dart' as string;
 
 class SplashScreenPage extends StatefulWidget {
   @override
@@ -30,14 +33,14 @@ class _SplashScreenPage extends State<SplashScreenPage> {
   @override
   Widget build(BuildContext context) {
     return new SplashScreen(
-      seconds: 14,
+      seconds: 16,
       navigateAfterSeconds: new AfterSplash(),
       title: new Text(
         '',
         style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
       ),
       image: new Image.network(
-          'http://' + api.Api.host_i + '/API/V2/img/SUPERHANA_LOGO.png'),
+          api.Api.logo_apps),
       backgroundColor: Colors.white,
       styleTextUnderTheLoader: new TextStyle(),
       photoSize: 100.0,
@@ -105,6 +108,11 @@ class _SplashScreenPage extends State<SplashScreenPage> {
       return data_notification[ini].status;
     }
   }
+
+  goToLogin(){
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => new Login()));
+  }
 }
 
 class AfterSplash extends StatelessWidget {
@@ -115,10 +123,34 @@ class AfterSplash extends StatelessWidget {
         title: new Text(""),
         automaticallyImplyLeading: false,
       ),
-      body: new Center(
-        child: new Text(
-          "",
-          style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 26.0),
+      body: AlertDialog(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(4.0))),
+        contentPadding:
+        EdgeInsets.symmetric(vertical: 46.0, horizontal: 16.0),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              height: 120.0,
+              margin: EdgeInsets.only(bottom: 32.0),
+              child: SvgPicture.asset(
+                string.Icons.icon_locked_apps,
+                placeholderBuilder: (context) => Icon(Icons.error),
+                fit: BoxFit.fitHeight,
+              ),
+//                child: Image.network('https://thumbs.gfycat.com/DistortedElaborateFairybluebird-size_restricted.gif'),
+            ),
+            Text(
+              string.Message.msg_cek_koneksi_internet,
+              style: TextStyle(
+                  color: theme.Colors.backgroundHumanCapital,
+                  fontSize: 16.0,
+                  height: 1.5),
+              textAlign: TextAlign.center,
+            )
+          ],
         ),
       ),
     );

@@ -67,7 +67,7 @@ class _ReportPageState extends State<ReportPage> {
     final String formattedDateTime = _formatDateTime(now);
     date1 = formattedDateTime;
     date2 = formattedDateTime;
-    makeGetRequest();
+//    makeGetRequest();
     getNik();
   }
 
