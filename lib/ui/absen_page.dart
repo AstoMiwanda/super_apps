@@ -125,7 +125,7 @@ class _Absen extends State<Absen> {
       icon = string.Icons.icon_absen_complete;
       msg = string.Message.msg_absen_complete;
     } else {
-      icon = string.Icons.icon_locked_apps;
+      icon = string.Icons.icon_absent_failed;
       msg = message;
     }
     showDialog(

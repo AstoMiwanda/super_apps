@@ -1,0 +1,1 @@
+../../../../.symlinks/plugins/speech_bubble/ios/Classes/SpeechBubblePlugin.h

@@ -52,46 +52,46 @@ class _MainMenuState extends State<MainMenu> {
   double widthDevice;
   List<List<String>> listMenu = [
     [
-      'assets/icon/main_menu_page/human_capital.svg',
-      'Human Capital',
+      string.Icons.icon_human_capital,
+      string.Text.menu_human_capital,
       '3',
       'unlocked'
     ],
     [
-      'assets/icon/main_menu_page/document_management_abu.svg',
-      'Document Management',
+      string.Icons.icon_document_management,
+      string.Text.menu_document_management,
       '2',
       'locked'
     ],
-    ['assets/icon/main_menu_page/project_abu.svg', 'Project', '1', 'locked'],
+    [string.Icons.icon_project, string.Text.menu_project, '1', 'locked'],
     [
-      'assets/icon/main_menu_page/supply_chain_abu.svg',
-      'Supply Chain',
+      string.Icons.icon_supply_chain,
+      string.Text.menu_supply_chain,
       '5',
       'locked'
     ],
-    ['assets/icon/main_menu_page/finance_abu.svg', 'FINANCE', '2', 'locked'],
-    ['assets/icon/main_menu_page/oss_abu.svg', 'OSS', '8', 'locked'],
-    ['assets/icon/main_menu_page/tools_abu.svg', 'Tools', '10', 'locked'],
-    ['assets/icon/main_menu_page/video_abu.svg', 'Video', '10', 'locked'],
-    ['assets/icon/main_menu_page/LINK_abu.svg', 'Link', '6', 'locked'],
+    [string.Icons.icon_finance, string.Text.menu_finance, '2', 'locked'],
+    [string.Icons.icon_oss, string.Text.menu_oss, '8', 'locked'],
+    [string.Icons.icon_tools, string.Text.menu_tools, '10', 'locked'],
+    [string.Icons.icon_video, string.Text.menu_video, '10', 'locked'],
+    [string.Icons.icon_link, string.Text.menu_link, '6', 'locked'],
   ];
 
   List<List<String>> listMenuHumanCapital = [
     [
-      'assets/icon/main_menu_page/human_capital.svg',
+      string.Icons.icon_report_absent,
       string.Text.page_report_absen,
       '3',
       'unlocked'
     ],
     [
-      'assets/icon/main_menu_page/human_capital.svg',
+      string.Icons.icon_office_location,
       string.Text.page_lihat_kantor,
       '2',
       'unlocked'
     ],
     [
-      'assets/icon/main_menu_page/human_capital.svg',
+      string.Icons.icon_report_absent_supervisor,
       string.Text.page_report_absen_atasan,
       '3',
       'unlocked'
@@ -273,7 +273,7 @@ class _MainMenuState extends State<MainMenu> {
         Container(
           padding: const EdgeInsets.only(top: 8.0),
           child: Text(
-            'More',
+            string.Text.lbl_more,
             style: TextStyle(
               fontSize: 12.0,
               fontWeight: FontWeight.w400,
@@ -370,7 +370,7 @@ class _MainMenuState extends State<MainMenu> {
                     Container(
                       margin: EdgeInsets.all(16.0),
                       child: Text(
-                        'Absen',
+                        string.Text.lbl_absent,
                         style: TextStyle(
                             fontWeight: FontWeight.w700,
                             color: theme.Colors.colorTextBlackMainMenu,
@@ -399,14 +399,14 @@ class _MainMenuState extends State<MainMenu> {
                           onTap: () {
                             Navigator.pop(context);
                             if (listMenuHumanCapital[index][1] ==
-                                'Report Absen') {
+                                string.Text.page_report_absen) {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => ReportPage()),
                               );
                             } else if (listMenuHumanCapital[index][1] ==
-                                'Report Absen Atasan') {
+                                string.Text.page_report_absen_atasan) {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
