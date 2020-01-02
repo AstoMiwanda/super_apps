@@ -621,7 +621,7 @@ class _ReportAbsenAtasanDetailState extends State<ReportAbsenAtasanDetail> {
             ),
           ]),
         ),
-      ),
+      ), onWillPop: () {},
     );
     //);
   }
