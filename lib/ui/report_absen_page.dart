@@ -744,19 +744,29 @@ class _ReportPageState extends State<ReportPage> {
     final uri =
         api.Api.report_absen + "$nik/$date1/$date2/${_selectedKeterangan}";
     print(uri);
-    final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
-    Response response = await get(uri, headers: headers);
+    try {
+      final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+      Response response = await get(uri, headers: headers);
 
-    var data = jsonDecode(response.body);
-    data_absensi = (data["data"] as List)
-        .map((data) => new dataReport.fromJson(data))
-        .toList();
+      var data = jsonDecode(response.body);
+      data_absensi = (data["data"] as List)
+          .map((data) => new dataReport.fromJson(data))
+          .toList();
 
-    foreachHasil(data_absensi);
+      foreachHasil(data_absensi);
+      pr.hide();
+
+    } catch (e) {
+      message = string.Message.msg_server_err;
+      Toast.show(message, ctx,
+          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+      pr.hide();
+
+    }
+    
   }
 
   void foreachHasil(List<dataReport> data_absensi) {
-    pr.hide();
     setState(() {
       lengthReportAbsen = data_absensi.length;
     });

@@ -14,6 +14,7 @@ import 'package:toast/toast.dart';
 int lengthListAbsen = 0;
 String username = '';
 String today = '';
+String message;
 List<dataAbsensi> list_absensi;
 BuildContext ctx;
 ProgressDialog pr;
@@ -205,16 +206,26 @@ class _ReportAbsenAtasanState extends State<ReportAbsenAtasan> {
     final uri = api.Api.list_absen_bawahan + "$username/1";
     print(uri);
     final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
-    Response response = await get(uri, headers: headers);
-    var data = jsonDecode(response.body);
-    var data_absen = (data["data"] as List)
-        .map((data) => new dataAbsensi.fromJson(data))
-        .toList();
-    foreachHasil(data_absen);
-    setState(() {
-      today = data['today'];
-    });
-    pr.hide();
+    try {
+      Response response = await get(uri, headers: headers);
+      var data = jsonDecode(response.body);
+      var data_absen = (data["data"] as List)
+          .map((data) => new dataAbsensi.fromJson(data))
+          .toList();
+      foreachHasil(data_absen);
+      setState(() {
+        today = data['today'];
+      });
+      pr.hide();
+
+    } catch (e) {
+      message = string.Message.msg_server_err;
+      Toast.show(message, ctx,
+          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+      pr.hide();
+
+    }
+    
   }
 
   void foreachHasil(List<dataAbsensi> data_absensi) {

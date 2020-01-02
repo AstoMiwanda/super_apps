@@ -8,6 +8,7 @@ import 'package:super_apps/api/api.dart' as api;
 import 'package:super_apps/style/string.dart' as string;
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:super_apps/ui/login_page.dart';
+import 'package:toast/toast.dart';
 
 BuildContext ctx;
 ProgressDialog pr;
@@ -444,15 +445,25 @@ class _Profile extends State<Profile> {
   }
 
   makeGetRequest() async {
+    var message;
     var nik = username;
     final uri = api.Api.profile + "$nik/${api.Api.versi}";
     final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
-    Response response = await get(uri, headers: headers);
-    var data = jsonDecode(response.body);
-    var data_profile = (data["data"] as List)
-        .map((data) => new dataProfile.fromJson(data))
-        .toList();
-    foreachHasil(data_profile);
+    try {
+      Response response = await get(uri, headers: headers);
+      var data = jsonDecode(response.body);
+      var data_profile = (data["data"] as List)
+          .map((data) => new dataProfile.fromJson(data))
+          .toList();
+      foreachHasil(data_profile);
+
+    } catch (e) {
+      message = string.Message.msg_server_err;
+      Toast.show(message, ctx,
+          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+
+    }
+    
   }
 }
 

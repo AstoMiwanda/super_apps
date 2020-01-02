@@ -8,10 +8,12 @@ import 'package:super_apps/api/api.dart' as api;
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:super_apps/style/string.dart' as string;
 import 'package:super_apps/style/theme.dart' as theme;
+import 'package:toast/toast.dart';
 
 double widthDevice;
 double heightDevice;
 double heightAppBar;
+BuildContext ctx;
 
 Color bgIcon;
 Color bgNotifStatus;
@@ -20,6 +22,7 @@ Color bgNotifLine;
 String iconNotif;
 
 String nik = '211900';
+String message;
 
 List<dataNotification> list_notification;
 
@@ -186,6 +189,8 @@ class _NotificationPage extends State<NotificationPage> {
 
   @override
   Widget build(BuildContext context) {
+    ctx = context;
+
     AppBar appBar = AppBar(
       backgroundColor: theme.Colors.backgroundHumanCapital,
       title: Text(string.Text.page_notification,
@@ -241,30 +246,48 @@ class _NotificationPage extends State<NotificationPage> {
     });
   }
 
-  void getDataNotif() async {
+  void getDataNotif() async {    
     final uri = api.Api.notification + "$nik/1";
     final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
-    Response response = await get(uri, headers: headers);
-    var data = jsonDecode(response.body);
-    var data_profile = (data["data"] as List)
-        .map((data) => new dataNotification.fromJson(data))
-        .toList();
-    foreachHasil(data_profile);
+    try {
+      Response response = await get(uri, headers: headers);
+      var data = jsonDecode(response.body);
+      var data_profile = (data["data"] as List)
+          .map((data) => new dataNotification.fromJson(data))
+          .toList();
+      foreachHasil(data_profile);  
+
+    } catch (e) {
+      message = string.Message.msg_server_err;
+      Toast.show(message, ctx,
+          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+
+    }
+    
   }
 
   void readDataNotif(id) async {
     final uri = api.Api.read_notification;
     final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
     final encoding = Encoding.getByName('utf-8');
-    Response response = await post(
-      uri,
-      headers: headers,
-      body: "id=" + id,
-      encoding: encoding,
-    );
-    var data = jsonDecode(response.body);
-    var data_notif = data["data"];
-    print(data_notif);
+    try {
+      Response response = await post(
+        uri,
+        headers: headers,
+        body: "id=" + id,
+        encoding: encoding,
+      );
+      var data = jsonDecode(response.body);
+      var data_notif = data["data"];
+      print(data_notif);
+
+    } catch (e) {
+      message = string.Message.msg_server_err;
+      Toast.show(message, ctx,
+          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+
+    }
+    
   }
 
   void foreachHasil(List<dataNotification> data_notification) {

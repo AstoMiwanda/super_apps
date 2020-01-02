@@ -633,31 +633,41 @@ class _ReportAbsenAtasanDetailState extends State<ReportAbsenAtasanDetail> {
     final uri = api.Api.report_absen_bawahan + "$nik_bawahan";
     print(uri);
     final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
-    Response response = await get(uri, headers: headers);
-    var data = jsonDecode(response.body);
-    if (data["data"] != null) {
-      data_report_absen = (data["data"] as List)
+    try {
+      Response response = await get(uri, headers: headers);
+      var data = jsonDecode(response.body);
+      if (data["data"] != null) {
+        data_report_absen = (data["data"] as List)
+            .map((data) => new dataReport.fromJson(data))
+            .toList();
+      } else {
+        Toast.show("Data anda Kosong", ctx,
+            duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+      }
+
+      final uri_absensi = api.Api.list_absen_bawahan + "$nik_bawahan/0";
+      final headers_absensi = {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      };
+      Response response_absensi =
+          await get(uri_absensi, headers: headers_absensi);
+      var data_absensi = jsonDecode(response_absensi.body);
+      data_absensi_bawahan = (data_absensi["data"] as List)
           .map((data) => new dataReport.fromJson(data))
           .toList();
-    } else {
-      Toast.show("Data anda Kosong", ctx,
-          duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+
+      foreachHasil(data_absensi_bawahan, 'data_absensi');
+      foreachHasil(data_report_absen, 'data_report');
+      pr.hide(); 
+
+    } catch (e) {
+      message = string.Message.msg_server_err;
+      Toast.show(message, ctx,
+          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+      pr.hide(); 
+
     }
-
-    final uri_absensi = api.Api.list_absen_bawahan + "$nik_bawahan/0";
-    final headers_absensi = {
-      'Content-Type': 'application/x-www-form-urlencoded'
-    };
-    Response response_absensi =
-        await get(uri_absensi, headers: headers_absensi);
-    var data_absensi = jsonDecode(response_absensi.body);
-    data_absensi_bawahan = (data_absensi["data"] as List)
-        .map((data) => new dataReport.fromJson(data))
-        .toList();
-
-    foreachHasil(data_absensi_bawahan, 'data_absensi');
-    foreachHasil(data_report_absen, 'data_report');
-    pr.hide();
+    
   }
 
   void foreachHasil(List<dataReport> data_report_absen, String dataHasil) {

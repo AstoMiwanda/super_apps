@@ -128,36 +128,46 @@ class _Login extends State<Login> {
 
 
   Future makePostRequest(username, password) async {
+    String message;
     pr.show();
     final uri = api.Api.login;
     print("url ::" + uri);
     final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
     final encoding = Encoding.getByName('utf-8');
-
-    Response response = await post(
-      uri,
-      headers: headers,
-      body: "username=${username}&password=${password}",
-      encoding: encoding,
-    );
+    try {
+      Response response = await post(
+        uri,
+        headers: headers,
+        body: "username=${username}&password=${password}",
+        encoding: encoding,
+      );
 
       String responseBody = response.body;
-    bool status = json.decode(responseBody)["status"];
-    var message = json.decode(responseBody)["message"];
-    pr.hide();
+      bool status = json.decode(responseBody)["status"];
+      message = json.decode(responseBody)["message"];
+      pr.hide();
 
-    if (status) {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setString('username', username);
-      prefs.commit();
-      Navigator.pushAndRemoveUntil(
-          ctx, MaterialPageRoute(builder: (context) => new Menu()),
-          ModalRoute.withName("/Menu"));
+      if (status) {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('username', username);
+        prefs.commit();
+        Navigator.pushAndRemoveUntil(
+            ctx, MaterialPageRoute(builder: (context) => new Menu()),
+            ModalRoute.withName("/Menu"));
 
-    } else {
+      } else {
+        Toast.show(message, ctx,
+            duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+      }  
+
+    } catch (e) {
+      message = string.Message.msg_server_err;
       Toast.show(message, ctx,
           duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+      pr.hide();
+
     }
+    
   }
 
   Future Islogin() async {

@@ -32,6 +32,7 @@ bool showToast = false;
 Location location = Location();
 Map<String, double> currentLocation;
 ProgressDialog pr;
+BuildContext ctx;
 
 class Absen extends StatefulWidget {
   Absen({Key key}) : super(key: key);
@@ -211,40 +212,46 @@ class _Absen extends State<Absen> {
       print("jenis_absen: "+jenisAbsen);
       final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
       final encoding = Encoding.getByName('utf-8');
-
-      Response response = await post(
-        uri,
-        headers: headers,
-        body: "nik=" +
-            nik +
-            "&imei=" +
-            imei +
-            "&latitude=" +
-            currentLocation["latitude"].toString() +
-            "&longitude=" +
-            currentLocation["longitude"].toString() +
-            "&jenis_absen=" +
-            jenisAbsen,
-        encoding: encoding,
-      );
-      print(json.decode(response.body));
-      pr.hide();
-      final dataResponse = json.decode(response.body);
-      message = dataResponse['message'];
-//      Toast.show(message, context,
-//          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
-      if (dataResponse['status']) {
-        _showDialog(type: jenisAbsen);
-        getStatusMasuk();
-      } else {
-        _showDialog(type: 'error', message: message);
+      try {
+        Response response = await post(
+          uri,
+          headers: headers,
+          body: "nik=" +
+              nik +
+              "&imei=" +
+              imei +
+              "&latitude=" +
+              currentLocation["latitude"].toString() +
+              "&longitude=" +
+              currentLocation["longitude"].toString() +
+              "&jenis_absen=" +
+              jenisAbsen,
+          encoding: encoding,
+        );
+        print(json.decode(response.body));
+        pr.hide();
+        final dataResponse = json.decode(response.body);
+        message = dataResponse['message'];
+        if (dataResponse['status']) {
+          _showDialog(type: jenisAbsen);
+          getStatusMasuk();
+        } else {
+          _showDialog(type: 'error', message: message);
+          startTimer();
+        }
         startTimer();
+
+      } catch (e) {
+        message = string.Message.msg_server_err;
+        Toast.show(message, ctx,
+            duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+        startTimer();
+        pr.hide();
+
       }
-      startTimer();
+      
     } else {
       message = string.Message.msg_lokasi_tidak_ada;
-//      Toast.show(message, context,
-//          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
       _showDialog(type: 'error', message: message);
       startTimer();
     }
@@ -252,6 +259,7 @@ class _Absen extends State<Absen> {
 
   @override
   Widget build(BuildContext context) {
+    ctx = context;
     getImei();
     double widthDevice = MediaQuery.of(context).size.width;
     double heightDevice = MediaQuery.of(context).size.height;
@@ -452,12 +460,21 @@ class _Absen extends State<Absen> {
     final uri = api.Api.status_absen + "$nik";
     print(uri);
     final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
-    Response response = await get(uri, headers: headers);
-    var data = jsonDecode(response.body);
-    var data_profile = (data["data"] as List)
-        .map((data) => new dataProfile.fromJson(data))
-        .toList();
-    foreachHasil(data_profile);
+    try {
+      Response response = await get(uri, headers: headers);
+      var data = jsonDecode(response.body);
+      var data_profile = (data["data"] as List)
+          .map((data) => new dataProfile.fromJson(data))
+          .toList();
+      foreachHasil(data_profile);
+
+    } catch (e) {
+      message = string.Message.msg_server_err;
+      Toast.show(message, ctx,
+          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+
+    }
+    
   }
 
   void foreachHasil(List<dataProfile> data_profile) {

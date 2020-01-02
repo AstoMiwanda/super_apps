@@ -19,6 +19,7 @@ String nik = '';
 List imgList = [];
 String notif = '';
 BuildContext ctx;
+String message;
 
 int countNotif = 0;
 int levelUser = 0;
@@ -576,34 +577,61 @@ class _MainMenuState extends State<MainMenu> {
 
   Future<String> getDataMenu(BuildContext context) async {
     var url_api = api.Api.menu;
-    var response = await http.get(
-        Uri.encodeFull("${url_api}${nik}/${api.Api.versi}"),
-        headers: {"Accept": "application/json"});
-    var data = jsonDecode(response.body);
-    var data_profile = (data["data"] as List)
-        .map((data) => new dataProfile.fromJson(data))
-        .toList();
-    foreachHasil(data_profile, context);
+    try {
+      var response = await http.get(
+          Uri.encodeFull("${url_api}${nik}/${api.Api.versi}"),
+          headers: {"Accept": "application/json"});
+      var data = jsonDecode(response.body);
+      var data_profile = (data["data"] as List)
+          .map((data) => new dataProfile.fromJson(data))
+          .toList();
+      foreachHasil(data_profile, context);
+
+    } catch (e) {
+      message = string.Message.msg_server_err;
+      Toast.show(message, ctx,
+          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+
+    }
+    
   }
 
   Future<String> getCountNotif(BuildContext context) async {
     final uri = api.Api.notification + "$nik/0";
     final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
-    var response = await http.get(Uri.encodeFull("$uri"), headers: headers);
-    var data = jsonDecode(response.body);
-    setState(() {
-      countNotif = data["data"];
-    });
+    try {
+      var response = await http.get(Uri.encodeFull("$uri"), headers: headers);
+      var data = jsonDecode(response.body);
+      setState(() {
+        countNotif = data["data"];
+      });  
+
+    } catch (e) {
+      message = string.Message.msg_server_err;
+      Toast.show(message, ctx,
+          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+
+    }
+    
   }
 
   Future<String> getLevel(BuildContext context) async {
     final uri = api.Api.level_user + "$nik";
     final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
-    var response = await http.get(Uri.encodeFull("$uri"), headers: headers);
-    var data = jsonDecode(response.body);
-    setState(() {
-      levelUser = data['data'];
-    });
+    try {
+      var response = await http.get(Uri.encodeFull("$uri"), headers: headers);
+      var data = jsonDecode(response.body);
+      setState(() {
+        levelUser = data['data'];
+      });
+
+    } catch (e) {
+      message = string.Message.msg_server_err;
+      Toast.show(message, ctx,
+          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+
+    }
+    
   }
 
   void foreachHasil(List<dataProfile> data_profile, BuildContext ctx) {

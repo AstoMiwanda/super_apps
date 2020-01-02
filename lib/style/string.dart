@@ -81,6 +81,7 @@ class Message {
   static var msg_tap_again_to_exit = "Tekan kembali untuk keluar";
   static var msg_locked_apps = "Aplikasi segera hadir";
   static var msg_cek_koneksi_internet = "Cek koneksi internet anda!";
+  static var msg_server_err = "Layanan sedang bermasalah.";
 
 //  Message Absen Page
   static var msg_absen_masuk = "Absen masuk berhasil !Selamat bekerja rekan ";
