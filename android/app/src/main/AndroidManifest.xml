@@ -42,5 +42,7 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </activity>
+        <activity android:name="com.apptreesoftware.flutterwebview.WebViewActivity">
+        </activity>
     </application>
 </manifest>
