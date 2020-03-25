@@ -14,6 +14,7 @@ import 'package:super_apps/ui/notification_page.dart';
 import 'package:super_apps/ui/report_absen_page.dart';
 import 'package:super_apps/ui/lihat_kantor_page.dart';
 import 'package:toast/toast.dart';
+import 'package:flutter_web_view/flutter_web_view.dart';
 
 String nik = '';
 List imgList = [];
@@ -31,12 +32,15 @@ class MainMenu extends StatefulWidget {
 }
 
 class _MainMenuState extends State<MainMenu> {
+  FlutterWebView flutterWebView = new FlutterWebView();
+
   var data;
 
   @override
   void initState() {
     super.initState();
     getNik();
+//    reload();
   }
 
   getNik() async {
@@ -574,6 +578,31 @@ class _MainMenuState extends State<MainMenu> {
     );
   }
 
+
+
+  void _showDialogIframe(BuildContext context) {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Alert"),
+          content: new Text(""),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Close"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Future<String> getDataMenu(BuildContext context) async {
     var url_api = api.Api.menu;
     var response = await http.get(
@@ -617,6 +646,8 @@ class _MainMenuState extends State<MainMenu> {
         versi = data_profile[ini].versi;
       });
     }
+
+
 
     if (versi > int.parse(api.Api.versi)) {
       _showDialog(ctx, "Perbarui Aplikasi Anda melalui portal / playstore");

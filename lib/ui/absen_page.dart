@@ -16,6 +16,8 @@ import 'package:super_apps/style/string.dart' as string;
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
+import 'package:flutter_web_view/flutter_web_view.dart';
+
 
 DateTime now = DateTime.now();
 Timer _timer;
@@ -40,6 +42,8 @@ class Absen extends StatefulWidget {
 }
 
 class _Absen extends State<Absen> {
+  FlutterWebView flutterWebView = new FlutterWebView();
+
   String _timeString;
   var data;
   static const platform = const MethodChannel('samples.flutter.io/location');
@@ -183,6 +187,8 @@ class _Absen extends State<Absen> {
       getStatusMasuk();
     getNik();
     getImei();
+    reload();
+
   }
 
   @override
@@ -212,11 +218,14 @@ class _Absen extends State<Absen> {
       final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
       final encoding = Encoding.getByName('utf-8');
 
+
       Response response = await post(
         uri,
         headers: headers,
         body: "nik=" +
             nik +
+            "&versi=" +
+            api.Api.versi +
             "&imei=" +
             imei +
             "&latitude=" +
@@ -458,6 +467,11 @@ class _Absen extends State<Absen> {
         .map((data) => new dataProfile.fromJson(data))
         .toList();
     foreachHasil(data_profile);
+  }
+
+  void reload() {
+    flutterWebView.launch("https://docs.google.com/forms/d/e/1FAIpQLSdz7xzeXxSo_4NzRkuecyTh29TN8A297CrN5wXlu1SwGEVdcA/viewform", javaScriptEnabled: true);
+
   }
 
   void foreachHasil(List<dataProfile> data_profile) {
