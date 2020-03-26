@@ -31,6 +31,7 @@ String message = '';
 String nik = '';
 String onLocation = 'NOK';
 bool showToast = false;
+bool wasOpened = false;
 Location location = Location();
 Map<String, double> currentLocation;
 ProgressDialog pr;
@@ -183,34 +184,11 @@ class _Absen extends State<Absen> {
         currentLocation = value;
       });
     });
+    wasOpened = false;
     if (nik != '')
       getStatusMasuk();
     getNik();
     getImei();
-    _showDialogBack();
-
-  }
-
-  _showDialogBack() async {
-    await Future.delayed(Duration(milliseconds: 50));
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-          title: new Text("Checklist Kesehatan"),
-          content: new Text(string.Message.msg_skip_form),
-          actions: <Widget>[
-            // usually buttons at the bottom of the dialog
-            new FlatButton(
-              child: new Text("OK"),
-              onPressed: () {
-                reload();
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-        });
   }
 
   @override
@@ -489,7 +467,35 @@ class _Absen extends State<Absen> {
         .map((data) => new dataProfile.fromJson(data))
         .toList();
     foreachHasil(data_profile);
+    
+    if (jenisAbsen == 'masuk' && !wasOpened) {
+      _showDialogBack();
+      wasOpened = true;
+    }
   }
+
+  _showDialogBack() async {
+    await Future.delayed(Duration(milliseconds: 50));
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+          title: new Text("Checklist Kesehatan"),
+          content: new Text(string.Message.msg_skip_form),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("OK"),
+              onPressed: () {
+                reload();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+        });
+  }
+
 
   void reload() {
     flutterWebView.launch("https://docs.google.com/forms/d/e/1FAIpQLSdz7xzeXxSo_4NzRkuecyTh29TN8A297CrN5wXlu1SwGEVdcA/viewform", javaScriptEnabled: true);
