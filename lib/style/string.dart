@@ -86,6 +86,7 @@ class Message {
   static var msg_absen_masuk = "Absen masuk berhasil !Selamat bekerja rekan ";
   static var msg_absen_pulang = "Absen pulang berhasil !Semoga hari esok akan lebih indah ";
   static var msg_absen_complete = "Absen pulang berhasil !Semoga hari esok akan lebih indah ";
+  static var msg_skip_form = "Silahkan isi form sesuai kondisi anda. Anda bisa menutup form dengan klik back";
 
 }
 

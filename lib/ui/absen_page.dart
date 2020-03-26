@@ -187,8 +187,30 @@ class _Absen extends State<Absen> {
       getStatusMasuk();
     getNik();
     getImei();
-    reload();
+    _showDialogBack();
 
+  }
+
+  _showDialogBack() async {
+    await Future.delayed(Duration(milliseconds: 50));
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+          title: new Text("Checklist Kesehatan"),
+          content: new Text(string.Message.msg_skip_form),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("OK"),
+              onPressed: () {
+                reload();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+        });
   }
 
   @override
