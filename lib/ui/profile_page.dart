@@ -24,6 +24,7 @@ String email = '';
 String atasan = '';
 String foto = '';
 String username = '';
+bool isTA = true;
 
 double widthDevice;
 double heightDevice;
@@ -257,13 +258,21 @@ class _Profile extends State<Profile> {
                             mainAxisSize: MainAxisSize.max,
                             children: <Widget>[
                               Container(
-                                child: SvgPicture.asset(
+                                child: (isTA) ?
+                                SvgPicture.asset(
                                   string.Icons.icon_religion,
                                   semanticsLabel: string.Text.lbl_agama,
                                   placeholderBuilder: (context) =>
                                       Icon(Icons.error),
                                   width: widthIcon,
-                                ),
+                                ) :
+                                SvgPicture.asset(
+                                  string.Icons.icon_office,
+                                  semanticsLabel: string.Text.lbl_kantor,
+                                  placeholderBuilder: (context) =>
+                                      Icon(Icons.error),
+                                  width: widthIcon,
+                                )
                               ),
                               SizedBox(
                                 width: 16.0,
@@ -418,7 +427,9 @@ class _Profile extends State<Profile> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       username = (prefs.getString('username') ?? '');
+      getCheckNaker();
       makeGetRequest();
+      print('asto azza: '+isTA.toString());
     });
   }
 
@@ -449,10 +460,36 @@ class _Profile extends State<Profile> {
     final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
     Response response = await get(uri, headers: headers);
     var data = jsonDecode(response.body);
+    print('asto azza data profile');
+    print(data);
     var data_profile = (data["data"] as List)
         .map((data) => new dataProfile.fromJson(data))
         .toList();
     foreachHasil(data_profile);
+  }
+
+  getCheckNaker() async {
+    var nik = username;
+    final uri = api.Api.checkNaker + '/$nik';
+    print('asto azza: '+uri);
+    final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+    Response response = await get(uri, headers: headers);
+    var data = jsonDecode(response.body);
+    print(data);
+    var data_naker = (data['data'] as List)
+      .map((data) => new checkNaker.fromJson(data))
+      .toList();
+    foreachCheckNaker(data_naker);
+  }
+
+  void foreachCheckNaker(List<checkNaker> dataNaker) {
+    for (var i = 0; i < dataNaker.length; i++) {
+      setState(() {
+        (dataNaker[i].isTA == 'true' ) ? isTA = true : isTA = false;
+      });
+      print('asto azza foreach: ');
+      print(isTA);
+    }
   }
 }
 
@@ -500,6 +537,20 @@ class dataProfile {
           " \n" +
           parsedJson['name_parent_1'].toString(),
       foto: (parsedJson['foto'].toString()),
+    );
+  }
+}
+
+class checkNaker {
+  String isTA;
+
+  checkNaker({
+      this.isTA
+  });
+
+  factory checkNaker.fromJson(Map<String, dynamic> parsedJson) {
+    return checkNaker(
+      isTA: parsedJson['is_ta'].toString(),
     );
   }
 }

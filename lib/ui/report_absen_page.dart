@@ -20,6 +20,7 @@ List<String> jamPulangAbsen = [];
 List<String> ketAbsen = [];
 String message;
 String status;
+bool isTA = true;
 
 ProgressDialog pr;
 
@@ -43,15 +44,15 @@ class _ReportPageState extends State<ReportPage> {
   GlobalKey _containerKey = GlobalKey();
 
   List _keterangan = [
-    string.Text.lbl_mobile,
-    string.Text.lbl_fingerprint,
-    string.Text.lbl_web,
-    string.Text.lbl_izin,
-    string.Text.lbl_sppd,
-    string.Text.lbl_sakit,
-    string.Text.lbl_cuti,
-    string.Text.lbl_pengganti_hari_libur,
-    string.Text.lbl_penugasan_di_luar
+  string.Text.lbl_mobile,
+  string.Text.lbl_fingerprint,
+  string.Text.lbl_web,
+  string.Text.lbl_izin,
+  string.Text.lbl_sppd,
+  string.Text.lbl_sakit,
+  string.Text.lbl_cuti,
+  string.Text.lbl_pengganti_hari_libur,
+  string.Text.lbl_penugasan_di_luar
   ];
 
   List<DropdownMenuItem<String>> _dropDownMenuItems;
@@ -59,8 +60,7 @@ class _ReportPageState extends State<ReportPage> {
 
   @override
   void initState() {
-    _dropDownMenuItems = getDropDownMenuItems();
-    _selectedKeterangan = _dropDownMenuItems[0].value;
+    getNik();
     super.initState();
     pr = new ProgressDialog(context,type: ProgressDialogType.Normal);
     final DateTime now = DateTime.now();
@@ -68,7 +68,6 @@ class _ReportPageState extends State<ReportPage> {
     date1 = formattedDateTime;
     date2 = formattedDateTime;
 //    makeGetRequest();
-    getNik();
   }
 
   List<DropdownMenuItem<String>> getDropDownMenuItems() {
@@ -76,6 +75,9 @@ class _ReportPageState extends State<ReportPage> {
     for (String keterangan in _keterangan) {
       items.add(
           new DropdownMenuItem(value: keterangan, child: new Text(keterangan)));
+      if(!isTA) break;
+      print('asto azza for ket: ');
+      print(isTA);
     }
     return items;
   }
@@ -90,6 +92,7 @@ class _ReportPageState extends State<ReportPage> {
     setState(() {
       nik = (prefs.getString('username') ?? '');
     });
+    getCheckNaker();
   }
 
   @override
@@ -787,6 +790,31 @@ class _ReportPageState extends State<ReportPage> {
   String _formatDateTime(DateTime dateTime) {
     return DateFormat('y-M-d').format(dateTime);
   }
+
+  getCheckNaker() async {
+    final uri = api.Api.checkNaker + '/$nik';
+    print('asto azza: '+uri);
+    final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+    Response response = await get(uri, headers: headers);
+    var data = jsonDecode(response.body);
+    print(data);
+    var data_naker = (data['data'] as List)
+        .map((data) => new checkNaker.fromJson(data))
+        .toList();
+    foreachCheckNaker(data_naker);
+    _dropDownMenuItems = getDropDownMenuItems();
+    _selectedKeterangan = _dropDownMenuItems[0].value;
+  }
+
+  void foreachCheckNaker(List<checkNaker> dataNaker) {
+    for (var i = 0; i < dataNaker.length; i++) {
+      setState(() {
+        (dataNaker[i].isTA == 'true' ) ? isTA = true : isTA = false;
+      });
+      print('asto azza foreach: ');
+      print(isTA);
+    }
+  }
 }
 
 class dataReport {
@@ -805,5 +833,19 @@ class dataReport {
         jam_masuk: parsedJson['in_dtm'].toString(),
         jam_pulang: parsedJson['out_dtm'].toString(),
         keterangan: parsedJson['keterangan'].toString());
+  }
+}
+
+class checkNaker {
+  String isTA;
+
+  checkNaker({
+    this.isTA
+  });
+
+  factory checkNaker.fromJson(Map<String, dynamic> parsedJson) {
+    return checkNaker(
+      isTA: parsedJson['is_ta'].toString(),
+    );
   }
 }

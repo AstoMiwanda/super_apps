@@ -2,7 +2,7 @@
 class Api{
   // host
 
-  // static var host_i     = "10.204.200.8";
+//   static var host_i     = "10.204.200.8";
   static var host_i   = "203.130.242.238";
   static var host       = "http://${host_i}:";
 
@@ -18,6 +18,7 @@ class Api{
 
   // app hrmista
   static var profile          = host+p_hrmista+"/data_profile/";
+  static var checkNaker       = host+p_hrmista+'/check-naker';
 
   // absen
   static var status_absen         = host+p_absen+"/status_masuk_absen/";
